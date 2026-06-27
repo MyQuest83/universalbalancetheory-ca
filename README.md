@@ -30,6 +30,7 @@ PulseGarden remains separate as the local-first Luna PC assistant/runtime repo.
 - `luna.html` - Luna / story lane
 - `aria.html` - Aria / science lane
 - `shadow.html` - Shadow / falsification lane
+- `styles.css` - shared visual system
 - `CNAME` - custom domain declaration
 - `.nojekyll` - GitHub Pages static-site guard
 
