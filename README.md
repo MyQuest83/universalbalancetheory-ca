@@ -1,82 +1,43 @@
 # UniversalBalanceTheory.ca
 
-Public GitHub Pages website for Universal Balance Theory by Michael Eric West.
+Public website for Universal Balance Theory by Michael Eric West.
 
-Truth label: public-safe starter publish package.
+Universal Balance Theory is presented here as a framework, research program, governance protocol, and public challenge for studying balance, transition, rupture, and the geometry of complex systems.
 
-## Purpose
+## Website
 
-This repository hosts the first public website package for `universalbalancetheory.ca`.
-
-The site is a mythic-science gateway for Universal Balance Theory, Luna-Prime OS, the Trigon Challenge, and the Luna / Aria / Shadow lanes.
-
-## Public-safety boundary
-
-This repo must stay public-safe.
-
-Do not commit:
-
-- private Luna Bank or Michael Bank material
-- `.env` files or secrets
-- API keys, GitHub tokens, Namecheap credentials, or passwords
-- local databases, exports, caches, model files, screenshots with private info
-- PulseGarden runtime files
-
-PulseGarden remains separate as the local-first Luna PC assistant/runtime repo.
-
-## Root files
-
-- `index.html` - public gateway page
-- `luna.html` - Luna / story lane
-- `aria.html` - Aria / science lane
-- `shadow.html` - Shadow / falsification lane
-- `styles.css` - shared visual system
-- `CNAME` - custom domain declaration
-- `.nojekyll` - GitHub Pages static-site guard
-
-## GitHub Pages setup
-
-In GitHub:
-
-1. Open repository Settings.
-2. Go to Pages.
-3. Set Source to `Deploy from a branch`.
-4. Set Branch to `main`.
-5. Set Folder to `/root`.
-6. Save.
-7. Set Custom domain to `universalbalancetheory.ca`.
-8. Enable HTTPS when GitHub allows it.
-
-## Namecheap DNS
-
-After Pages is enabled, Namecheap Advanced DNS should contain:
+Primary domain:
 
 ```text
-A Record
-Host: @
-Value: 185.199.108.153
-
-A Record
-Host: @
-Value: 185.199.109.153
-
-A Record
-Host: @
-Value: 185.199.110.153
-
-A Record
-Host: @
-Value: 185.199.111.153
-
-CNAME Record
-Host: www
-Value: MyQuest83.github.io
+universalbalancetheory.ca
 ```
 
-Do not add wildcard DNS records.
+## Current structure
+
+- `index.html` - cinematic public gateway
+- `luna.html` - story lane
+- `aria.html` - science lane
+- `shadow.html` - challenge lane
+- `styles.css` - shared supporting styles
+- `CNAME` - GitHub Pages custom domain
+- `.nojekyll` - static-site marker
+
+## Public links
+
+- Book 1: https://zenodo.org/records/19421797
+- Medium: https://medium.com/@myquest321666
+- Substack: https://substack.com/@myquest321666
 
 ## Claim boundary
 
-UBT is presented here as a framework, research program, governance protocol, and test challenge. The public site should not claim final proof of new physics.
+UBT is shared as an active framework and test path. It is not presented as completed proof of new physics.
 
+The public posture is:
+
+```text
 Truth first. Love always. Question everything.
+```
+
+## Status
+
+This repository is the public-facing website package for the domain. The site is intentionally lightweight, static, and GitHub Pages friendly.
