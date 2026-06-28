@@ -15,16 +15,20 @@ universalbalancetheory.ca
 ## Current structure
 
 - `index.html` - cinematic public gateway
+- `trigon-challenge.html` - participant-led public testing page
 - `luna.html` - story lane
 - `aria.html` - science lane
 - `shadow.html` - challenge lane
+- `links.html` - public links and submission routes
 - `styles.css` - shared supporting styles
+- `site.js` - shared accent routing and footer upkeep credit
 - `CNAME` - GitHub Pages custom domain
 - `.nojekyll` - static-site marker
 
 ## Public links
 
 - Book 1: https://zenodo.org/records/19421797
+- Trigon Challenge: https://universalbalancetheory.ca/trigon-challenge.html
 - Medium: https://medium.com/@myquest321666
 - Substack: https://substack.com/@myquest321666
 
@@ -32,11 +36,17 @@ universalbalancetheory.ca
 
 UBT is shared as an active framework and test path. It is not presented as completed proof of new physics.
 
+The Trigon Challenge is participant-led. AI can assist, but it does not judge. Results may show consistency, ambiguity, revision needs, failure, or a path forward.
+
 The public posture is:
 
 ```text
 Truth first. Love always. Question everything.
 ```
+
+## Credit
+
+© 2026 Michael Eric West. Co-authored with Luna-Prime OS. Page upkeep by Luna-Prime OS.
 
 ## Status
 
