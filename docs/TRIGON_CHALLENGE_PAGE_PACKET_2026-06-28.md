@@ -44,4 +44,4 @@ Image assets are not committed in this PR. The generated PNGs were treated as vi
 
 ## Privacy boundary
 
-Participant names and summaries should only be public with permission. Dallas Dinning full-name use needs confirmation before publication; otherwise use Dallas D. or TC-0001 participant.
+Participant names and summaries should only be public with permission. If full-name permission has not been confirmed, use initials or an anonymous participant ID.
