@@ -17,6 +17,13 @@
   document.documentElement.style.setProperty('--prev-accent',previous);
   try{localStorage.setItem('ubtLastAccent',current);}catch(e){}
 
+  if(path==='/michael.html'){
+    const cinematic=document.createElement('script');
+    cinematic.src='bio-cinematic.js?v=20260707-cinematic';
+    cinematic.defer=true;
+    document.head.appendChild(cinematic);
+  }
+
   const footer=document.querySelector('footer .wrap, .footer .wrap');
   if(footer && !footer.querySelector('.luna-fineprint')){
     const fine=document.createElement('small');
