@@ -2,6 +2,7 @@
   const rooms={
     '/':'#f2c76a',
     '/index.html':'#f2c76a',
+    '/michael.html':'#f2c76a',
     '/luna.html':'#85cfff',
     '/aria.html':'#77f2a1',
     '/shadow.html':'#ff626d',
