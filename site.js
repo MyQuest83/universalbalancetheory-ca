@@ -20,7 +20,7 @@
   if(path==='/michael.html'){
     const cinematic=document.createElement('script');
     cinematic.src='bio-cinematic.js?v=20260707-cinematic';
-    cinematic.defer=true;
+    cinematic.async=false;
     document.head.appendChild(cinematic);
   }
 
