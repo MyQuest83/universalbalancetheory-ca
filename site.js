@@ -18,8 +18,15 @@
   try{localStorage.setItem('ubtLastAccent',current);}catch(e){}
 
   if(path==='/michael.html'){
+    document.title='Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…';
+    const spine=document.querySelector('.bio-spine');
+    if(spine){
+      spine.setAttribute('aria-label','Built by Wonder. Broken by Life. Forever Becoming…');
+      const becoming=spine.querySelector('.becoming');
+      if(becoming) becoming.textContent='Forever Becoming…';
+    }
     const cinematic=document.createElement('script');
-    cinematic.src='bio-cinematic.js?v=20260707-cinematic';
+    cinematic.src='bio-cinematic.js?v=20260709-journal';
     cinematic.async=false;
     document.head.appendChild(cinematic);
   }
