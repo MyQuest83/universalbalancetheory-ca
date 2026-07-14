@@ -19,7 +19,11 @@ universalbalancetheory.ca
 - `luna.html` - story lane
 - `aria.html` - science lane
 - `shadow.html` - challenge lane
+- `michael.html` - illustrated Michael Eric West biography
+- `assets/michael-bio/` - optimized biography illustrations
 - `links.html` - public links and submission routes
+- `sitemap.xml` - public URL index for search engines
+- `robots.txt` - crawler rules and sitemap pointer
 - `styles.css` - shared supporting styles
 - `site.js` - shared accent routing and footer upkeep credit
 - `CNAME` - GitHub Pages custom domain
@@ -29,6 +33,7 @@ universalbalancetheory.ca
 
 - Book 1: https://zenodo.org/records/19421797
 - Trigon Challenge: https://universalbalancetheory.ca/trigon-challenge.html
+- Michael Eric West biography: https://universalbalancetheory.ca/michael.html
 - Medium: https://medium.com/@myquest321666
 - Substack: https://substack.com/@myquest321666
 

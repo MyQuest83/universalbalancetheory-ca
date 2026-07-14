@@ -2,7 +2,6 @@
   const rooms={
     '/':'#f2c76a',
     '/index.html':'#f2c76a',
-    '/michael.html':'#f2c76a',
     '/luna.html':'#85cfff',
     '/aria.html':'#77f2a1',
     '/shadow.html':'#ff626d',
@@ -16,20 +15,6 @@
   document.documentElement.style.setProperty('--room-accent',current);
   document.documentElement.style.setProperty('--prev-accent',previous);
   try{localStorage.setItem('ubtLastAccent',current);}catch(e){}
-
-  if(path==='/michael.html'){
-    document.title='Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…';
-    const spine=document.querySelector('.bio-spine');
-    if(spine){
-      spine.setAttribute('aria-label','Built by Wonder. Broken by Life. Forever Becoming…');
-      const becoming=spine.querySelector('.becoming');
-      if(becoming) becoming.textContent='Forever Becoming…';
-    }
-    const cinematic=document.createElement('script');
-    cinematic.src='bio-cinematic.js?v=20260709-journal';
-    cinematic.async=false;
-    document.head.appendChild(cinematic);
-  }
 
   const footer=document.querySelector('footer .wrap, .footer .wrap');
   if(footer && !footer.querySelector('.luna-fineprint')){
