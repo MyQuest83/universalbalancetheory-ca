@@ -1,0 +1,18 @@
+{
+  "archive_id": "trigon-ledger",
+  "title": "Trigon Ledger",
+  "description": "Public, machine-readable records released from the Trigon testing path.",
+  "archive_version": "0.1.0-draft",
+  "schema_version": "0.1.0-draft",
+  "public_release_policy": "allowlist",
+  "claim_boundary": "The Ledger preserves test status, uncertainty, failure, provenance, and claim ceilings. Inclusion does not establish proof or validation.",
+  "entry_points": {
+    "human": "../trigon-ledger.html",
+    "ai_index": "ai-index.json",
+    "status_definitions": "status-definitions.json",
+    "testing_levels": "testing-levels.json",
+    "source_registry": "sources/source-registry.json"
+  },
+  "records": [],
+  "updated_at": "2026-07-17T00:00:00-04:00"
+}
