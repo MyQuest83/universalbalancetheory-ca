@@ -1,0 +1,7 @@
+{
+  "registry_id": "trigon-ledger-sources",
+  "version": "0.1.0-draft",
+  "release_rule": "Only source metadata cleared for public release may appear here. Restricted or private source files remain outside the public registry.",
+  "sources": [],
+  "updated_at": "2026-07-17T00:00:00-04:00"
+}
