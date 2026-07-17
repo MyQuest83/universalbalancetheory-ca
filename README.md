@@ -16,6 +16,12 @@ universalbalancetheory.ca
 
 - `index.html` - cinematic public gateway
 - `trigon-challenge.html` - participant-led public testing page
+- `trigon-ledger.html` - expandable public record and archive shell
+- `trigon/manifest.json` - canonical released-record manifest
+- `trigon/ai-index.json` - low-token AI discovery index
+- `trigon/status-definitions.json` - public status vocabulary
+- `trigon/testing-levels.json` - Light, Medium, and Heavy test depth definitions
+- `trigon/sources/source-registry.json` - public source metadata registry
 - `luna.html` - story lane
 - `aria.html` - science lane
 - `shadow.html` - challenge lane
@@ -33,6 +39,7 @@ universalbalancetheory.ca
 
 - Book 1: https://zenodo.org/records/19421797
 - Trigon Challenge: https://universalbalancetheory.ca/trigon-challenge.html
+- Trigon Ledger: https://universalbalancetheory.ca/trigon-ledger.html
 - Michael Eric West biography: https://universalbalancetheory.ca/michael.html
 - Medium: https://medium.com/@myquest321666
 - Substack: https://substack.com/@myquest321666
@@ -42,6 +49,8 @@ universalbalancetheory.ca
 UBT is shared as an active framework and test path. It is not presented as completed proof of new physics.
 
 The Trigon Challenge is participant-led. AI can assist, but it does not judge. Results may show consistency, ambiguity, revision needs, failure, or a path forward.
+
+The Trigon Ledger preserves released public records, statuses, claim ceilings, provenance, failures, uncertainty, and downloadable verification material when permitted. A record appears only after public release review.
 
 The public posture is:
 
