@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0-draft",
+  "statuses": [
+    {"id":"concept","label":"Concept","meaning":"Idea entered as prior art, not yet test-ready.","may_gate_new_test":false},
+    {"id":"preflight","label":"Preflight","meaning":"Observability, scope, source, and geometry check before testing.","may_gate_new_test":true},
+    {"id":"preregistered","label":"Preregistered","meaning":"Design, variables, gates, and failure criteria locked before outcome inspection.","may_gate_new_test":true},
+    {"id":"data_lock_pending","label":"Data Lock Pending","meaning":"Preregistered record awaiting a frozen confirmatory dataset.","may_gate_new_test":true},
+    {"id":"running","label":"Running","meaning":"Execution is in progress. Competing duplicates require an explicit reason.","may_gate_new_test":true},
+    {"id":"complete_pass","label":"Complete: Pass","meaning":"Completed test met its predefined gate under the recorded conditions.","may_gate_new_test":true},
+    {"id":"complete_fail","label":"Complete: Fail","meaning":"Completed test did not meet its predefined gate. Failure remains visible.","may_gate_new_test":true},
+    {"id":"complete_null","label":"Complete: Null","meaning":"Completed test found no meaningful signal under the recorded conditions.","may_gate_new_test":true},
+    {"id":"complete_ambiguous","label":"Complete: Ambiguous","meaning":"Completed test remains unresolved because interpretation, definitions, data, or method are insufficient.","may_gate_new_test":true},
+    {"id":"exploratory_only","label":"Exploratory Only","meaning":"Post hoc, pilot, or non-preregistered finding. It may inform future work but cannot be treated as confirmation.","may_gate_new_test":true},
+    {"id":"provisionally_logged","label":"Provisionally Logged","meaning":"Publicly logged with unresolved caveats and pending final review.","may_gate_new_test":true},
+    {"id":"blocked","label":"Blocked","meaning":"Cannot proceed because required sources, definitions, permissions, data, or tools are missing.","may_gate_new_test":false},
+    {"id":"superseded","label":"Superseded","meaning":"Historically preserved but replaced by a later record or version.","may_gate_new_test":false},
+    {"id":"withdrawn","label":"Withdrawn","meaning":"Removed from active use with a visible reason and historical pointer.","may_gate_new_test":false}
+  ]
+}
