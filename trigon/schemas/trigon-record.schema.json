@@ -3,8 +3,21 @@
   "$id": "https://universalbalancetheory.ca/trigon/schemas/trigon-record.schema.json",
   "title": "Trigon Public Record",
   "type": "object",
-  "additionalProperties": true,
-  "required": ["record_id", "title", "record_type", "status", "test_depth", "claim_ceiling", "public_release", "question", "created_at", "updated_at", "version"],
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "title",
+    "record_type",
+    "status",
+    "test_depth",
+    "claim_ceiling",
+    "public_release",
+    "release_gate",
+    "question",
+    "created_at",
+    "updated_at",
+    "version"
+  ],
   "properties": {
     "record_id": {"type": "string", "minLength": 1},
     "title": {"type": "string", "minLength": 1},
@@ -16,13 +29,14 @@
     "public_release": {"const": true},
     "release_gate": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["approved", "privacy_review", "provenance_review", "source_review", "claim_review"],
       "properties": {
-        "approved": {"type": "boolean"},
-        "privacy_review": {"type": "string"},
-        "provenance_review": {"type": "string"},
-        "source_review": {"type": "string"},
-        "claim_review": {"type": "string"},
+        "approved": {"const": true},
+        "privacy_review": {"const": "passed"},
+        "provenance_review": {"const": "passed"},
+        "source_review": {"const": "passed"},
+        "claim_review": {"const": "passed"},
         "approved_at": {"type": ["string", "null"], "format": "date-time"}
       }
     },
@@ -46,12 +60,13 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": ["label", "format", "href"],
         "properties": {
-          "label": {"type": "string"},
-          "format": {"type": "string"},
-          "href": {"type": "string"},
-          "checksum_sha256": {"type": ["string", "null"]},
+          "label": {"type": "string", "minLength": 1},
+          "format": {"type": "string", "minLength": 1},
+          "href": {"type": "string", "pattern": "^(https?://|\\.\\.?/|[A-Za-z0-9_./-]+$)"},
+          "checksum_sha256": {"type": ["string", "null"], "pattern": "^[A-Fa-f0-9]{64}$"},
           "license": {"type": ["string", "null"]},
           "rights_note": {"type": ["string", "null"]}
         }
@@ -60,7 +75,7 @@
     "recommended_next_step": {"type": ["string", "null"]},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"},
-    "version": {"type": "string"},
+    "version": {"type": "string", "minLength": 1},
     "supersedes": {"type": ["string", "null"]},
     "superseded_by": {"type": ["string", "null"]}
   }
