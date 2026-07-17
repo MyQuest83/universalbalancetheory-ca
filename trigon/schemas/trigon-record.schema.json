@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://universalbalancetheory.ca/trigon/schemas/trigon-record.schema.json",
+  "title": "Trigon Public Record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["record_id", "title", "record_type", "status", "test_depth", "claim_ceiling", "public_release", "question", "created_at", "updated_at", "version"],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "record_type": {"enum": ["trigon_test", "preflight", "protocol", "source_audit", "archive_validation", "record_p"]},
+    "status": {"enum": ["concept", "preflight", "preregistered", "data_lock_pending", "running", "complete_pass", "complete_fail", "complete_null", "complete_ambiguous", "exploratory_only", "provisionally_logged", "blocked", "superseded", "withdrawn"]},
+    "status_original": {"type": ["string", "null"]},
+    "test_depth": {"enum": ["light", "medium", "heavy"]},
+    "claim_ceiling": {"type": "string", "minLength": 1},
+    "public_release": {"const": true},
+    "release_gate": {
+      "type": "object",
+      "required": ["approved", "privacy_review", "provenance_review", "source_review", "claim_review"],
+      "properties": {
+        "approved": {"type": "boolean"},
+        "privacy_review": {"type": "string"},
+        "provenance_review": {"type": "string"},
+        "source_review": {"type": "string"},
+        "claim_review": {"type": "string"},
+        "approved_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "question": {"type": "string", "minLength": 1},
+    "hypothesis": {"type": ["string", "null"]},
+    "summary": {"type": ["string", "null"]},
+    "domain": {"type": ["string", "null"]},
+    "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "dataset_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "related_record_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "method_summary": {"type": ["string", "null"]},
+    "control_summary": {"type": "array", "items": {"type": "string"}},
+    "primary_result": {"type": ["object", "null"]},
+    "exploratory_results": {"type": "array", "items": {"type": "object"}},
+    "model_added_scaffolding": {"type": "array", "items": {"type": "string"}},
+    "ambiguities": {"type": "array", "items": {"type": "string"}},
+    "failures": {"type": "array", "items": {"type": "string"}},
+    "evidence_summary": {"type": ["string", "null"]},
+    "downloads": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "format", "href"],
+        "properties": {
+          "label": {"type": "string"},
+          "format": {"type": "string"},
+          "href": {"type": "string"},
+          "checksum_sha256": {"type": ["string", "null"]},
+          "license": {"type": ["string", "null"]},
+          "rights_note": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "recommended_next_step": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "version": {"type": "string"},
+    "supersedes": {"type": ["string", "null"]},
+    "superseded_by": {"type": ["string", "null"]}
+  }
+}

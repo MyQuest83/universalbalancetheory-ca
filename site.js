@@ -6,7 +6,8 @@
     '/aria.html':'#77f2a1',
     '/shadow.html':'#ff626d',
     '/links.html':'#f2c76a',
-    '/trigon-challenge.html':'#f2c76a'
+    '/trigon-challenge.html':'#f2c76a',
+    '/trigon-ledger.html':'#f2c76a'
   };
   const path=location.pathname.endsWith('/')?'/':location.pathname.slice(location.pathname.lastIndexOf('/'));
   const current=rooms[path]||'#f2c76a';

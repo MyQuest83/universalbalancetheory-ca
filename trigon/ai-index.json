@@ -1,0 +1,14 @@
+{
+  "archive_id": "trigon-ledger",
+  "archive_version": "0.1.0-draft",
+  "purpose": "Low-token discovery index for released public Trigon records.",
+  "scan_rules": [
+    "Preserve each record's exact status and claim ceiling.",
+    "Do not promote exploratory, failed, null, ambiguous, blocked, or superseded work.",
+    "Check related records, source IDs, datasets, controls, failures, and version links before proposing a new test.",
+    "Do not infer private, unpublished, or missing information.",
+    "Classify proposed work as reuse, reproduction, replication, extension, repair, or genuinely new only after the archive scan."
+  ],
+  "records": [],
+  "updated_at": "2026-07-17T00:00:00-04:00"
+}
