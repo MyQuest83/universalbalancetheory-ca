@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0-draft",
+  "note": "Testing depth describes how far a run goes. It does not rank the value of the idea or guarantee the strength of the result.",
+  "levels": [
+    {
+      "id": "light",
+      "label": "Light Test",
+      "purpose": "A clean first pass for overlap, clarity, and obvious failure points.",
+      "minimums": ["public archive scan", "neutral task restatement", "small scenario set", "ambiguity and failure notes", "AI-added scaffolding notes"],
+      "claim_ceiling": "First-pass finding only. No validation claim."
+    },
+    {
+      "id": "medium",
+      "label": "Medium Test",
+      "purpose": "A structured run with sources, controls, cross-checks, and reusable data.",
+      "minimums": ["archive scan", "geometry preflight", "source lock", "variables and test conditions", "baseline and negative controls", "downloadable public data when permitted"],
+      "claim_ceiling": "Governed test result under recorded conditions. Confirmation requires stronger design or replication."
+    },
+    {
+      "id": "heavy",
+      "label": "Heavy Test",
+      "purpose": "A full research lane for preregistration, data lock, stress tests, and reproducibility.",
+      "minimums": ["preregistration", "data lock", "failure criteria", "robustness and sensitivity checks", "provenance audit", "code and data release when permitted", "Record-P"],
+      "claim_ceiling": "Deepest interpretation supported by the preregistered design, evidence, controls, and replication state."
+    }
+  ]
+}
