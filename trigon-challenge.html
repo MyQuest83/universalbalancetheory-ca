@@ -2,61 +2,204 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04060d">
 <title>The Trigon Challenge | Universal Balance Theory</title>
-<meta name="description" content="Choose a Life, Nature and Science, or Tech testing lane, select a test depth, and run a transparent Trigon Challenge using released UBT public materials.">
-<meta name="theme-color" content="#050711">
-<link rel="stylesheet" href="styles.css?v=20260718-trigon-gateway">
-<style>
-body{--accent:var(--gold);overflow-x:hidden}
-.trigon-stars,.trigon-aurora{position:fixed;inset:0;pointer-events:none}
-.trigon-stars{z-index:-3;opacity:.15;background-image:radial-gradient(circle,rgba(255,255,255,.55) .7px,transparent .9px),radial-gradient(circle,rgba(255,255,255,.24) .7px,transparent .9px);background-size:84px 84px,131px 131px;background-position:0 0,37px 61px;animation:starsDrift 80s linear infinite}
-.trigon-aurora{z-index:-2;inset:-24%;filter:blur(58px);opacity:.22;background:conic-gradient(from 218deg at 50% 50%,transparent 0 14%,rgba(133,207,255,.3) 20%,transparent 33%,rgba(119,242,161,.2) 45%,transparent 58%,rgba(255,98,109,.24) 72%,transparent 88%);animation:auroraTurn 23s ease-in-out infinite alternate}
-.trigon-gateway{min-height:calc(100svh - 76px);display:grid;place-items:center;text-align:center;padding:88px 18px 72px;position:relative;isolation:isolate;overflow:hidden}
-.gateway-shell{width:min(1160px,100%);margin:auto}
-.gateway-kicker{display:inline-flex;gap:9px;align-items:center;padding:8px 14px;border:1px solid rgba(242,199,106,.28);border-radius:999px;background:rgba(242,199,106,.055);color:#f8dda0;font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-.gateway-kicker:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
-.gateway-title{margin:18px auto 8px;max-width:980px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.1rem,8.1vw,7rem);line-height:.86;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 34px rgba(242,199,106,.07)}
-.gateway-title span{display:block}.gateway-title .warm{color:#f4e5c5}
-.gateway-sub{max-width:760px;margin:20px auto 0;color:#d3cdc6;font:italic clamp(1rem,2vw,1.18rem)/1.6 Georgia,"Times New Roman",serif}
-.gateway-rule{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:18px;padding:8px 14px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.025);color:#f3ddaa;font-size:.67rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.gateway-rule i{width:4px;height:4px;border-radius:50%;align-self:center;background:currentColor;opacity:.65}
-.nexus{position:relative;width:min(1060px,98vw);height:610px;margin:18px auto 0;isolation:isolate}
-.nexus:before{content:"";position:absolute;left:50%;top:50%;width:520px;height:520px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(242,199,106,.13),rgba(133,207,255,.035) 38%,transparent 70%);filter:blur(28px);opacity:.8;animation:nexusBreath 7s ease-in-out infinite}
-.nexus:after{content:"";position:absolute;left:50%;top:50%;width:440px;height:440px;transform:translate(-50%,-50%);border-radius:50%;background:repeating-radial-gradient(circle,rgba(255,255,255,.04) 0 1px,transparent 1px 29px);mask-image:radial-gradient(circle,#000 0 58%,transparent 76%);opacity:.35}
-.orbit-ring{position:absolute;left:50%;top:50%;z-index:0;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%) rotate(var(--tilt));border:1px solid rgba(255,255,255,.045)}
-.orbit-ring.one{width:680px;height:365px;--tilt:-13deg;animation:tiltA 16s ease-in-out infinite alternate}.orbit-ring.two{width:835px;height:475px;--tilt:17deg;border-style:dashed;animation:tiltB 22s ease-in-out infinite alternate}.orbit-ring.three{width:380px;height:380px;--tilt:0deg;border-color:rgba(242,199,106,.06)}
-.beams{position:absolute;inset:0;z-index:1;width:100%;height:100%;overflow:visible;pointer-events:none}.beam{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:6 14;opacity:.62;animation:beamDash 11s linear infinite}.beam.science{animation-delay:-2s}.beam.tech{animation-delay:-5s}.beam.submit{animation-delay:-7s}.pulse{filter:drop-shadow(0 0 8px currentColor);opacity:.9}
-.nexus-core{position:absolute;left:50%;top:50%;z-index:4;width:282px;height:282px;transform:translate(-50%,-50%);border:0;background:transparent;color:inherit;padding:0;display:grid;place-items:center;cursor:pointer;filter:drop-shadow(0 0 18px rgba(242,199,106,.12));animation:coreFloat 7s ease-in-out infinite}
-.nexus-core:focus-visible{outline:1px solid rgba(242,199,106,.7);outline-offset:8px;border-radius:50%}.core-ring,.energy-ring{position:absolute;border-radius:50%;pointer-events:none}.core-ring.r1{inset:0;border:1px solid rgba(242,199,106,.23);animation:spin 22s linear infinite}.core-ring.r2{inset:14%;border:1px dashed rgba(255,255,255,.16);animation:spinReverse 17s linear infinite}.core-ring.r3{inset:30%;border:1px solid rgba(133,207,255,.18)}.energy-ring{border:1px solid transparent}.energy-ring.e1{inset:-7%;border-top-color:rgba(133,207,255,.48);border-right-color:rgba(119,242,161,.24);animation:spin 12s linear infinite}.energy-ring.e2{inset:8%;border-left-color:rgba(242,199,106,.24);border-bottom-color:rgba(255,98,109,.45);animation:spinReverse 9s linear infinite}.nexus-core svg{width:72%;z-index:2}.core-copy{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.core-copy strong{font:700 1.08rem/1 Georgia,"Times New Roman",serif;text-shadow:0 0 16px rgba(242,199,106,.42)}.core-copy small{margin-top:6px;color:rgba(248,245,239,.64);font-size:.6rem;letter-spacing:.13em;text-transform:uppercase}
-.lane-orb{--orb:#fff;position:absolute;z-index:5;width:205px;height:205px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:22px;overflow:hidden;text-align:center;text-decoration:none;color:#fff;border:1px solid color-mix(in srgb,var(--orb),transparent 48%);background:radial-gradient(circle at 29% 23%,rgba(255,255,255,.97),rgba(255,255,255,.18) 12%,transparent 29%),radial-gradient(circle at 57% 64%,color-mix(in srgb,var(--orb),transparent 38%),rgba(4,7,14,.94) 70%);box-shadow:0 0 34px color-mix(in srgb,var(--orb),transparent 76%),0 28px 70px rgba(0,0,0,.44),inset 0 0 40px rgba(255,255,255,.07);backdrop-filter:blur(12px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s ease,border-color .3s ease}
-.lane-orb:before{content:"";position:absolute;inset:-18%;border-radius:50%;background:conic-gradient(from 35deg,transparent,color-mix(in srgb,var(--orb),transparent 56%),transparent 35%,transparent 70%,color-mix(in srgb,var(--orb),transparent 68%),transparent);opacity:.5;animation:surfaceSpin 14s linear infinite}.lane-orb:after{content:"";position:absolute;inset:13%;border-radius:50%;border:1px solid color-mix(in srgb,var(--orb),transparent 72%);box-shadow:inset 0 0 25px color-mix(in srgb,var(--orb),transparent 84%)}
-.orb-content{position:relative;z-index:2}.orb-symbol{display:block;margin-bottom:9px;font-size:1.28rem;text-shadow:0 0 10px #fff,0 0 20px var(--orb)}.lane-orb strong{display:block;font:700 1.48rem/1.04 Georgia,"Times New Roman",serif;text-shadow:0 0 15px var(--orb)}.lane-orb small{display:block;margin-top:7px;color:rgba(255,255,255,.76);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;line-height:1.4}.orb-enter{display:inline-flex;margin-top:13px;padding:5px 9px;border:1px solid rgba(255,255,255,.18);border-radius:999px;color:rgba(255,255,255,.72);font-size:.56rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:0;transform:translateY(5px);transition:.25s ease}.lane-orb:hover,.lane-orb:focus-visible{transform:scale(1.075);border-color:color-mix(in srgb,var(--orb),white 24%);box-shadow:0 0 46px color-mix(in srgb,var(--orb),transparent 50%),0 34px 82px rgba(0,0,0,.48),inset 0 0 48px rgba(255,255,255,.1);outline:none}.lane-orb:hover .orb-enter,.lane-orb:focus-visible .orb-enter{opacity:1;transform:none}
-.orb-life{--orb:var(--luna);left:1%;top:2%;animation:floatA 8s ease-in-out infinite}.orb-science{--orb:var(--aria);left:5%;bottom:1%;animation:floatB 9.5s ease-in-out infinite}.orb-tech{--orb:var(--shadow);right:6%;top:2%;animation:floatC 7.5s ease-in-out infinite}.orb-submit{--orb:#fff;right:-1%;bottom:6%;width:182px;height:182px;animation:submitPulse 4s ease-in-out infinite}
-.gateway-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px}
-.lane-zone{position:relative;overflow:hidden}.lane-zone:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 36%,rgba(133,207,255,.06),transparent 26%),radial-gradient(circle at 50% 72%,rgba(119,242,161,.05),transparent 27%),radial-gradient(circle at 82% 36%,rgba(255,98,109,.055),transparent 26%);pointer-events:none}.lane-intro{max-width:760px}.lane-grid{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:30px}.lane-card{--lane:#fff;position:relative;overflow:hidden;min-height:430px;padding:26px;border-radius:28px;border:1px solid color-mix(in srgb,var(--lane),transparent 72%);background:linear-gradient(145deg,color-mix(in srgb,var(--lane),transparent 94%),rgba(255,255,255,.025));box-shadow:0 22px 65px rgba(0,0,0,.25)}.lane-card.life{--lane:var(--luna)}.lane-card.science{--lane:var(--aria)}.lane-card.tech{--lane:var(--shadow)}.lane-card:before{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-80px;border-radius:50%;background:var(--lane);filter:blur(80px);opacity:.13}.card-number{position:absolute;right:22px;top:16px;color:color-mix(in srgb,var(--lane),transparent 68%);font:800 2.6rem/1 ui-monospace,SFMono-Regular,Menlo,monospace}.card-head{display:flex;align-items:center;gap:14px;position:relative}.card-orb{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 30% 25%,white,transparent 24%),radial-gradient(circle,var(--lane),rgba(5,8,16,.86) 74%);border:1px solid color-mix(in srgb,var(--lane),transparent 40%);box-shadow:0 0 24px color-mix(in srgb,var(--lane),transparent 63%)}.card-kicker{color:var(--lane);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}.lane-card h3{margin:2px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:1.7rem}.lane-card>p{min-height:100px;margin-top:22px;line-height:1.65}.lane-card details{border-top:1px solid rgba(255,255,255,.09);border-bottom:1px solid rgba(255,255,255,.09)}.lane-card summary{cursor:pointer;padding:15px 0;color:var(--lane);font-weight:800}.lane-detail-body{padding:0 0 14px}.lane-detail-body ul{margin:0;padding-left:19px;line-height:1.65;color:#cec6c0}.lane-card-actions{display:flex;flex-direction:column;align-items:flex-start;gap:13px;margin-top:24px}
-.depth-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px}.depth-card{--depth:var(--gold);border:1px solid color-mix(in srgb,var(--depth),transparent 70%);border-radius:24px;background:rgba(255,255,255,.035);overflow:hidden}.depth-card.light{--depth:var(--luna)}.depth-card.medium{--depth:var(--gold)}.depth-card.heavy{--depth:var(--shadow)}.depth-card summary{list-style:none;cursor:pointer;padding:23px;min-height:205px;display:flex;flex-direction:column;gap:10px;position:relative}.depth-card summary::-webkit-details-marker{display:none}.depth-card summary:after{content:"＋";position:absolute;right:18px;top:16px;color:var(--depth);font-size:1.3rem}.depth-card[open] summary:after{content:"−"}.depth-icon{width:42px;height:42px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--depth),transparent 50%);border-radius:14px;color:var(--depth)}.depth-card strong{font-family:Georgia,"Times New Roman",serif;color:var(--depth);font-size:1.4rem}.depth-card .depth-body{padding:0 23px 23px;border-top:1px solid rgba(255,255,255,.08)}.depth-card ul{padding-left:18px;line-height:1.6}
-.gold-box{border:1px solid rgba(242,199,106,.32);background:rgba(242,199,106,.08);border-radius:24px;padding:22px;margin-top:20px}.steps-clean{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px}.steps-clean .tile{min-height:180px}.steps-clean span{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(242,199,106,.35);color:var(--gold);margin-bottom:12px;font-weight:800}.copybox{margin-top:18px;border:1px solid rgba(255,255,255,.13);border-radius:24px;overflow:hidden;background:rgba(0,0,0,.22)}.copybox pre{white-space:pre-wrap;margin:0;padding:20px;color:#f5f0e8;font:.92rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}.copybar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}.plain-list{display:grid;gap:12px;margin:24px 0 0;padding:0;list-style:none}.plain-list li{padding:14px 16px;border-left:3px solid var(--accent);background:rgba(255,255,255,.04);border-radius:0 16px 16px 0;color:#ddd4cb}.luna-fineprint{display:block;margin-top:10px;font-size:.74rem;line-height:1.55;letter-spacing:.04em;color:rgba(245,240,232,.62)}
-@keyframes starsDrift{to{background-position:84px 84px,168px 192px}}@keyframes auroraTurn{to{transform:rotate(10deg) scale(1.06)}}@keyframes nexusBreath{0%,100%{transform:translate(-50%,-50%) scale(.95);opacity:.58}50%{transform:translate(-50%,-50%) scale(1.08);opacity:.9}}@keyframes tiltA{to{transform:translate(-50%,-50%) rotate(8deg)}}@keyframes tiltB{to{transform:translate(-50%,-50%) rotate(-8deg)}}@keyframes beamDash{to{stroke-dashoffset:-190}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes spinReverse{to{transform:rotate(-360deg)}}@keyframes coreFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-7px)}}@keyframes surfaceSpin{to{transform:rotate(360deg)}}@keyframes floatA{0%,100%{translate:0 0}50%{translate:9px -12px}}@keyframes floatB{0%,100%{translate:0 0}50%{translate:-7px -10px}}@keyframes floatC{0%,100%{translate:0 0}50%{translate:-6px 11px}}@keyframes submitPulse{0%,100%{transform:scale(1);box-shadow:0 0 34px rgba(255,255,255,.24),0 28px 70px rgba(0,0,0,.44)}50%{transform:scale(1.045);box-shadow:0 0 52px rgba(255,255,255,.42),0 0 90px rgba(255,255,255,.11),0 28px 70px rgba(0,0,0,.44)}}
-@media(max-width:980px){.nexus{height:700px;max-width:760px}.beams{display:none}.nexus-core{width:230px;height:230px}.orb-life{left:2%;top:3%}.orb-tech{right:2%;top:3%}.orb-science{left:5%;bottom:2%}.orb-submit{right:5%;bottom:4%}.lane-grid,.depth-grid{grid-template-columns:1fr}.lane-card{min-height:auto}.lane-card>p{min-height:auto}.steps-clean{grid-template-columns:1fr}}
-@media(max-width:640px){.trigon-gateway{min-height:auto;padding:42px 14px 64px}.gateway-title{font-size:clamp(2.7rem,13vw,4.1rem)}.gateway-rule{border-radius:18px}.nexus{height:auto;display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:28px}.nexus:before{width:320px;height:320px;top:120px}.nexus:after,.orbit-ring,.beams{display:none}.nexus-core,.lane-orb{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none}.nexus-core{width:190px;height:190px;margin:0 auto 6px;animation:none;order:0}.lane-orb{width:100%;height:112px;border-radius:24px;padding:17px 20px;justify-content:flex-start;text-align:left;animation:none}.orb-life{order:1}.orb-science{order:2}.orb-tech{order:3}.orb-submit{order:4;width:100%;height:104px}.lane-orb:hover,.lane-orb:focus-visible{transform:translateY(-2px)}.orb-content{width:100%;display:grid;grid-template-columns:34px 1fr auto;column-gap:10px;align-items:center}.orb-symbol{grid-row:1/3;margin:0;text-align:center}.lane-orb strong{font-size:1.25rem}.lane-orb small{margin:3px 0 0}.orb-enter{grid-column:3;grid-row:1/3;margin:0;opacity:1;transform:none}.gateway-actions{display:grid;grid-template-columns:1fr 1fr;max-width:340px;margin-left:auto;margin-right:auto}.copybox pre{font-size:.78rem;padding:16px}}
-@media(max-width:420px){.gateway-actions{grid-template-columns:1fr}.orb-enter{display:none}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.trigon-stars,.trigon-aurora,.nexus:before,.orbit-ring,.beam,.nexus-core,.core-ring,.energy-ring,.lane-orb,.lane-orb:before{animation:none!important}}
-</style>
+<meta name="description" content="Choose a Life, Nature and Science, or Tech testing lane, select a test depth, run a transparent Trigon Challenge, and scan the public record in one place.">
+<link rel="stylesheet" href="trigon/trigon-page.css?v=20260718-unified">
 </head>
 <body>
-<div class="trigon-stars" aria-hidden="true"></div><div class="trigon-aurora" aria-hidden="true"></div>
-<header class="top"><nav class="nav"><a class="brand-mini" href="index.html"><span class="live-mark" aria-hidden="true"><span class="live-sphere"></span><span class="live-triangle"><i></i><i></i><i></i></span></span><span>UBT</span></a><span><a href="index.html">Home</a> · <a href="trigon-challenge.html" aria-current="page">Trigon</a> · <a href="trigon-ledger.html">Ledger</a> · <a href="aria.html">Aria</a> · <a href="shadow.html">Shadow</a> · <a href="links.html">Links</a></span></nav></header>
+<a class="skip-link" href="#lane-choice">Skip to lane choice</a>
+<div class="starfield" aria-hidden="true"></div>
+<div class="aurora" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html" aria-label="Universal Balance Theory home">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40"><path d="M20 5 L35 33 L5 33 Z" fill="none" stroke="#f2c76a" stroke-width="2"/></svg>
+    </span>
+    <span>UBT</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html">Home</a>
+    <a href="trigon-challenge.html" aria-current="page">Trigon</a>
+    <a href="luna.html">Luna</a>
+    <a href="aria.html">Aria</a>
+    <a href="shadow.html">Shadow</a>
+    <a href="links.html">Links</a>
+  </nav>
+</header>
+
 <main>
-<section class="trigon-gateway"><div class="gateway-shell"><div class="gateway-kicker">The Trigon Challenge</div><h1 class="gateway-title"><span>Choose Your</span><span class="warm">Testing Lane</span></h1><p class="gateway-sub">Bring the idea. Choose where it belongs. Scan what already exists. Select the right depth. Test honestly and preserve what happened.</p><div class="gateway-rule"><span>Choose</span><i></i><span>Scan</span><i></i><span>Test</span><i></i><span>Record</span></div><div class="nexus" aria-label="Interactive Trigon lane selector"><span class="orbit-ring one" aria-hidden="true"></span><span class="orbit-ring two" aria-hidden="true"></span><span class="orbit-ring three" aria-hidden="true"></span><svg class="beams" viewBox="0 0 1060 610" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="beamLife"><stop stop-color="#85cfff" stop-opacity="0"/><stop offset=".58" stop-color="#85cfff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient><linearGradient id="beamScience"><stop stop-color="#77f2a1" stop-opacity="0"/><stop offset=".58" stop-color="#77f2a1" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient><linearGradient id="beamTech"><stop stop-color="#ff626d" stop-opacity="0"/><stop offset=".58" stop-color="#ff626d" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient><linearGradient id="beamSubmit"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".58" stop-color="#fff" stop-opacity=".88"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient></defs><path class="beam life" d="M530 305 C405 250 300 165 170 105" stroke="url(#beamLife)"/><path class="beam science" d="M530 305 C410 365 315 455 190 520" stroke="url(#beamScience)"/><path class="beam tech" d="M530 305 C640 225 735 160 850 105" stroke="url(#beamTech)"/><path class="beam submit" d="M530 305 C675 330 790 370 950 340" stroke="url(#beamSubmit)"/><circle class="pulse" r="5" fill="#85cfff"><animateMotion dur="4.8s" repeatCount="indefinite" path="M530 305 C405 250 300 165 170 105"/></circle><circle class="pulse" r="5" fill="#77f2a1"><animateMotion dur="5.4s" repeatCount="indefinite" path="M530 305 C410 365 315 455 190 520"/></circle><circle class="pulse" r="5" fill="#ff626d"><animateMotion dur="4.3s" repeatCount="indefinite" path="M530 305 C640 225 735 160 850 105"/></circle><circle class="pulse" r="5" fill="#fff"><animateMotion dur="3.8s" repeatCount="indefinite" path="M530 305 C675 330 790 370 950 340"/></circle></svg><button class="nexus-core" type="button" id="coreButton" aria-label="Replay the Trigon gateway pulse"><span class="core-ring r1"></span><span class="core-ring r2"></span><span class="core-ring r3"></span><span class="energy-ring e1"></span><span class="energy-ring e2"></span><svg viewBox="0 0 320 320" aria-hidden="true"><defs><linearGradient id="tri-g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#85cfff"/><stop offset=".5" stop-color="#77f2a1"/><stop offset="1" stop-color="#ff626d"/></linearGradient></defs><path d="M160 42 L54 250 L266 250 Z" fill="rgba(255,255,255,.025)" stroke="url(#tri-g)" stroke-width="3"/><circle cx="160" cy="160" r="48" fill="none" stroke="rgba(242,199,106,.28)" stroke-width="2" stroke-dasharray="8 10"/></svg><span class="core-copy"><strong id="coreTitle">Choose</strong><small id="coreSubtitle">a testing lane</small></span></button><a class="lane-orb orb-life" href="#lane-life" data-title="Life" data-subtitle="Human systems, mind and meaning"><span class="orb-content"><span class="orb-symbol" aria-hidden="true">◉</span><strong>Life</strong><small>mind • people • meaning</small><span class="orb-enter">Enter lane</span></span></a><a class="lane-orb orb-science" href="#lane-science" data-title="Nature / Science" data-subtitle="Living systems, evidence and geometry"><span class="orb-content"><span class="orb-symbol" aria-hidden="true">⌬</span><strong>Nature / Science</strong><small>biology • ecology • physics</small><span class="orb-enter">Enter lane</span></span></a><a class="lane-orb orb-tech" href="#lane-tech" data-title="Tech" data-subtitle="AI, software and engineered systems"><span class="orb-content"><span class="orb-symbol" aria-hidden="true">◇</span><strong>Tech</strong><small>AI • systems • code</small><span class="orb-enter">Enter lane</span></span></a><a class="lane-orb orb-submit" href="links.html#book2" data-title="Submit" data-subtitle="Review submission options"><span class="orb-content"><span class="orb-symbol" aria-hidden="true">↑</span><strong>Submit</strong><small>share a completed test</small><span class="orb-enter">Open submission</span></span></a></div><div class="gateway-actions"><a class="btn" href="#lanes">Choose a Lane</a><a class="btn" href="trigon-ledger.html">Scan the Ledger</a><a class="btn" href="#depth">Choose Test Depth</a><a class="btn" href="#prompt">Copy Test Prompt</a></div></div></section>
-<section class="section lane-zone" id="lanes"><div class="wrap"><div class="kicker">Three testing lanes</div><h2>Choose the world your question belongs to.</h2><p class="lane-intro">A lane helps organize the question before testing begins. It does not decide the result and it does not turn an idea into proof.</p><div class="lane-grid"><article class="lane-card life" id="lane-life"><div class="card-number">01</div><div class="card-head"><span class="card-orb" aria-hidden="true"></span><div><div class="card-kicker">Blue lane</div><h3>Life</h3></div></div><p>For questions involving people, behaviour, psychology, consciousness, relationships, experience, values, or meaning.</p><details><summary>What belongs here?</summary><div class="lane-detail-body"><ul><li>Human behaviour and decision-making</li><li>Mental and emotional systems</li><li>Consciousness and lived experience</li><li>Culture, relationships, and social balance</li><li>Ethical and interpretive frameworks</li></ul></div></details><div class="lane-card-actions"><a class="btn" href="#depth" data-lane-choice="life">Choose Life</a><a class="btn" href="trigon-ledger.html">Check records first</a></div></article><article class="lane-card science" id="lane-science"><div class="card-number">02</div><div class="card-head"><span class="card-orb" aria-hidden="true"></span><div><div class="card-kicker">Green lane</div><h3>Nature / Science</h3></div></div><p>For questions involving living systems, ecosystems, physical evidence, measurement, geometry, astronomy, biology, or natural processes.</p><details><summary>What belongs here?</summary><div class="lane-detail-body"><ul><li>Biology, ecology, and environmental systems</li><li>Physics, astronomy, and cosmology</li><li>Geometry, measurement, and mathematical models</li><li>Natural cycles, transitions, and structures</li><li>Evidence-based scientific hypotheses</li></ul></div></details><div class="lane-card-actions"><a class="btn" href="#depth" data-lane-choice="science">Choose Science</a><a class="btn" href="trigon-ledger.html">Check records first</a></div></article><article class="lane-card tech" id="lane-tech"><div class="card-number">03</div><div class="card-head"><span class="card-orb" aria-hidden="true"></span><div><div class="card-kicker">Red lane</div><h3>Tech</h3></div></div><p>For questions involving artificial intelligence, software, digital infrastructure, engineered systems, automation, or computational behaviour.</p><details><summary>What belongs here?</summary><div class="lane-detail-body"><ul><li>AI models, agents, and evaluation systems</li><li>Software architecture and coding workflows</li><li>Automation, robotics, and digital tools</li><li>Technical safety and failure testing</li><li>Engineered networks and complex systems</li></ul></div></details><div class="lane-card-actions"><a class="btn" href="#depth" data-lane-choice="tech">Choose Tech</a><a class="btn" href="trigon-ledger.html">Check records first</a></div></article></div></div></section>
-<section class="section" id="depth"><div class="wrap"><div class="kicker">Three depths</div><h2>Choose how far the test should go.</h2><p>Light, Medium, and Heavy describe the depth of the run. They do not rank the importance of the idea.</p><div class="depth-grid"><details class="depth-card light"><summary><span class="depth-icon">△</span><strong>Light Test</strong><span>A clean first pass for clarity, overlap, and obvious failure points.</span></summary><div class="depth-body"><ul><li>Scan the public archive.</li><li>Define the question and framework parts.</li><li>Run a small scenario set.</li><li>Record ambiguity, nulls, and AI-added meaning.</li></ul><a class="btn" href="#start">Use Light Depth</a></div></details><details class="depth-card medium"><summary><span class="depth-icon">△</span><strong>Medium Test</strong><span>A structured run with sources, controls, cross-checks, and reusable data.</span></summary><div class="depth-body"><ul><li>Complete the archive scan and preflight.</li><li>Lock variables, sources, and conditions.</li><li>Add baseline, null, and negative controls.</li><li>Prepare downloadable data when permitted.</li></ul><a class="btn" href="#start">Use Medium Depth</a></div></details><details class="depth-card heavy"><summary><span class="depth-icon">△</span><strong>Heavy Test</strong><span>A full research lane for preregistration, data lock, stress tests, and reproducibility.</span></summary><div class="depth-body"><ul><li>Preregister hypotheses and failure criteria.</li><li>Freeze data and analysis choices.</li><li>Run robustness and replication checks.</li><li>Prepare code, data, checksums, and Record-P.</li></ul><a class="btn" href="#start">Use Heavy Depth</a></div></details></div></div></section>
-<section class="section"><div class="wrap card"><h2>What the Trigon Challenge is</h2><p>The Trigon Challenge is a participant-led way to test an idea under structured pressure.</p><p>The goal is to see what happens when the idea is tested honestly. Some ideas get stronger. Some break. Most reveal where they need to grow.</p><div class="gold-box"><strong>AI can assist, but it does not judge. The participant runs the first pass.</strong></div></div></section>
-<section class="section" id="start"><div class="wrap"><div class="kicker">Simple path</div><h2>How it works</h2><div class="steps-clean"><div class="tile"><span>1</span><strong>Bring the idea</strong><p>Submit your framework, diagram, theory, model, system, or question.</p></div><div class="tile"><span>2</span><strong>Scan first</strong><p>Search the Trigon Ledger for related records, prior failures, and reusable sources.</p></div><div class="tile"><span>3</span><strong>Start clean</strong><p>Use a fresh or temporary AI chat when you want separation from your everyday setup.</p></div><div class="tile"><span>4</span><strong>Share the guide</strong><p>Use the released UBT for the World v2 paper as the public testing reference.</p></div><div class="tile"><span>5</span><strong>Run and record</strong><p>Test scenarios and preserve what works, breaks, stays unclear, or requires added meaning.</p></div><div class="tile"><span>6</span><strong>Review before sharing</strong><p>Nothing becomes public without review, permission, and a clear release status.</p></div></div></div></section>
-<section class="section"><div class="wrap card"><h2>Public guide paper</h2><p>For open public testing, use the released public guide:</p><div class="gold-box"><p><strong>UBT for the World (v2)</strong></p><p><a href="https://zenodo.org/records/19421797">https://zenodo.org/records/19421797</a></p><p>DOI: <code>10.5281/zenodo.19421797</code></p></div><p class="small">Private or beta guide materials should not be quoted, reposted, or cited publicly unless officially released.</p></div></section>
-<section class="section"><div class="wrap card"><h2>Keep the test separate when needed.</h2><p>Use a fresh chat, Temporary Chat, or Memory Off if your AI platform allows it. This can reduce drift and keep the test separate from your normal AI setup.</p><p>Do not upload private, sensitive, or unpublished material unless you understand the platform settings and release implications.</p></div></section>
-<section class="section"><div class="wrap card"><h2>A good result does not have to be a win.</h2><p>A Trigon run might show:</p><ul class="plain-list"><li>Consistency</li><li>Ambiguity</li><li>A weak spot</li><li>A better next version</li><li>A need for clearer definitions</li><li>A reason to rebuild</li></ul><p>Do not hide ambiguity or smooth over weak spots. That is where the signal lives.</p></div></section>
-<section class="section" id="prompt"><div class="wrap card"><h2>Participant copy-paste prompt</h2><div class="copybar"><p>Paste this into a fresh AI chat with your framework and scenario list.</p><button class="btn" type="button" id="copyPrompt">Copy prompt</button></div><div class="copybox"><pre id="promptText">You are helping me run a Trigon Challenge test.
+<section class="hero">
+  <div class="hero-inner">
+    <div class="kicker">Public Lab Door</div>
+    <h1>The Trigon <span>Challenge</span></h1>
+    <p class="hero-sub">Bring the idea. Choose its lane. Choose the depth. Run the test honestly. Preserve what worked, what failed, and what remained uncertain.</p>
+    <div class="truth-line"><b>Participant first</b><i></i><b>AI assists</b><i></i><b>Evidence decides</b></div>
+
+    <div class="nexus" aria-label="Interactive Trigon lane selector">
+      <span class="orbit orbit-a" aria-hidden="true"></span>
+      <span class="orbit orbit-b" aria-hidden="true"></span>
+      <span class="orbit orbit-c" aria-hidden="true"></span>
+
+      <svg class="beams" viewBox="0 0 1060 610" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="beamLife"><stop stop-color="#78d3ff" stop-opacity="0"/><stop offset=".58" stop-color="#78d3ff" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
+          <linearGradient id="beamScience"><stop stop-color="#72efa1" stop-opacity="0"/><stop offset=".58" stop-color="#72efa1" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
+          <linearGradient id="beamTech"><stop stop-color="#ff6674" stop-opacity="0"/><stop offset=".58" stop-color="#ff6674" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
+          <linearGradient id="beamSubmit"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".58" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient>
+        </defs>
+        <path class="beam" d="M530 305 C405 250 300 165 170 105" stroke="url(#beamLife)"/>
+        <path class="beam science" d="M530 305 C410 365 315 455 190 520" stroke="url(#beamScience)"/>
+        <path class="beam tech" d="M530 305 C640 225 735 160 850 105" stroke="url(#beamTech)"/>
+        <path class="beam submit" d="M530 305 C675 330 790 370 950 340" stroke="url(#beamSubmit)"/>
+        <circle r="5" fill="#78d3ff"><animateMotion dur="4.8s" repeatCount="indefinite" path="M530 305 C405 250 300 165 170 105"/></circle>
+        <circle r="5" fill="#72efa1"><animateMotion dur="5.4s" repeatCount="indefinite" path="M530 305 C410 365 315 455 190 520"/></circle>
+        <circle r="5" fill="#ff6674"><animateMotion dur="4.3s" repeatCount="indefinite" path="M530 305 C640 225 735 160 850 105"/></circle>
+        <circle r="5" fill="#fff"><animateMotion dur="3.8s" repeatCount="indefinite" path="M530 305 C675 330 790 370 950 340"/></circle>
+      </svg>
+
+      <button class="core" id="coreButton" type="button" aria-label="Replay the Trigon gateway pulse">
+        <span class="core-ring r1"></span><span class="core-ring r2"></span><span class="core-ring r3"></span>
+        <span class="energy-ring e1"></span><span class="energy-ring e2"></span>
+        <svg viewBox="0 0 320 320" aria-hidden="true">
+          <defs><linearGradient id="triG" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#78d3ff"/><stop offset=".5" stop-color="#72efa1"/><stop offset="1" stop-color="#ff6674"/></linearGradient></defs>
+          <path d="M160 42 L54 250 L266 250 Z" fill="rgba(255,255,255,.025)" stroke="url(#triG)" stroke-width="3"/>
+          <circle cx="160" cy="160" r="48" fill="none" stroke="rgba(242,199,106,.28)" stroke-width="2" stroke-dasharray="8 10"/>
+        </svg>
+        <span class="core-copy"><strong id="coreTitle">Choose</strong><small id="coreSubtitle">a testing lane</small></span>
+      </button>
+
+      <a class="lane-orb life-orb" href="#life" data-title="Life" data-subtitle="Human systems, behaviour and meaning">
+        <span class="orb-copy"><em>◉</em><strong>Life</strong><small>mind • people • meaning</small><b>Choose lane</b></span>
+      </a>
+      <a class="lane-orb science-orb" href="#science" data-title="Nature / Science" data-subtitle="Living systems, evidence and geometry">
+        <span class="orb-copy"><em>⌬</em><strong>Nature / Science</strong><small>biology • ecology • physics</small><b>Choose lane</b></span>
+      </a>
+      <a class="lane-orb tech-orb" href="#tech" data-title="Tech" data-subtitle="AI, software and engineered systems">
+        <span class="orb-copy"><em>◇</em><strong>Tech</strong><small>AI • systems • code</small><b>Choose lane</b></span>
+      </a>
+      <a class="lane-orb submit-orb" href="#submit" data-title="Submit" data-subtitle="Package and share a completed test">
+        <span class="orb-copy"><em>↑</em><strong>Submit</strong><small>share the completed test</small><b>Review first</b></span>
+      </a>
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="#lane-choice">Choose a Lane</a>
+      <a class="btn" href="#depth-choice">Choose Test Depth</a>
+      <a class="btn" href="#prompt">Open the Prompt</a>
+      <a class="btn" href="#public-record">Scan the Public Record</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="lane-choice">
+  <div class="wrap">
+    <div class="kicker">Step 1 · Choose the lane</div>
+    <h2>Where does the question live?</h2>
+    <p class="lead">Pick the lane that best matches the subject being tested. This organizes the run. It does not decide the result, raise the claim level, or prevent cross-lane evidence.</p>
+
+    <div class="setup" aria-live="polite">
+      <div><strong>Your Trigon setup</strong><span>Select one lane and one test depth. You can change either before copying the prompt.</span></div>
+      <div class="setup-pills"><span id="selectedLane">Lane: not selected</span><span id="selectedDepth">Depth: not selected</span></div>
+    </div>
+
+    <div class="lane-grid">
+      <article class="lane-card life" id="life">
+        <span class="number">01</span>
+        <div class="card-head"><span class="mini-orb"></span><div><small>Blue lane</small><h3>Life</h3></div></div>
+        <p>For people, behaviour, psychology, consciousness, relationships, experience, values, culture, and meaning.</p>
+        <details><summary>Explore this lane</summary><ul><li>Human behaviour and decision-making</li><li>Mental and emotional systems</li><li>Consciousness and lived experience</li><li>Relationships, culture, and social systems</li><li>Ethical or interpretive frameworks</li></ul></details>
+        <button class="btn select-lane" type="button" data-lane="Life" aria-pressed="false">Select Life</button>
+      </article>
+
+      <article class="lane-card science" id="science">
+        <span class="number">02</span>
+        <div class="card-head"><span class="mini-orb"></span><div><small>Green lane</small><h3>Nature / Science</h3></div></div>
+        <p>For living systems, ecosystems, physics, astronomy, biology, measurement, evidence, geometry, and natural processes.</p>
+        <details><summary>Explore this lane</summary><ul><li>Biology, ecology, and environmental systems</li><li>Physics, astronomy, and cosmology</li><li>Geometry and mathematical models</li><li>Measurement, evidence, and uncertainty</li><li>Natural cycles, transitions, and structures</li></ul></details>
+        <button class="btn select-lane" type="button" data-lane="Nature / Science" aria-pressed="false">Select Nature / Science</button>
+      </article>
+
+      <article class="lane-card tech" id="tech">
+        <span class="number">03</span>
+        <div class="card-head"><span class="mini-orb"></span><div><small>Red lane</small><h3>Tech</h3></div></div>
+        <p>For artificial intelligence, software, automation, digital infrastructure, engineering, and computational behaviour.</p>
+        <details><summary>Explore this lane</summary><ul><li>AI models, agents, and evaluations</li><li>Software architecture and code</li><li>Automation, robotics, and digital tools</li><li>Technical safety and failure testing</li><li>Engineered networks and complex systems</li></ul></details>
+        <button class="btn select-lane" type="button" data-lane="Tech" aria-pressed="false">Select Tech</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="depth-choice">
+  <div class="wrap">
+    <div class="kicker">Step 2 · Choose test depth</div>
+    <h2>How far should this run go?</h2>
+    <p class="lead">Light, Medium, and Heavy describe process depth. They do not rank the importance of an idea, and a Heavy test never guarantees a stronger conclusion.</p>
+
+    <div class="depth-grid">
+      <article class="depth-card light">
+        <span class="depth-icon">△</span><h3>Light Test</h3>
+        <p>A clean first pass for clarity, overlap, obvious failure points, and readiness for deeper work.</p>
+        <details><summary>What it includes</summary><ul><li>Public-record scan</li><li>Question and framework definition</li><li>Small scenario set</li><li>Ambiguity, null, and AI-addition notes</li></ul></details>
+        <button class="btn select-depth" type="button" data-depth="Light" aria-pressed="false">Select Light</button>
+      </article>
+
+      <article class="depth-card medium">
+        <span class="depth-icon">△△</span><h3>Medium Test</h3>
+        <p>A structured test with sources, controls, cross-checks, locked variables, and reusable result data.</p>
+        <details><summary>What it includes</summary><ul><li>Archive scan and geometry preflight</li><li>Locked variables and conditions</li><li>Baseline, null, and negative controls</li><li>Downloadable data when rights allow</li></ul></details>
+        <button class="btn select-depth" type="button" data-depth="Medium" aria-pressed="false">Select Medium</button>
+      </article>
+
+      <article class="depth-card heavy">
+        <span class="depth-icon">△△△</span><h3>Heavy Test</h3>
+        <p>A full research lane for preregistration, data lock, failure gates, robustness checks, and reproducibility.</p>
+        <details><summary>What it includes</summary><ul><li>Preregistered hypothesis and failure criteria</li><li>Frozen data and analysis choices</li><li>Robustness, sensitivity, and provenance checks</li><li>Code, data, checksums, and Record-P when cleared</li></ul></details>
+        <button class="btn select-depth" type="button" data-depth="Heavy" aria-pressed="false">Select Heavy</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="kicker">Step 3 · Run the challenge</div>
+    <h2>Simple on the surface. Expandable when needed.</h2>
+    <p class="lead">The participant runs the first pass. AI may help organize, question, and record the test, but it does not become the judge and it may not silently repair the framework.</p>
+    <div class="flow">
+      <article><span>1</span><strong>Bring the idea</strong><p>Framework, model, diagram, theory, system, or focused question.</p></article>
+      <article><span>2</span><strong>Start clean</strong><p>Use a fresh or temporary AI chat when separation from prior context matters.</p></article>
+      <article><span>3</span><strong>Scan the record</strong><p>Check the public record before treating the work as new.</p></article>
+      <article><span>4</span><strong>Lock the setup</strong><p>Define the lane, depth, variables, controls, and failure conditions.</p></article>
+      <article><span>5</span><strong>Run scenarios</strong><p>Test the framework against cases, prompts, files, or situations.</p></article>
+      <article><span>6</span><strong>Record honestly</strong><p>Keep success, ambiguity, nulls, failures, and AI-added meaning visible.</p></article>
+    </div>
+
+    <div class="info-card">
+      <h3>What the challenge is</h3>
+      <p>The Trigon Challenge is a participant-led pressure test. Your framework remains yours. The record separates original material, participant decisions, source material, and AI-added scaffolding.</p>
+      <div class="gold-box"><strong>AI can assist, but it does not judge. The participant runs the first pass.</strong></div>
+      <details><summary>What counts as a useful result?</summary><p>A useful result may reveal consistency, ambiguity, a weak spot, a better next version, a reason to rebuild, or a need for clearer definitions. Failure can be more informative than vague success.</p></details>
+      <details><summary>Privacy and separation</summary><p>Use a fresh chat, Temporary Chat, or Memory Off when the platform provides it. Do not upload private, sensitive, or unpublished material unless you understand the platform settings and release implications.</p></details>
+      <details><summary>Public guide paper</summary><p>Open public testing uses <strong>UBT for the World (v2)</strong>, DOI <code>10.5281/zenodo.19421797</code>.</p><a class="btn" href="https://zenodo.org/records/19421797">Open the public guide</a></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="prompt">
+  <div class="wrap">
+    <div class="kicker">Step 4 · Use the testing prompt</div>
+    <h2>Copy the setup into a fresh AI chat.</h2>
+    <p class="lead">Your selected lane and depth are added to the top. The original testing rules remain intact.</p>
+    <div class="prompt-layout">
+      <pre id="promptText">TRIGON TEST SETUP
+Lane: [SELECT A LANE]
+Depth: [SELECT A TEST DEPTH]
+
+You are helping me run a Trigon Challenge test.
 
 You are helping me organize the test, record results, flag ambiguity, and check consistency.
 
@@ -64,12 +207,6 @@ You are not the judge.
 You are not allowed to invent missing rules.
 You are not allowed to silently improve my framework.
 You are not allowed to hide failures.
-
-My testing lane is:
-[PASTE LIFE, NATURE / SCIENCE, OR TECH]
-
-My test depth is:
-[PASTE LIGHT, MEDIUM, OR HEAVY]
 
 My framework is:
 [PASTE FRAMEWORK NAME]
@@ -107,25 +244,82 @@ For each scenario, create a result row with:
 - failure or null notes
 - whether extra meaning had to be added
 
-Before we begin, restate the task neutrally and confirm that you will preserve ambiguity, failure, and uncertainty.</pre></div></div></section>
-<section class="section"><div class="wrap card"><h2>Submit results</h2><p>Include your framework name, selected lane, selected depth, public name preference, test question, scenarios, raw results, what stayed clear, what became fuzzy, what failed, and whether the result may be summarized publicly.</p><div class="btns"><a class="btn" href="links.html#book2">Submission options</a><a class="btn" href="trigon-ledger.html">Public Ledger</a><a class="btn" href="https://zenodo.org/records/19421797">Read the public guide</a><a class="btn" href="index.html">Home</a></div></div></section>
+Before we begin, restate the task neutrally and confirm that you will preserve ambiguity, failure, and uncertainty.</pre>
+      <aside class="prompt-side">
+        <div class="prompt-status"><strong>Current setup</strong><p id="promptSetup">Choose a lane and depth above. The prompt updates automatically.</p></div>
+        <button class="btn" id="copyPrompt" type="button">Copy prompt</button>
+        <a class="btn" href="#public-record">Scan the Public Record first</a>
+        <span id="copyStatus" aria-live="polite"></span>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="submit">
+  <div class="wrap submit-panel">
+    <div>
+      <div class="kicker">Step 5 · Review and submit</div>
+      <h2>Package the result without polishing away the signal.</h2>
+      <p class="lead">Include enough information for someone else to understand what was tested and where the limits are.</p>
+      <ul class="submit-list">
+        <li>Framework name and public name preference</li>
+        <li>Selected lane, depth, question, scenarios, and controls</li>
+        <li>Raw results, uncertainty, ambiguity, nulls, and failures</li>
+        <li>Sources, data files, permissions, and provenance</li>
+        <li>Permission level for public summary or archive release</li>
+      </ul>
+      <div class="actions left">
+        <a class="btn" href="links.html#book2">Submission options</a>
+        <a class="btn" href="#public-record">Public Record</a>
+        <a class="btn" href="https://zenodo.org/records/19421797">Read the guide</a>
+      </div>
+    </div>
+    <a class="submit-medallion" href="links.html#book2"><span>↑</span><strong>Submit</strong><small>review first</small></a>
+  </div>
+</section>
+
+<section class="section" id="public-record">
+  <div class="wrap">
+    <div class="kicker">Public Record Archive</div>
+    <h2>Scan what already exists.</h2>
+    <p class="lead">Search released Trigon records before beginning new work. The archive preserves summaries, source trails, methods, evidence, uncertainty, failures, and approved downloads without repeating the testing instructions above.</p>
+
+    <div class="archive-panel">
+      <div class="archive-intro">
+        <div><strong>Released public records</strong><p>Only material that passes source, privacy, provenance, claim-boundary, and permission review appears here.</p></div>
+        <span class="archive-status"><i></i><span id="archiveStatus">Loading public records…</span></span>
+      </div>
+
+      <div class="archive-toolbar" aria-label="Public record filters">
+        <label>Search<input id="recordSearch" type="search" placeholder="Title, ID, question, tag, or source" autocomplete="off"></label>
+        <label>Status<select id="statusFilter"><option value="">All statuses</option></select></label>
+        <label>Domain<select id="domainFilter"><option value="">All domains</option></select></label>
+        <label>Test depth<select id="depthFilter"><option value="">All depths</option><option value="light">Light</option><option value="medium">Medium</option><option value="heavy">Heavy</option></select></label>
+        <label>Sort<select id="sortFilter"><option value="updated-desc">Newest update</option><option value="updated-asc">Oldest update</option><option value="title-asc">Title A to Z</option><option value="depth-asc">Depth</option><option value="status-asc">Status</option></select></label>
+      </div>
+
+      <div class="archive-shell">
+        <div class="archive-head"><strong>Archive results</strong><span id="archiveCount">No released records</span></div>
+        <div class="records" id="recordList" aria-live="polite"></div>
+        <div class="archive-empty" id="archiveEmpty" hidden>
+          <span>△</span>
+          <h3>The archive is ready. No public records are released yet.</h3>
+          <p>Records appear only after public-release review. Until then, the empty archive honestly reflects the current state.</p>
+          <div class="actions"><a class="btn" href="#prompt">Open the testing prompt</a><a class="btn" href="#submit">Review submission requirements</a></div>
+        </div>
+      </div>
+
+      <div class="archive-trust"><strong>Truth boundary:</strong> exploratory, failed, null, ambiguous, blocked, and superseded records remain visibly labelled. A clean interface never upgrades the evidence.</div>
+    </div>
+  </div>
+</section>
 </main>
-<footer><div class="wrap">The Trigon Challenge is part of Michael Eric West's Universal Balance Theory open science testing path. Public tests use released public materials only. Names, results, and summaries are shared only with permission.<small class="luna-fineprint">© 2026 Michael Eric West. Co-authored with Luna-Prime OS. Page upkeep by Luna-Prime OS.</small></div></footer>
-<script src="site.js?v=20260718-trigon-gateway"></script>
-<script>
-(function(){
-  const title=document.getElementById('coreTitle');
-  const subtitle=document.getElementById('coreSubtitle');
-  const core=document.getElementById('coreButton');
-  const orbs=[...document.querySelectorAll('.lane-orb')];
-  const copyBtn=document.getElementById('copyPrompt');
-  const promptText=document.getElementById('promptText');
-  function show(orb){title.textContent=orb.dataset.title||'Choose';subtitle.textContent=orb.dataset.subtitle||'a testing lane'}
-  function reset(){title.textContent='Choose';subtitle.textContent='a testing lane'}
-  orbs.forEach(orb=>{orb.addEventListener('mouseenter',()=>show(orb));orb.addEventListener('focus',()=>show(orb));orb.addEventListener('mouseleave',reset);orb.addEventListener('blur',reset)});
-  if(core){core.addEventListener('click',()=>core.animate([{transform:'translate(-50%,-50%) scale(1)'},{transform:'translate(-50%,-50%) scale(1.07)'},{transform:'translate(-50%,-50%) scale(1)'}],{duration:850,easing:'cubic-bezier(.2,.8,.2,1)'}))}
-  if(copyBtn&&promptText){copyBtn.addEventListener('click',async()=>{const value=promptText.innerText||promptText.textContent||'';try{await navigator.clipboard.writeText(value);copyBtn.textContent='Copied';setTimeout(()=>copyBtn.textContent='Copy prompt',1400)}catch(error){copyBtn.textContent='Select prompt below';setTimeout(()=>copyBtn.textContent='Copy prompt',1800)}})}
-})();
-</script>
+
+<footer>
+  <div>Michael Eric West · Universal Balance Theory · The Trigon Challenge</div>
+  <small>Truth first. Love always. Question everything.</small>
+</footer>
+
+<script src="trigon/trigon-page.js?v=20260718-unified"></script>
 </body>
 </html>
