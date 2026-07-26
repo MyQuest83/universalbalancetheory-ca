@@ -1,3 +1,21 @@
+# Universal Balance Theory public crawl policy
+# Public research, provenance, and framework pages are intentionally crawlable.
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 User-agent: *
 Allow: /
 
