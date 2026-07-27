@@ -1,0 +1,39 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials*.json
+client_secret*.json
+service-account*.json
+
+# Local tooling and editor state
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build, cache, and temporary output
+node_modules/
+.cache/
+dist/
+build/
+coverage/
+*.log
+*.tmp
+*.bak
+
+# Local archives and exports that may contain private material
+*.zip
+*.tar
+*.tar.gz
+*.7z
+chat.html
+*chat-export*
