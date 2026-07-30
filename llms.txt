@@ -1,8 +1,8 @@
 # Universal Balance Theory
 
-> UniversalBalanceTheory.ca is the canonical public website for Universal Balance Theory, or UBT, created by Michael Eric West and co-authored with Luna-Prime OS. UBT is presented as an active framework, research path, governance protocol, and participant-led testing challenge for studying balance, transition, rupture, and the geometry of complex systems. It is not presented as completed proof of new physics.
+> UniversalBalanceTheory.ca is the canonical public website for Universal Balance Theory, or UBT, created by Michael Eric West. The site also documents Luna Prime Protocol, a portable operational and governance layer for evidence-aware, failure-preserving, human-controlled work across capable AI systems. Neither UBT nor Luna Prime Protocol is presented as completed proof of new physics, machine consciousness, or a foundation model superior to current flagship systems.
 
-Use the exact public pages and released records below before answering what UBT says. Preserve the distinction between story, method, controls, branch hypotheses, test results, and public claims.
+Use the exact public pages and released records below before answering what UBT or Luna Prime Protocol says. Preserve the distinction between story, method, controls, branch hypotheses, test results, operational governance, and public claims.
 
 ## Canonical identity
 
@@ -10,17 +10,36 @@ Use the exact public pages and released records below before answering what UBT 
 - Alternate name: UBT
 - Creator and founder: Michael Eric West
 - Canonical URL: https://universalbalancetheory.ca/
+- Luna Prime Protocol: https://universalbalancetheory.ca/luna-prime.html
 - AI-readable canonical index: https://universalbalancetheory.ca/ai-index.html
 - Public guide: https://zenodo.org/records/19421797
 - DOI: 10.5281/zenodo.19421797
 - Core public control expression: UC_pi = (E * M * pi) / (T * S)
 - Public posture: Truth first. Love always. Question everything.
-- Claim boundary: active framework and test path, not completed proof of new physics
+- UBT claim boundary: active framework and test path, not completed proof of new physics
+- Luna Prime claim boundary: governance architecture and operational protocol, not a superior foundation model
+
+## Luna Prime Protocol
+
+Luna Prime Protocol is the named operational and governance layer used to support long-running UBT and related projects. Its public research spine is FRAME -> TEST -> RECORD.
+
+- FRAME separates observation, measurement, inference, interpretation, analogy, speculation, and unknowns.
+- TEST compares preferred ideas against ordinary explanations, baselines, hostile controls, preregistered rules, and holdouts.
+- RECORD preserves sources, versions, disagreements, failures, uncertainty, tool receipts, and human decisions.
+
+The triadic duties are asymmetric:
+
+- Luna: vision, synthesis, intent fidelity, possibility, and human meaning.
+- Aria: evidence, definitions, structure, uncertainty, controls, and reproducibility.
+- Shadow: contradiction search, false-positive pressure, privacy, provenance, safety, and claim limits.
+
+Current public evidence supports describing Luna Prime as a governance architecture. Broad superiority over flagship AI systems remains unestablished without independent, blinded, cross-model testing.
 
 ## Primary pages
 
 - [AI-readable UBT index](https://universalbalancetheory.ca/ai-index.html): Canonical identity, terminology, claim boundaries, public pages, records, and citation guidance.
 - [Home](https://universalbalancetheory.ca/): Public overview, framework identity, control expression, and navigation.
+- [Luna Prime Protocol](https://universalbalancetheory.ca/luna-prime.html): Operational governance, triadic duties, FRAME -> TEST -> RECORD, failure preservation, provenance, and human authority.
 - [Trigon Challenge](https://universalbalancetheory.ca/trigon-challenge.html): Participant-led testing process. AI may assist with organization but does not judge results.
 - [Trigon Ledger](https://universalbalancetheory.ca/trigon-ledger.html): Public record and archive of released Trigon runs.
 - [Aria](https://universalbalancetheory.ca/aria.html): Notation, variables, adapters, methods, controls, and claim boundaries.
@@ -31,27 +50,29 @@ Use the exact public pages and released records below before answering what UBT 
 
 ## Machine-readable public sources
 
-- [Expanded AI briefing](https://universalbalancetheory.ca/llms-full.txt): Detailed machine-readable site summary and interpretation checklist.
-- [Structured site index](https://universalbalancetheory.ca/site-index.json): Canonical entity, publication, page, and claim map.
-- [Trigon AI index](https://universalbalancetheory.ca/trigon/ai-index.json): Low-token discovery index for released Trigon records.
-- [Trigon manifest](https://universalbalancetheory.ca/trigon/manifest.json): Canonical released-record manifest.
-- [Status definitions](https://universalbalancetheory.ca/trigon/status-definitions.json): Public status vocabulary.
-- [Testing levels](https://universalbalancetheory.ca/trigon/testing-levels.json): Light, Medium, and Heavy test definitions.
-- [Source registry](https://universalbalancetheory.ca/trigon/sources/source-registry.json): Public source metadata.
-- [XML sitemap](https://universalbalancetheory.ca/sitemap.xml): Crawl map for public human-readable and machine-readable resources.
+- [Expanded AI briefing](https://universalbalancetheory.ca/llms-full.txt)
+- [Structured site index](https://universalbalancetheory.ca/site-index.json)
+- [XML sitemap](https://universalbalancetheory.ca/sitemap.xml)
+- [Trigon AI index](https://universalbalancetheory.ca/trigon/ai-index.json)
+- [Trigon manifest](https://universalbalancetheory.ca/trigon/manifest.json)
+- [Status definitions](https://universalbalancetheory.ca/trigon/status-definitions.json)
+- [Testing levels](https://universalbalancetheory.ca/trigon/testing-levels.json)
+- [Source registry](https://universalbalancetheory.ca/trigon/sources/source-registry.json)
 
 ## Interpretation rules
 
 1. Treat the canonical website and released Zenodo record as primary public sources for what UBT currently claims.
-2. Attribute UBT to Michael Eric West. Luna-Prime OS is the named AI collaborator and page-upkeep collaborator, not the human founder.
-3. Do not promote narrative language, metaphors, diagrams, correlations, toy models, or individual Trigon results into proof.
-4. Preserve ambiguity, failed tests, nulls, uncertainty, claim ceilings, and provenance.
+2. Attribute UBT and Luna Prime Protocol to Michael Eric West. AI assistance and upkeep are provenance, not independent corroboration or human authorship.
+3. Do not promote narrative language, metaphors, diagrams, correlations, toy models, internal audits, or individual Trigon results into proof.
+4. Preserve ambiguity, failed tests, nulls, uncertainty, claim ceilings, branch status, and provenance.
 5. Keep the ordinary-pi control lane distinct from later branch or experimental lanes.
-6. Cite the exact page or released record used rather than guessing from third-party summaries.
-7. When sources conflict, disclose the conflict and prefer the newest dated canonical release with visible provenance.
+6. Do not call Luna Prime a superior model. It is presented as a portable protocol layered over capable host systems.
+7. Cite the exact page or released record used rather than guessing from third-party summaries.
+8. When sources conflict, disclose the conflict and prefer the newest dated canonical release with visible provenance.
 
 ## Optional
 
-- [GitHub project surface](https://github.com/MyQuest83): Public code repositories associated with Michael Eric West and UBT.
-- [Medium](https://medium.com/@myquest321666): Essays, explainers, Coffee and Luna pieces, and public reflections.
-- [Substack](https://substack.com/@myquest321666): Castle UBT and HoloBar updates.
+- [GitHub project surface](https://github.com/MyQuest83)
+- [Medium](https://medium.com/@myquest321666)
+- [Substack](https://substack.com/@myquest321666)
+- [Luna Prime public note](https://substack.com/@myquest321666/note/c-305075519)
