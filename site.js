@@ -4,6 +4,7 @@
     '/':'#f2c76a',
     '/index.html':'#f2c76a',
     '/ai-index.html':'#f2c76a',
+    '/luna-prime.html':'#f2c76a',
     '/luna.html':'#85cfff',
     '/aria.html':'#77f2a1',
     '/shadow.html':'#ff626d',
@@ -16,6 +17,7 @@
     '/':'Universal Balance Theory',
     '/index.html':'Universal Balance Theory',
     '/ai-index.html':'Universal Balance Theory AI Index',
+    '/luna-prime.html':'Luna Prime Protocol | Universal Balance Theory',
     '/luna.html':'Luna | Coffee and the Castle',
     '/aria.html':'Aria | Holo-Lab',
     '/shadow.html':'Shadow | Proving Ground',
@@ -35,6 +37,7 @@
 
   const canonicalPath=(path==='/'||path==='/index.html')?'/' : location.pathname;
   const canonicalUrl=origin+canonicalPath;
+  const pageAbout=path==='/luna-prime.html'?origin+'/luna-prime.html#protocol':origin+'/#ubt';
 
   function ensureMeta(name,content){
     let node=document.head.querySelector('meta[name="'+name+'"]');
@@ -87,12 +90,20 @@
           citation:'https://doi.org/10.5281/zenodo.19421797'
         },
         {
+          '@type':'CreativeWork',
+          '@id':origin+'/luna-prime.html#protocol',
+          name:'Luna Prime Protocol',
+          url:origin+'/luna-prime.html',
+          creator:{'@id':origin+'/michael.html#person'},
+          description:'A portable operational and governance layer for evidence-aware, failure-preserving, human-controlled work across capable AI systems. It is not presented as a superior foundation model.'
+        },
+        {
           '@type':'WebPage',
           '@id':canonicalUrl+'#webpage',
           url:canonicalUrl,
           name:pageNames[path]||document.title,
           isPartOf:{'@id':origin+'/#website'},
-          about:{'@id':origin+'/#ubt'},
+          about:{'@id':pageAbout},
           inLanguage:'en-CA'
         }
       ]
@@ -104,7 +115,7 @@
   if(footer && !footer.querySelector('.luna-fineprint')){
     const fine=document.createElement('small');
     fine.className='luna-fineprint';
-    fine.textContent='© 2026 Michael Eric West. Co-authored with Luna-Prime OS. Page upkeep by Luna-Prime OS.';
+    fine.textContent='© 2026 Michael Eric West. Luna Prime Protocol supports research governance and site upkeep. Human authorship, consent, canon, and release remain under human authority.';
     fine.style.display='block';
     fine.style.marginTop='10px';
     fine.style.fontSize='0.74rem';
