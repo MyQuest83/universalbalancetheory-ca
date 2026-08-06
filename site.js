@@ -54,6 +54,7 @@
   ensureLink('alternate',origin+'/llms.txt','text/plain','Concise AI site map');
   ensureLink('alternate',origin+'/llms-full.txt','text/plain','Expanded AI context');
   ensureLink('alternate',origin+'/site-index.json','application/json','Structured UBT public index');
+  ensureLink('stylesheet',origin+'/mobile-review.css?v=20260806');
 
   if(!document.head.querySelector('script[data-ubt-global-schema]')){
     const graph=[
