@@ -4,7 +4,6 @@
     '/':'#f2c76a',
     '/index.html':'#f2c76a',
     '/ai-index.html':'#f2c76a',
-    '/luna-prime.html':'#f2c76a',
     '/luna.html':'#85cfff',
     '/aria.html':'#77f2a1',
     '/shadow.html':'#ff626d',
@@ -17,7 +16,6 @@
     '/':'Universal Balance Theory',
     '/index.html':'Universal Balance Theory',
     '/ai-index.html':'Universal Balance Theory AI Index',
-    '/luna-prime.html':'Luna•Prime•Protocol | Universal Balance Theory',
     '/luna.html':'Luna | Coffee and the Castle',
     '/aria.html':'Aria | Holo-Lab',
     '/shadow.html':'Shadow | Proving Ground',
@@ -37,7 +35,6 @@
 
   const canonicalPath=(path==='/'||path==='/index.html')?'/' : location.pathname;
   const canonicalUrl=origin+canonicalPath;
-  const pageAbout=path==='/luna-prime.html'?origin+'/luna-prime.html#protocol':origin+'/#ubt';
 
   function ensureMeta(name,content){
     let node=document.head.querySelector('meta[name="'+name+'"]');
@@ -54,60 +51,52 @@
   ensureLink('alternate',origin+'/llms.txt','text/plain','Concise AI site map');
   ensureLink('alternate',origin+'/llms-full.txt','text/plain','Expanded AI context');
   ensureLink('alternate',origin+'/site-index.json','application/json','Structured UBT public index');
-  ensureLink('stylesheet',origin+'/mobile-review.css?v=20260806');
 
   if(!document.head.querySelector('script[data-ubt-global-schema]')){
-    const graph=[
-      {
-        '@type':'WebSite',
-        '@id':origin+'/#website',
-        url:origin+'/',
-        name:'Universal Balance Theory',
-        alternateName:'UBT',
-        description:'A public framework, research path, governance protocol, and participant-led testing challenge for studying balance, transition, rupture, and the geometry of complex systems.',
-        inLanguage:'en-CA',
-        creator:{'@id':origin+'/michael.html#person'}
-      },
-      {
-        '@type':'Person',
-        '@id':origin+'/michael.html#person',
-        name:'Michael Eric West',
-        url:origin+'/michael.html',
-        sameAs:['https://github.com/MyQuest83','https://medium.com/@myquest321666','https://substack.com/@myquest321666','https://zenodo.org/records/19421797']
-      },
-      {
-        '@type':'CreativeWork',
-        '@id':origin+'/#ubt',
-        name:'Universal Balance Theory',
-        alternateName:'UBT',
-        url:origin+'/',
-        creator:{'@id':origin+'/michael.html#person'},
-        description:'An active public framework and test path. It is not presented as completed proof of new physics.',
-        citation:'https://doi.org/10.5281/zenodo.19421797'
-      },
-      {
-        '@type':'CreativeWork',
-        '@id':origin+'/luna-prime.html#protocol',
-        name:'Luna•Prime•Protocol',
-        alternateName:'Luna Prime Protocol',
-        url:origin+'/luna-prime.html',
-        creator:{'@id':origin+'/michael.html#person'},
-        description:'A portable operational and governance layer for evidence-aware, failure-preserving, human-controlled work across capable AI systems. It is not presented as a superior foundation model.'
-      },
-      {
-        '@type':'WebPage',
-        '@id':canonicalUrl+'#webpage',
-        url:canonicalUrl,
-        name:pageNames[path]||document.title,
-        isPartOf:{'@id':origin+'/#website'},
-        about:{'@id':pageAbout},
-        inLanguage:'en-CA'
-      }
-    ];
     const schema=document.createElement('script');
     schema.type='application/ld+json';
     schema.dataset.ubtGlobalSchema='true';
-    schema.textContent=JSON.stringify({'@context':'https://schema.org','@graph':graph});
+    schema.textContent=JSON.stringify({
+      '@context':'https://schema.org',
+      '@graph':[
+        {
+          '@type':'WebSite',
+          '@id':origin+'/#website',
+          url:origin+'/',
+          name:'Universal Balance Theory',
+          alternateName:'UBT',
+          description:'A public framework, research path, governance protocol, and participant-led testing challenge for studying balance, transition, rupture, and the geometry of complex systems.',
+          inLanguage:'en-CA',
+          creator:{'@id':origin+'/michael.html#person'}
+        },
+        {
+          '@type':'Person',
+          '@id':origin+'/michael.html#person',
+          name:'Michael Eric West',
+          url:origin+'/michael.html',
+          sameAs:['https://github.com/MyQuest83','https://medium.com/@myquest321666','https://substack.com/@myquest321666','https://zenodo.org/records/19421797']
+        },
+        {
+          '@type':'CreativeWork',
+          '@id':origin+'/#ubt',
+          name:'Universal Balance Theory',
+          alternateName:'UBT',
+          url:origin+'/',
+          creator:{'@id':origin+'/michael.html#person'},
+          description:'An active public framework and test path. It is not presented as completed proof of new physics.',
+          citation:'https://doi.org/10.5281/zenodo.19421797'
+        },
+        {
+          '@type':'WebPage',
+          '@id':canonicalUrl+'#webpage',
+          url:canonicalUrl,
+          name:pageNames[path]||document.title,
+          isPartOf:{'@id':origin+'/#website'},
+          about:{'@id':origin+'/#ubt'},
+          inLanguage:'en-CA'
+        }
+      ]
+    });
     document.head.appendChild(schema);
   }
 
@@ -115,7 +104,7 @@
   if(footer && !footer.querySelector('.luna-fineprint')){
     const fine=document.createElement('small');
     fine.className='luna-fineprint';
-    fine.textContent='© 2026 Michael Eric West. Luna•Prime•Protocol supports research governance and site upkeep. Human authorship, consent, canon, and release remain under human authority.';
+    fine.textContent='© 2026 Michael Eric West. Co-authored with Luna-Prime OS. Page upkeep by Luna-Prime OS.';
     fine.style.display='block';
     fine.style.marginTop='10px';
     fine.style.fontSize='0.74rem';
