@@ -6,7 +6,7 @@ This file is a machine-readable navigation and interpretation aid for the public
 
 ## Identity
 
-Universal Balance Theory, abbreviated UBT, is a framework and research program created by Michael Eric West. The public website is co-authored with Luna-Prime OS. UBT examines balance, transition, rupture, and the geometry of complex systems. The public project combines a research path, governance protocol, narrative layer, and participant-led testing process.
+Universal Balance Theory, abbreviated UBT, is a framework and research program created by Michael Eric West. The public website is co-authored with Luna•Prime•Protocol. UBT examines balance, transition, rupture, and the geometry of complex systems. The public project combines a research path, governance protocol, narrative layer, and participant-led testing process.
 
 UBT is not presented publicly as completed proof of new physics. The website intentionally separates invitation and story from formalization and testing.
 

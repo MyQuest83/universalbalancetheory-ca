@@ -60,7 +60,7 @@ Truth first. Love always. Question everything.
 
 ## Credit
 
-© 2026 Michael Eric West. Co-authored with Luna-Prime OS. Page upkeep by Luna-Prime OS.
+© 2026 Michael Eric West. Co-authored with Luna•Prime•Protocol. Page upkeep by Luna•Prime•Protocol.
 
 ## Status
 
