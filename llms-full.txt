@@ -53,8 +53,8 @@ Possible outcomes include consistency, ambiguity, a weak spot, a revision need, 
 
 ## Trigon public records
 
-The Trigon Ledger is the human-readable public archive:
-https://universalbalancetheory.ca/trigon-ledger.html
+The human-readable public record is inside the canonical Trigon Challenge page:
+https://universalbalancetheory.ca/trigon-challenge.html#public-record
 
 Machine-readable Trigon resources:
 
@@ -80,9 +80,9 @@ Trigon Challenge:
 https://universalbalancetheory.ca/trigon-challenge.html
 Participant-led testing instructions and public guide link.
 
-Trigon Ledger:
-https://universalbalancetheory.ca/trigon-ledger.html
-Released public records and archive.
+Trigon public record:
+https://universalbalancetheory.ca/trigon-challenge.html#public-record
+Released public records and archive inside the canonical Challenge page.
 
 Aria:
 https://universalbalancetheory.ca/aria.html
