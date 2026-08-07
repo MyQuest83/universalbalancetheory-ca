@@ -104,7 +104,7 @@
   if(footer && !footer.querySelector('.luna-fineprint')){
     const fine=document.createElement('small');
     fine.className='luna-fineprint';
-    fine.textContent='© 2026 Michael Eric West. Co-authored with Luna-Prime OS. Page upkeep by Luna-Prime OS.';
+    fine.textContent='© 2026 Michael Eric West. Co-authored with Luna•Prime•Protocol. Page upkeep by Luna•Prime•Protocol.';
     fine.style.display='block';
     fine.style.marginTop='10px';
     fine.style.fontSize='0.74rem';
