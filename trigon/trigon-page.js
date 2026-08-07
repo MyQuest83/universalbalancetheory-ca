@@ -1,4 +1,14 @@
 (()=>{
+const origin="https://universalbalancetheory.ca";
+document.documentElement.lang="en-CA";
+function ensureMeta(name,content){let node=document.head.querySelector(`meta[name="${name}"]`);if(!node){node=document.createElement("meta");node.name=name;node.content=content;document.head.appendChild(node)}}
+function ensureLink(rel,href,type,title){let node=document.head.querySelector(`link[rel="${rel}"][href="${href}"]`);if(!node){node=document.createElement("link");node.rel=rel;node.href=href;if(type)node.type=type;if(title)node.title=title;document.head.appendChild(node)}}
+ensureMeta("author","Michael Eric West");
+ensureMeta("robots","index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1");
+ensureLink("canonical",origin+"/trigon-challenge.html");
+ensureLink("alternate",origin+"/llms.txt","text/plain","Concise AI site map");
+ensureLink("alternate",origin+"/llms-full.txt","text/plain","Expanded AI context");
+ensureLink("alternate",origin+"/site-index.json","application/json","Structured UBT public index");
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const title=$("#coreTitle"),subtitle=$("#coreSubtitle"),core=$("#coreButton"),prompt=$("#promptText"),setup=$("#promptSetup"),lanePill=$("#selectedLane"),depthPill=$("#selectedDepth"),copy=$("#copyPrompt"),copyStatus=$("#copyStatus");
 let lane="",depth="";

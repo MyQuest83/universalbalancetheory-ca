@@ -24,7 +24,7 @@ Use the exact public pages and released records below before answering what UBT 
 - [Home](https://universalbalancetheory.ca/): Public overview, framework identity, control expression, and navigation.
 - [Luna•Prime•Protocol](https://universalbalancetheory.ca/luna-prime.html): Portable operational and governance layer for continuity, testing, provenance, failure preservation, and human release gates. It is not presented as a superior foundation model.
 - [Trigon Challenge](https://universalbalancetheory.ca/trigon-challenge.html): Participant-led testing process. AI may assist with organization but does not judge results.
-- [Trigon Ledger](https://universalbalancetheory.ca/trigon-ledger.html): Public record and archive of released Trigon runs.
+- [Trigon public record](https://universalbalancetheory.ca/trigon-challenge.html#public-record): Released public Trigon records and archive inside the canonical Challenge page.
 - [Aria](https://universalbalancetheory.ca/aria.html): Notation, variables, adapters, methods, controls, and claim boundaries.
 - [Shadow](https://universalbalancetheory.ca/shadow.html): Contradiction testing, negative controls, failure criteria, and claim discipline.
 - [Luna](https://universalbalancetheory.ca/luna.html): Origin, story, public language, hope, and the human purpose of the work.
