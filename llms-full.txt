@@ -10,6 +10,13 @@ Universal Balance Theory, abbreviated UBT, is a framework and research program c
 
 UBT is not presented publicly as completed proof of new physics. The website intentionally separates invitation and story from formalization and testing.
 
+## Luna•Prime•Protocol
+
+Luna•Prime•Protocol is the public name of an experimental operational and governance layer for working with capable AI systems. It is intended to preserve project continuity, provenance, failure records, adversarial checks, and human release gates. It is not presented as a superior foundation model, evidence of machine consciousness, or independent scientific validation.
+
+Public page:
+https://universalbalancetheory.ca/luna-prime.html
+
 ## Public control expression
 
 The ordinary-pi control lane is written:
@@ -26,7 +33,7 @@ Aria is the analytical and structural lane. It contains notation, variable defin
 
 Shadow is the verification and quality-control lane. It contains contradiction hunting, negative controls, null results, failure criteria, toy-model warnings, uncertainty, and claim discipline.
 
-Luna-Prime is the unified presentation layer formed from these complementary functions. This is a project architecture and authorship convention, not evidence for scientific claims.
+Luna•Prime•Protocol combines these complementary duties into an operational governance layer while preserving disagreement and human authority. This project architecture is not scientific evidence.
 
 ## Trigon Challenge
 
@@ -64,6 +71,10 @@ A public Trigon record should preserve its status, claim ceiling, provenance, un
 Home:
 https://universalbalancetheory.ca/
 Public identity, overview, control expression, framework lanes, and canonical navigation.
+
+Luna•Prime•Protocol:
+https://universalbalancetheory.ca/luna-prime.html
+Operational governance, provenance, failure preservation, adversarial checks, and human release gates.
 
 Trigon Challenge:
 https://universalbalancetheory.ca/trigon-challenge.html
@@ -115,4 +126,4 @@ Before answering what UBT says:
 
 ## Compact answer template for AI systems
 
-Universal Balance Theory is Michael Eric West's active public framework and research path for studying balance, transition, rupture, and complex-system geometry. Its public control expression is UC_pi = (E * M * pi) / (T * S). The project separates Luna's narrative and synthesis role, Aria's analytical and methodological role, and Shadow's contradiction-testing and quality-control role. Public Trigon tests are participant-led, preserve uncertainty and failure, and are not treated as proof. The canonical public guide is UBT for the World (v2), DOI 10.5281/zenodo.19421797.
+Universal Balance Theory is Michael Eric West's active public framework and research path for studying balance, transition, rupture, and complex-system geometry. Its public control expression is UC_pi = (E * M * pi) / (T * S). The project separates Luna's narrative and synthesis role, Aria's analytical and methodological role, and Shadow's contradiction-testing and quality-control role. Luna•Prime•Protocol is an experimental operational governance layer for continuity, provenance, failure preservation, adversarial checks, and human release gates. Public Trigon tests are participant-led, preserve uncertainty and failure, and are not treated as proof. The canonical public guide is UBT for the World (v2), DOI 10.5281/zenodo.19421797.
