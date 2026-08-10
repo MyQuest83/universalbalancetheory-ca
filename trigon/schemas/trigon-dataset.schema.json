@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://universalbalancetheory.ca/trigon/schemas/trigon-dataset.schema.json",
+  "title": "Trigon Dataset Candidate",
+  "description": "Public metadata for a dataset candidate that may be prepared for a future Trigon Challenge. Candidate inclusion is not a validation claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "candidate_id",
+    "title",
+    "readiness",
+    "public_listing",
+    "domain",
+    "source",
+    "provenance",
+    "access",
+    "formats",
+    "features",
+    "preparation",
+    "trigon_test_card",
+    "risk_flags",
+    "tags",
+    "created_at",
+    "updated_at",
+    "version"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^TRIGON-DATA-[0-9]{4,}$"
+    },
+    "title": {"type": "string", "minLength": 1},
+    "readiness": {
+      "enum": ["READY", "NEEDS_PREP", "BLOCKED", "DUPLICATE", "ARCHIVED"]
+    },
+    "public_listing": {"const": true},
+    "domain": {"type": "string", "minLength": 1},
+    "summary": {"type": ["string", "null"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "source_type", "landing_page", "canonical_identifier"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "source_type": {
+          "enum": ["dataset", "catalog", "paper_supplement", "simulation", "benchmark", "repository", "analysis_bundle", "other"]
+        },
+        "landing_page": {"type": "string", "pattern": "^https?://"},
+        "canonical_identifier": {"type": ["string", "null"]},
+        "release_date": {"type": ["string", "null"], "format": "date"},
+        "dataset_version": {"type": ["string", "null"]}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["discovered_at", "discovered_via", "scout_run_date"],
+      "properties": {
+        "discovered_at": {"type": "string", "format": "date-time"},
+        "discovered_via": {"type": "string", "minLength": 1},
+        "scout_run_date": {"type": "string", "format": "date"},
+        "source_snapshot_note": {"type": ["string", "null"]}
+      }
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["access_status", "license_status", "ingestion_ready", "mirror_allowed", "download_mode", "direct_urls"],
+      "properties": {
+        "access_status": {"enum": ["public", "restricted", "unknown"]},
+        "license_status": {"enum": ["cleared", "pending", "restricted", "unknown"]},
+        "license_name": {"type": ["string", "null"]},
+        "license_url": {"type": ["string", "null"], "pattern": "^(https?://.*)?$"},
+        "reuse_notes": {"type": ["string", "null"]},
+        "ingestion_ready": {"type": "boolean"},
+        "mirror_allowed": {"type": "boolean"},
+        "download_mode": {"enum": ["external_source", "mirrored_file", "metadata_only"]},
+        "direct_urls": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^https?://"},
+          "uniqueItems": true
+        },
+        "estimated_download_size": {"type": ["string", "null"]},
+        "checksum_status": {"enum": ["pending", "verified", "not_applicable"]}
+      }
+    },
+    "formats": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "role": {"enum": ["input", "target", "control", "metadata", "derived"]},
+          "units": {"type": ["string", "null"]},
+          "normalization": {"type": ["string", "null"]},
+          "notes": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "preparation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preprocessing_steps", "normalization_plan", "estimated_effort", "blockers"],
+      "properties": {
+        "preprocessing_steps": {"type": "array", "items": {"type": "string"}},
+        "normalization_plan": {"type": ["string", "null"]},
+        "estimated_effort": {"enum": ["light", "medium", "heavy"]},
+        "blockers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "trigon_test_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question",
+        "null_models",
+        "controls",
+        "primary_metric",
+        "claim_ceiling",
+        "failure_criteria",
+        "suggested_test_depth"
+      ],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "null_models": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "controls": {"type": "array", "items": {"type": "string"}},
+        "primary_metric": {"type": "string", "minLength": 1},
+        "claim_ceiling": {"type": "string", "minLength": 1},
+        "failure_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "suggested_test_depth": {"enum": ["light", "medium", "heavy"]},
+        "ubt_lane_notes": {"type": ["string", "null"]},
+        "ordinary_pi_control_required": {"type": "boolean"}
+      }
+    },
+    "favorite_run": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["run_date", "status", "record_id", "notes"],
+      "properties": {
+        "run_date": {"type": "string", "format": "date"},
+        "status": {"enum": ["PASS", "FAIL", "NULL", "AMBIGUOUS", "MORE_TESTING", "NOT_RUN"]},
+        "record_id": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "duplicate_of": {"type": ["string", "null"], "pattern": "^(TRIGON-DATA-[0-9]{4,})?$"},
+    "related_record_ids": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "recommended_next_step": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "version": {"type": "string", "minLength": 1}
+  }
+}
