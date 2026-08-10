@@ -13,7 +13,7 @@
     "provenance_review": "passed",
     "source_review": "passed",
     "claim_review": "passed",
-    "approved_at": "2026-08-10T08:58:00-04:00"
+    "approved_at": "2026-08-10T08:51:00-04:00"
   },
   "question": "Can the Interpretive Risk Protocol consistently distinguish its framework parts across different domains without adding unsupported meaning?",
   "hypothesis": "A minimal IRP vocabulary may help separate observation, inference, interpretation, analogy, speculation, confidence, ambiguity, and interpretive drift, but reproducibility should fail or become ambiguous if operational definitions and decision rules are required but absent.",
@@ -81,8 +81,8 @@
   "evidence_summary": "Participant submission and follow-up email preserve the test question, test condition, three scenario summaries, run date, model used, raw-output attachment list, caveats, attribution note, and explicit permission for a public summary with caveats. The full 23-page test thread contains the exact initial prompt, three result rows, and three self-audits. Source documents are referenced by title only here and are not redistributed.",
   "downloads": [],
   "recommended_next_step": "Run a preregistered second condition using an operationalized IRP with explicit definitions, boundary rules, activation criteria, confidence calibration, and a drift standard, then compare inter-run consistency and model-added scaffolding against this minimal baseline.",
-  "created_at": "2026-06-30T00:00:00-04:00",
-  "updated_at": "2026-08-10T08:58:00-04:00",
+  "created_at": "2026-07-01T04:45:54Z",
+  "updated_at": "2026-08-10T08:51:00-04:00",
   "version": "1.0.0-public-draft",
   "supersedes": null,
   "superseded_by": null
