@@ -1,0 +1,9 @@
+{
+  "series_id": "trigon-rnd",
+  "title": "UBT / Luna•Prime R&D Trigon Runs",
+  "description": "Project-originated Trigon experiments, replications, null tests, dataset trials, method development, and exploratory R&D conducted within the UBT/Luna•Prime research workflow.",
+  "public_id_rule": "Assign project-originated run IDs separately from Community Trigon Runs so internal R&D can never be mistaken for independent outside validation.",
+  "separation_rule": "Keep contributor-submitted Community Trigon Runs in trigon/community. Keep UBT/Luna•Prime-originated experiments in this R&D lane. Cross-links are allowed, provenance merging is not.",
+  "runs": [],
+  "updated_at": "2026-08-10T08:51:00-04:00"
+}
