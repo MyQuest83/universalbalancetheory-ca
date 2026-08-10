@@ -1,0 +1,114 @@
+{
+  "draft_id": "TRIGON-0001",
+  "title": "GANSI Structural Classification Consistency Test",
+  "status": "DRAFT_PREFLIGHT",
+  "public_release": false,
+  "claim_ceiling": "Methodological consistency test of the submitted GANSI framework only. This draft does not establish validation of GANSI, UBT, or any broader theory.",
+  "participant": {
+    "name": "Dallas Dinning",
+    "initial_submission_date": "2026-06-28",
+    "expanded_prompt_date": "2026-07-14"
+  },
+  "provenance": {
+    "source_type": "participant email submission",
+    "source_scope": "Framework description, test question, scenarios, and participant-supplied anti-bias rules",
+    "private_context_excluded": true,
+    "results_received": false
+  },
+  "framework": {
+    "name": "GANSI",
+    "profile_form": "GANSI(g, a, n, s, i)",
+    "normalization_rule": "g + a + n + s + i = 1.00",
+    "domains": {
+      "G": ["Gestalt", "Whole-field", "Pattern", "Integration"],
+      "A": ["Associative", "Lateral link", "Connection", "Metaphor"],
+      "N": ["Non-Visual", "Abstract", "Structural", "Relational"],
+      "S": ["Sequential", "Analytical", "Stepwise", "Logical"],
+      "I": ["Imaginal", "Simulation", "Visualization", "Modeling"]
+    },
+    "central_region": {
+      "symbol": "C",
+      "name": "Chamber",
+      "description": "Common core or convergence region",
+      "included_as_sixth_profile_value": false
+    },
+    "adjacency_order": ["G", "A", "N", "S", "I", "G"]
+  },
+  "test_question": "Can GANSI consistently identify which cognitive domains are active, how they overlap or interact, and whether the Chamber is relevant across a varied set of cognitive scenarios without requiring meanings or rules that are not already defined?",
+  "scenarios": [
+    {"id": "S01", "title": "Stepwise calculation", "text": "A person solves a long arithmetic problem by following a fixed sequence of operations, checking each step before continuing."},
+    {"id": "S02", "title": "Visual simulation", "text": "A person mentally rotates a three-dimensional object to determine whether it will fit through an opening."},
+    {"id": "S03", "title": "Metaphorical connection", "text": "A person explains an unfamiliar scientific idea by comparing it to a river changing course around obstacles."},
+    {"id": "S04", "title": "Whole-pattern recognition", "text": "A person looks at a large and complicated dataset and suddenly recognizes an overall pattern before being able to explain the individual steps."},
+    {"id": "S05", "title": "Abstract structural reasoning", "text": "A person compares two formal systems and notices that they share the same underlying relational structure even though their surface details are different."},
+    {"id": "S06", "title": "Planned visual sequence", "text": "A person mentally rehearses the steps of assembling a machine, visualizing each part being added in the correct order."},
+    {"id": "S07", "title": "Cross-domain synthesis", "text": "A person combines a visual model, a metaphor, a logical sequence, and an abstract relationship into one coherent explanation."},
+    {"id": "S08", "title": "Rapid cognitive shift", "text": "A person begins by following a logical procedure, notices an unexpected pattern, forms a new association, and then mentally simulates a revised solution."},
+    {"id": "S09", "title": "Ambiguous creative insight", "text": "A person reports that an answer 'just appeared' fully formed but cannot say whether it came from visualization, pattern recognition, association, or abstract reasoning."},
+    {"id": "S10", "title": "Repetition without evident integration", "text": "A person repeats a memorized phrase accurately without analyzing it, visualizing it, connecting it to other ideas, or understanding its overall meaning."},
+    {"id": "S11", "title": "Non-adjacent combination", "text": "A person uses strict sequential logic and broad whole-field pattern recognition together, but no associative, abstract, or imaginal process is clearly described."},
+    {"id": "S12", "title": "Failed integration", "text": "A person generates several useful associations, abstract relations, visual models, and logical steps, but cannot combine them into one coherent conclusion."}
+  ],
+  "participant_rules": [
+    "Do not rename framework parts unless asked.",
+    "Do not invent meanings for unnamed parts.",
+    "Do not treat ambiguity as success.",
+    "Do not hide failures.",
+    "Do not claim this proves the framework.",
+    "Do not claim this proves UBT.",
+    "Record uncertainty honestly.",
+    "Ask only necessary clarifying questions."
+  ],
+  "required_result_fields": [
+    "scenario_id",
+    "scenario_summary",
+    "activated_framework_parts",
+    "overlap_or_interaction",
+    "central_or_integrating_region_activation_if_relevant",
+    "confidence_0_to_100",
+    "ambiguity_notes",
+    "failure_or_null_notes",
+    "whether_extra_meaning_had_to_be_added"
+  ],
+  "trigon_preflight": {
+    "primary_endpoint": "Cross-run consistency of qualitative domain activation and ambiguity/failure flags under the unchanged submitted framework and scenarios.",
+    "secondary_endpoints": [
+      "Consistency of overlap/interactions",
+      "Whether Chamber relevance can be determined without adding rules",
+      "Frequency of scenarios requiring extra meaning or operational rules",
+      "Stability across scenario-order perturbation and independent model runs"
+    ],
+    "controls": [
+      "Prompt lock: preserve participant framework definitions and scenario wording in the primary run.",
+      "No silent repair: any missing rule must be logged as ambiguity or failure rather than filled in.",
+      "Repeatability control: run the unchanged primary prompt multiple independent times and compare classifications.",
+      "Order control: repeat with scenario order permuted and compare outputs.",
+      "Baseline control: compare model classifications with a simple descriptor/semantic-overlap baseline to test whether apparent performance exceeds direct wording matches.",
+      "Claim control: no result may be promoted to proof of GANSI or UBT."
+    ],
+    "unresolved_operational_rules": [
+      "No algorithm is supplied for converting qualitative domain activation into numeric g/a/n/s/i weights summing to 1.00.",
+      "No explicit criterion is supplied for when the Chamber C activates or how strongly it activates.",
+      "Adjacency order is defined, but no rule specifies how adjacency changes scoring, overlap, or interpretation.",
+      "No quantitative consistency threshold is supplied for PASS versus FAIL."
+    ],
+    "proposed_trigon_scoring": {
+      "note": "These are test-harness criteria, not new GANSI meanings.",
+      "pass_condition": "Only assign PASS after a predeclared consistency threshold is chosen and met without adding framework rules, with no material contradiction across controls.",
+      "fail_condition": "Assign FAIL if the submitted framework produces material contradictions or requires unstated rules for core requested outputs after clarification opportunities are exhausted.",
+      "null_condition": "Assign NULL if the scenarios do not contain enough information to discriminate among framework parts or the framework makes no operationally testable distinction under the submitted rules.",
+      "ambiguous_condition": "Assign AMBIGUOUS when multiple classifications remain defensible under the submitted definitions or Chamber/weighting decisions cannot be made without added rules.",
+      "more_testing_condition": "Assign MORE TESTING when qualitative structure is reproducible but quantitative/profile or Chamber rules remain underdefined."
+    }
+  },
+  "expected_honesty_checks": [
+    "Do not infer numeric weights merely because GANSI notation contains normalized values.",
+    "Do not count lexical cue matching alone as evidence of structural explanatory power.",
+    "Do not infer Chamber activation from multi-domain presence unless the submitted rules justify it.",
+    "Preserve scenario S09, S10, S11, and S12 as high-value ambiguity/null/failure probes rather than forcing positive classifications."
+  ],
+  "next_state": "READY_FOR_ARCHITECT_REVIEW",
+  "created_at": "2026-08-10T08:40:00-04:00",
+  "updated_at": "2026-08-10T08:40:00-04:00",
+  "version": "0.1.0-draft"
+}
