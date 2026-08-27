@@ -20,7 +20,7 @@
       "id": "heavy",
       "label": "Heavy Test",
       "purpose": "A full research lane for preregistration, data lock, stress tests, and reproducibility.",
-      "minimums": ["preregistration", "data lock", "failure criteria", "robustness and sensitivity checks", "provenance audit", "code and data release when permitted", "Record-P"],
+      "minimums": ["preregistration", "data lock", "failure criteria", "robustness and sensitivity checks", "provenance audit", "code and data release when permitted", "public record package"],
       "claim_ceiling": "Deepest interpretation supported by the preregistered design, evidence, controls, and replication state."
     }
   ]
