@@ -7,3 +7,85 @@
 .nav>span:last-child a{flex:0 0 auto;padding:8px 10px;border:1px solid transparent;border-radius:999px;color:rgba(245,240,232,.76);font-size:.72rem;letter-spacing:.09em;transition:color .18s ease,border-color .18s ease,background .18s ease}
 .nav>span:last-child a:hover,.nav>span:last-child a:focus-visible{color:var(--ink);border-color:rgba(242,199,106,.28);background:rgba(255,255,255,.045);outline:none}
 @media(max-width:760px){.nav{padding:8px 12px;gap:10px;overflow:visible}.nav>span:last-child{gap:4px}.nav>span:last-child a{padding:7px 9px;font-size:.68rem;letter-spacing:.07em}}
+
+/* 2026-08-27 shared site-shell polish */
+.top{
+  background:linear-gradient(180deg,rgba(3,4,10,.94),rgba(3,4,10,.76));
+  border-bottom-color:rgba(242,199,106,.14);
+  box-shadow:0 12px 32px rgba(0,0,0,.16);
+}
+.nav{
+  width:min(var(--max),calc(100% - 2rem));
+  min-height:64px;
+  padding:10px 0;
+}
+.nav>.brand-mini{
+  gap:11px;
+  padding:4px 8px 4px 4px;
+  border-radius:999px;
+  transition:background .18s ease,color .18s ease,transform .18s ease;
+}
+.nav>.brand-mini:hover,.nav>.brand-mini:focus-visible{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  outline:none;
+  transform:translateY(-1px);
+}
+.nav>.brand-mini>span:last-child{
+  color:rgba(245,240,232,.84);
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.18em;
+}
+.live-mark{width:38px;height:38px}
+.live-sphere{inset:9px}
+.nav>span:last-child{
+  padding:4px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.12);
+}
+.nav>span:last-child a{
+  min-height:34px;
+  padding:8px 12px;
+  color:rgba(245,240,232,.72);
+  font-size:.68rem;
+  letter-spacing:.1em;
+  border-color:transparent;
+}
+.nav>span:last-child a:hover,.nav>span:last-child a:focus-visible{
+  color:var(--ink);
+  border-color:rgba(242,199,106,.3);
+  background:rgba(255,255,255,.06);
+  outline:none;
+}
+.nav>span:last-child a[aria-current="page"]{
+  color:#06101a;
+  border-color:rgba(242,199,106,.62);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--room-accent),white 22%),color-mix(in srgb,var(--room-accent),#f2c76a 42%));
+  box-shadow:0 0 18px color-mix(in srgb,var(--room-accent),transparent 68%);
+  text-shadow:none;
+}
+@media(max-width:760px){
+  .nav{width:100%;min-height:58px;padding:8px 12px;gap:9px;overflow:visible}
+  .nav>.brand-mini{gap:8px;padding:3px 6px 3px 2px}
+  .live-mark{width:34px;height:34px}
+  .live-sphere{inset:8px}
+  .nav>span:last-child{flex:1 1 auto;min-width:0;overflow-x:auto;gap:3px;padding:3px}
+  .nav>span:last-child a{min-height:32px;padding:7px 9px;font-size:.64rem;letter-spacing:.07em}
+}
+
+/* 2026-08-27 mobile-first triad home mark */
+.nav{justify-content:flex-start;flex-wrap:nowrap;overflow:visible}
+.nav>span:last-child{flex:1 1 auto;min-width:0;margin-left:auto;justify-content:flex-start}
+.live-mark{width:38px;height:38px;overflow:visible;border-radius:50%;filter:drop-shadow(0 0 12px rgba(242,199,106,.42))}
+.live-mark:before{display:none}
+.live-mark img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;animation:liveMarkSpin 26s linear infinite}
+@keyframes liveMarkSpin{to{transform:rotate(360deg)}}
+.nav>.brand-mini[aria-current="page"]{background:rgba(242,199,106,.08);box-shadow:0 0 20px rgba(242,199,106,.12)}
+@media(max-width:760px){
+  .nav{justify-content:flex-start;overflow:visible}
+  .nav>span:last-child{flex:1 1 auto;min-width:0;margin-left:auto;justify-content:flex-start}
+}
+@media(prefers-reduced-motion:reduce){.live-mark img{animation:none!important}}

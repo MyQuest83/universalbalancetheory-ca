@@ -35,6 +35,20 @@
 
   const canonicalPath=(path==='/'||path==='/index.html')?'/' : location.pathname;
   const canonicalUrl=origin+canonicalPath;
+  function markCurrentNav(){
+    document.querySelectorAll('header nav a[href], [data-global-nav] a[href]').forEach(link=>{
+      const raw=link.getAttribute('href')||'';
+      if(!raw||raw.startsWith('#'))return;
+      let targetPath;
+      try{targetPath=new URL(link.href,origin).pathname;}catch(e){return;}
+      const targetCanonical=(targetPath==='/'||targetPath==='/index.html')?'/':targetPath;
+      if(targetCanonical===canonicalPath)link.setAttribute('aria-current','page');
+      else if(link.getAttribute('aria-current')==='page')link.removeAttribute('aria-current');
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',markCurrentNav,{once:true});
+  else markCurrentNav();
+
 
   function ensureMeta(name,content){
     let node=document.head.querySelector('meta[name="'+name+'"]');
