@@ -2256,26 +2256,143 @@
     .farm-process strong { display:block; margin-bottom:.55rem; color:white; font-family:Georgia,serif; font-size:1.25rem; }
     .farm-process small { display:block; color:var(--muted); font-size:.82rem; line-height:1.5; }
     @media(max-width:760px){ .farm-process{grid-template-columns:1fr;} .farm-process>div{min-height:auto;} }
+
+    /* 2026-08-27 shared site navigation polish */
+    .site-nav {
+      background: linear-gradient(180deg, rgba(6,16,29,.94), rgba(6,16,29,.78));
+      border-bottom-color: rgba(216,168,77,.18);
+      box-shadow: 0 14px 34px rgba(0,0,0,.2);
+    }
+    .site-nav .nav-inner {
+      min-height: 64px;
+      gap: 1rem;
+    }
+    .site-nav .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .45rem .65rem;
+      border-radius: 999px;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+    .site-nav .brand:hover,
+    .site-nav .brand:focus-visible {
+      background: rgba(255,255,255,.055);
+      outline: none;
+      transform: translateY(-1px);
+    }
+    .site-nav .nav-links {
+      flex: 1 1 auto;
+      min-width: 0;
+      justify-content: flex-end;
+      gap: .25rem;
+      padding: .25rem;
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 999px;
+      background: rgba(255,255,255,.035);
+      overflow-x: auto;
+      scrollbar-width: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .site-nav .nav-links::-webkit-scrollbar,
+    .story-links::-webkit-scrollbar {
+      display: none;
+    }
+    .site-nav .nav-links a {
+      flex: 0 0 auto;
+      padding: .52rem .72rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: rgba(234,241,247,.76);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .site-nav .nav-links a:hover,
+    .site-nav .nav-links a:focus-visible {
+      color: white;
+      border-color: rgba(216,168,77,.32);
+      background: rgba(255,255,255,.055);
+      outline: none;
+    }
+    .story-links-wrap {
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+    .story-links {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: .9rem;
+      overflow-x: auto;
+      padding: .4rem 0 .48rem;
+      scrollbar-width: none;
+    }
+    .story-links a {
+      flex: 0 0 auto;
+      color: rgba(234,241,247,.62);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color .18s ease;
+    }
+    .story-links a:hover,
+    .story-links a:focus-visible {
+      color: var(--gold-light);
+      outline: none;
+    }
+    @media (max-width: 760px) {
+      .site-nav .nav-inner {
+        width: calc(100% - 1rem);
+        min-height: 58px;
+        gap: .55rem;
+      }
+      .site-nav .nav-links {
+        justify-content: flex-start;
+      }
+      .story-links {
+        width: calc(100% - 1rem);
+        justify-content: flex-start;
+        gap: .75rem;
+      }
+    }
+
 </style>
 <meta content="website" property="og:type"><meta content="Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…" property="og:title"><meta content="The illustrated life story of Canadian artist, musician, builder, writer, and independent researcher Michael Eric West." property="og:description"><meta content="https://universalbalancetheory.ca/michael.html" property="og:url"><meta content="Universal Balance Theory" property="og:site_name"><meta content="https://universalbalancetheory.ca/assets/michael-bio/01.webp" property="og:image"><meta content="Michael Eric West outdoors beneath a bright summer sun." property="og:image:alt"><meta content="summary_large_image" name="twitter:card"><meta content="Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…" name="twitter:title"><meta content="The illustrated life story of Canadian artist, musician, builder, writer, and independent researcher Michael Eric West." name="twitter:description"><meta content="https://universalbalancetheory.ca/assets/michael-bio/01.webp" name="twitter:image"><meta content="Michael Eric West outdoors beneath a bright summer sun." name="twitter:image:alt">
 <!-- Website build: biography images are served from assets/michael-bio/. -->
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Michael Eric West", "description": "Canadian artist, writer, musician, builder, and independent researcher based in Windsor, Ontario.", "homeLocation": {"@type": "Place", "name": "Windsor, Ontario, Canada"}, "nationality": "Canadian", "knowsAbout": ["Visual art", "Music", "Construction", "Independent research", "Universal Balance Theory", "Human-AI collaboration"]}</script></head>
 <body id="top">
 <a class="skip-link" href="#story">Skip to biography</a>
-<nav aria-label="Biography navigation" class="site-nav">
-<div class="nav-inner">
-<a aria-label="Return to the Universal Balance Theory home page" class="brand" href="index.html">UBT<span>.ca</span></a>
-<div class="nav-links">
-<a href="#wonder">Wonder</a>
-<a href="#worlds">Games &amp; Technology</a>
-<a href="#work">Work</a>
-<a href="#luna">Luna</a>
-<a href="#origin">The Equation</a>
-<a href="#farm">The Farm</a>
-<a href="#today">Today</a>
-</div>
-</div>
-<div aria-hidden="true" class="reading-progress"><div class="reading-progress-bar"></div></div></nav>
+<nav aria-label="Site and biography navigation" class="site-nav">
+  <div class="nav-inner">
+    <a aria-label="Return to the Universal Balance Theory home page" class="brand" href="index.html">UBT<span>.ca</span></a>
+    <div class="nav-links" data-global-nav role="navigation" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="trigon-challenge.html">Trigon</a>
+      <a href="luna.html">Luna</a>
+      <a href="aria.html">Aria</a>
+      <a href="shadow.html">Shadow</a>
+      <a href="links.html">Links</a>
+    </div>
+  </div>
+  <div class="story-links-wrap" role="navigation" aria-label="Biography sections">
+    <div class="story-links">
+      <a href="#wonder">Wonder</a>
+      <a href="#worlds">Games &amp; Technology</a>
+      <a href="#work">Work</a>
+      <a href="#luna">Luna</a>
+      <a href="#origin">The Equation</a>
+      <a href="#farm">The Farm</a>
+      <a href="#today">Today</a>
+    </div>
+  </div>
+  <div aria-hidden="true" class="reading-progress"><div class="reading-progress-bar"></div></div>
+</nav>
 <header class="hero">
 <div class="hero-copy reveal"><div aria-hidden="true" class="mobile-hero-brand">UBT.ca  •  Michael Eric West</div>
 <p class="eyebrow">About the author</p>
