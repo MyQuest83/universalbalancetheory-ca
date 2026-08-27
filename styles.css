@@ -75,3 +75,17 @@
   .nav>span:last-child{flex:1 1 auto;min-width:0;overflow-x:auto;gap:3px;padding:3px}
   .nav>span:last-child a{min-height:32px;padding:7px 9px;font-size:.64rem;letter-spacing:.07em}
 }
+
+/* 2026-08-27 mobile-first triad home mark */
+.nav{justify-content:flex-start;flex-wrap:nowrap;overflow:visible}
+.nav>span:last-child{flex:1 1 auto;min-width:0;margin-left:auto;justify-content:flex-start}
+.live-mark{width:38px;height:38px;overflow:visible;border-radius:50%;filter:drop-shadow(0 0 12px rgba(242,199,106,.42))}
+.live-mark:before{display:none}
+.live-mark img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;animation:liveMarkSpin 26s linear infinite}
+@keyframes liveMarkSpin{to{transform:rotate(360deg)}}
+.nav>.brand-mini[aria-current="page"]{background:rgba(242,199,106,.08);box-shadow:0 0 20px rgba(242,199,106,.12)}
+@media(max-width:760px){
+  .nav{justify-content:flex-start;overflow:visible}
+  .nav>span:last-child{flex:1 1 auto;min-width:0;margin-left:auto;justify-content:flex-start}
+}
+@media(prefers-reduced-motion:reduce){.live-mark img{animation:none!important}}

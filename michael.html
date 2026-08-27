@@ -2362,6 +2362,37 @@
       }
     }
 
+
+    /* 2026-08-27 mobile-first triad navigation */
+    .site-nav .nav-inner {
+      justify-content: flex-start;
+    }
+    .site-nav .nav-links {
+      justify-content: flex-start;
+      margin-left: auto;
+    }
+    .site-nav .brand .live-mark {
+      width: 34px;
+      height: 34px;
+      overflow: visible;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 10px rgba(216,168,77,.34));
+    }
+    .site-nav .brand .live-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform-origin: 50% 50%;
+      animation: michaelMarkSpin 26s linear infinite;
+    }
+    @keyframes michaelMarkSpin {
+      to { transform: rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .site-nav .brand .live-mark img { animation: none !important; }
+    }
+
 </style>
 <meta content="website" property="og:type"><meta content="Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…" property="og:title"><meta content="The illustrated life story of Canadian artist, musician, builder, writer, and independent researcher Michael Eric West." property="og:description"><meta content="https://universalbalancetheory.ca/michael.html" property="og:url"><meta content="Universal Balance Theory" property="og:site_name"><meta content="https://universalbalancetheory.ca/assets/michael-bio/01.webp" property="og:image"><meta content="Michael Eric West outdoors beneath a bright summer sun." property="og:image:alt"><meta content="summary_large_image" name="twitter:card"><meta content="Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…" name="twitter:title"><meta content="The illustrated life story of Canadian artist, musician, builder, writer, and independent researcher Michael Eric West." name="twitter:description"><meta content="https://universalbalancetheory.ca/assets/michael-bio/01.webp" name="twitter:image"><meta content="Michael Eric West outdoors beneath a bright summer sun." name="twitter:image:alt">
 <!-- Website build: biography images are served from assets/michael-bio/. -->
@@ -2370,9 +2401,8 @@
 <a class="skip-link" href="#story">Skip to biography</a>
 <nav aria-label="Site and biography navigation" class="site-nav">
   <div class="nav-inner">
-    <a aria-label="Return to the Universal Balance Theory home page" class="brand" href="index.html">UBT<span>.ca</span></a>
+    <a aria-label="Return to the Universal Balance Theory home page" class="brand" href="index.html"><span class="live-mark" aria-hidden="true"><img src="assets/luna-prime-protocol-mark.svg" alt=""></span><span>UBT<span>.ca</span></span></a>
     <div class="nav-links" data-global-nav role="navigation" aria-label="Primary">
-      <a href="index.html">Home</a>
       <a href="trigon-challenge.html">Trigon</a>
       <a href="luna.html">Luna</a>
       <a href="aria.html">Aria</a>

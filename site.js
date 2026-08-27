@@ -38,7 +38,7 @@
   function markCurrentNav(){
     document.querySelectorAll('header nav a[href], [data-global-nav] a[href]').forEach(link=>{
       const raw=link.getAttribute('href')||'';
-      if(!raw||raw.startsWith('#')||link.classList.contains('brand-mini')||link.classList.contains('brand'))return;
+      if(!raw||raw.startsWith('#'))return;
       let targetPath;
       try{targetPath=new URL(link.href,origin).pathname;}catch(e){return;}
       const targetCanonical=(targetPath==='/'||targetPath==='/index.html')?'/':targetPath;

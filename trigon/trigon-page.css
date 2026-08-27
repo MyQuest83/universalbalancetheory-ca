@@ -29,3 +29,13 @@
   outline:1px solid rgba(242,199,106,.78);
   outline-offset:2px;
 }
+
+/* 2026-08-27 mobile-first triad navigation */
+.topbar{flex-wrap:nowrap;background:linear-gradient(180deg,rgba(5,10,18,.94),rgba(5,10,18,.78));border-bottom-color:rgba(242,199,106,.16);box-shadow:0 14px 34px rgba(0,0,0,.2);backdrop-filter:blur(18px)}
+.topbar .brand-mark.live-mark{width:34px;height:34px;border:0;background:transparent;overflow:visible}
+.topbar .brand-mark.live-mark img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%;animation:trigonMarkSpin 26s linear infinite}
+@keyframes trigonMarkSpin{to{transform:rotate(360deg)}}
+.topbar .nav{flex:1 1 auto;min-width:0;max-width:none;margin-left:auto;justify-content:flex-start;overflow-x:auto;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.topbar .nav a[aria-current="page"]{color:#06101a;border-color:rgba(242,199,106,.68);background:linear-gradient(135deg,#ffe29a,#c7963d);box-shadow:0 0 18px rgba(242,199,106,.22)}
+@media(max-width:700px){.topbar{gap:10px;padding:9px 10px}.topbar .nav{max-width:none;justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){.topbar .brand-mark.live-mark img{animation:none!important}}
