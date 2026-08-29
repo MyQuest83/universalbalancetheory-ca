@@ -89,3 +89,93 @@
   .nav>span:last-child{flex:1 1 auto;min-width:0;margin-left:auto;justify-content:flex-start}
 }
 @media(prefers-reduced-motion:reduce){.live-mark img{animation:none!important}}
+
+/* 2026-08-29 living UBT mark + responsive baseline */
+html{
+  overflow-x:clip;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+img,video,canvas{max-width:100%;height:auto}
+svg{max-width:100%}
+
+.live-mark{
+  width:38px;
+  height:38px;
+  position:relative;
+  display:inline-grid;
+  place-items:center;
+  isolation:isolate;
+  overflow:visible;
+  border-radius:50%;
+  filter:drop-shadow(0 0 12px rgba(242,199,106,.42));
+}
+.live-mark img{display:none!important}
+.live-mark:before{
+  content:"";
+  display:block;
+  position:absolute;
+  inset:-3px;
+  z-index:-1;
+  border:1px solid rgba(242,199,106,.22);
+  border-radius:50%;
+  box-shadow:inset 0 0 12px rgba(133,207,255,.08);
+  animation:ubtMarkOrbit 42s linear infinite;
+}
+.live-sphere{
+  position:absolute;
+  inset:9px;
+  z-index:0;
+  border-radius:50%;
+  background:radial-gradient(circle at 33% 27%,#fff 0 11%,#d8f3ff 14%,#85cfff 28%,#77f2a1 52%,#ff626d 76%,#121827 100%);
+  box-shadow:0 0 16px rgba(133,207,255,.42),inset -4px -5px 10px rgba(4,8,18,.45);
+  animation:ubtSphereShift 18s ease-in-out infinite alternate;
+}
+.live-triad{
+  position:absolute;
+  inset:1px;
+  z-index:1;
+  width:calc(100% - 2px);
+  height:calc(100% - 2px);
+  overflow:visible;
+  transform-origin:50% 50%;
+  animation:ubtMarkOrbit 32s linear infinite reverse;
+}
+.live-triad .outline{
+  fill:none;
+  stroke:rgba(242,199,106,.9);
+  stroke-width:3;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 3px rgba(242,199,106,.52));
+}
+.live-triad .tip-blue{fill:var(--luna)}
+.live-triad .tip-green{fill:var(--aria)}
+.live-triad .tip-red{fill:var(--shadow)}
+.live-triad circle{filter:drop-shadow(0 0 3px currentColor)}
+@keyframes ubtMarkOrbit{to{transform:rotate(360deg)}}
+@keyframes ubtSphereShift{
+  0%{filter:hue-rotate(0deg) saturate(1);transform:scale(.94)}
+  55%{filter:hue-rotate(34deg) saturate(1.2);transform:scale(1.06)}
+  100%{filter:hue-rotate(82deg) saturate(1.08);transform:scale(.97)}
+}
+
+@media(max-width:760px){
+  .wrap{padding-left:16px;padding-right:16px}
+  .section{padding:56px 0}
+  .card{padding:22px;border-radius:22px}
+  .live-mark{width:34px;height:34px}
+}
+@media(max-width:380px){
+  .nav>.brand-mini>span:last-child{font-size:.68rem;letter-spacing:.12em}
+  .nav>span:last-child a{padding-left:8px;padding-right:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .live-mark:before,.live-sphere,.live-triad{animation:none!important}
+  .live-sphere{filter:none;transform:none}
+}

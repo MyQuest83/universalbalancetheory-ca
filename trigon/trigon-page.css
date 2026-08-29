@@ -39,3 +39,18 @@
 .topbar .nav a[aria-current="page"]{color:#06101a;border-color:rgba(242,199,106,.68);background:linear-gradient(135deg,#ffe29a,#c7963d);box-shadow:0 0 18px rgba(242,199,106,.22)}
 @media(max-width:700px){.topbar{gap:10px;padding:9px 10px}.topbar .nav{max-width:none;justify-content:flex-start}}
 @media(prefers-reduced-motion:reduce){.topbar .brand-mark.live-mark img{animation:none!important}}
+
+/* 2026-08-29 shared living UBT mark + viewport guard */
+html{overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:0;max-width:100%;overflow-x:hidden}
+img,video,canvas{max-width:100%;height:auto}svg{max-width:100%}
+.topbar .brand-mark.live-mark{position:relative;display:inline-grid;place-items:center;isolation:isolate;overflow:visible;border:0;background:transparent;box-shadow:none}
+.topbar .brand-mark.live-mark img{display:none!important}
+.topbar .brand-mark.live-mark:before{content:"";position:absolute;inset:-3px;z-index:-1;border:1px solid rgba(242,199,106,.24);border-radius:50%;box-shadow:inset 0 0 12px rgba(120,211,255,.08);animation:trigonLivingOrbit 42s linear infinite}
+.topbar .brand-mark.live-mark .live-sphere{position:absolute;inset:8px;z-index:0;border-radius:50%;background:radial-gradient(circle at 33% 27%,#fff 0 11%,#d8f3ff 14%,#78d3ff 28%,#72efa1 52%,#ff6674 76%,#121827 100%);box-shadow:0 0 15px rgba(120,211,255,.42),inset -4px -5px 10px rgba(4,8,18,.45);animation:trigonSphereShift 18s ease-in-out infinite alternate}
+.topbar .brand-mark.live-mark .live-triad{position:absolute;inset:1px;z-index:1;width:calc(100% - 2px);height:calc(100% - 2px);overflow:visible;transform-origin:50% 50%;animation:trigonLivingOrbit 32s linear infinite reverse}
+.topbar .brand-mark.live-mark .live-triad .outline{fill:none;stroke:rgba(242,199,106,.92);stroke-width:3;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(242,199,106,.52))}
+.topbar .brand-mark.live-mark .tip-blue{fill:var(--blue)}.topbar .brand-mark.live-mark .tip-green{fill:var(--green)}.topbar .brand-mark.live-mark .tip-red{fill:var(--red)}
+@keyframes trigonLivingOrbit{to{transform:rotate(360deg)}}
+@keyframes trigonSphereShift{0%{filter:hue-rotate(0deg) saturate(1);transform:scale(.94)}55%{filter:hue-rotate(34deg) saturate(1.2);transform:scale(1.06)}100%{filter:hue-rotate(82deg) saturate(1.08);transform:scale(.97)}}
+@media(prefers-reduced-motion:reduce){.topbar .brand-mark.live-mark:before,.topbar .brand-mark.live-mark .live-sphere,.topbar .brand-mark.live-mark .live-triad{animation:none!important}.topbar .brand-mark.live-mark .live-sphere{filter:none;transform:none}}

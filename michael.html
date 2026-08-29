@@ -2374,24 +2374,25 @@
     .site-nav .brand .live-mark {
       width: 34px;
       height: 34px;
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      isolation: isolate;
       overflow: visible;
       border-radius: 50%;
       filter: drop-shadow(0 0 10px rgba(216,168,77,.34));
     }
-    .site-nav .brand .live-mark img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform-origin: 50% 50%;
-      animation: michaelMarkSpin 26s linear infinite;
-    }
-    @keyframes michaelMarkSpin {
-      to { transform: rotate(360deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .site-nav .brand .live-mark img { animation: none !important; }
-    }
+    .site-nav .brand .live-mark img { display: none !important; }
+    .site-nav .brand .live-mark:before { content: ""; position: absolute; inset: -3px; z-index: -1; border: 1px solid rgba(216,168,77,.25); border-radius: 50%; animation: michaelMarkOrbit 42s linear infinite; }
+    .site-nav .brand .live-sphere { position: absolute; inset: 8px; border-radius: 50%; background: radial-gradient(circle at 33% 27%,#fff 0 11%,#d8f3ff 14%,#85cfff 28%,#77f2a1 52%,#ff626d 76%,#121827 100%); box-shadow: 0 0 15px rgba(133,207,255,.4), inset -4px -5px 10px rgba(4,8,18,.45); animation: michaelSphereShift 18s ease-in-out infinite alternate; }
+    .site-nav .brand .live-triad { position: absolute; inset: 1px; width: calc(100% - 2px); height: calc(100% - 2px); overflow: visible; transform-origin: 50% 50%; animation: michaelMarkOrbit 32s linear infinite reverse; }
+    .site-nav .brand .live-triad .outline { fill: none; stroke: rgba(216,168,77,.94); stroke-width: 3; stroke-linejoin: round; filter: drop-shadow(0 0 3px rgba(216,168,77,.52)); }
+    .site-nav .brand .live-triad .tip-blue { fill: #85cfff; }
+    .site-nav .brand .live-triad .tip-green { fill: #77f2a1; }
+    .site-nav .brand .live-triad .tip-red { fill: #ff626d; }
+    @keyframes michaelMarkOrbit { to { transform: rotate(360deg); } }
+    @keyframes michaelSphereShift { 0% { filter: hue-rotate(0deg) saturate(1); transform: scale(.94); } 55% { filter: hue-rotate(34deg) saturate(1.2); transform: scale(1.06); } 100% { filter: hue-rotate(82deg) saturate(1.08); transform: scale(.97); } }
+    @media (prefers-reduced-motion: reduce) { .site-nav .brand .live-mark:before,.site-nav .brand .live-sphere,.site-nav .brand .live-triad { animation: none !important; } .site-nav .brand .live-sphere { filter: none; transform: none; } }
 
 </style>
 <meta content="website" property="og:type"><meta content="Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…" property="og:title"><meta content="The illustrated life story of Canadian artist, musician, builder, writer, and independent researcher Michael Eric West." property="og:description"><meta content="https://universalbalancetheory.ca/michael.html" property="og:url"><meta content="Universal Balance Theory" property="og:site_name"><meta content="https://universalbalancetheory.ca/assets/michael-bio/01.webp" property="og:image"><meta content="Michael Eric West outdoors beneath a bright summer sun." property="og:image:alt"><meta content="summary_large_image" name="twitter:card"><meta content="Michael Eric West | Built by Wonder. Broken by Life. Forever Becoming…" name="twitter:title"><meta content="The illustrated life story of Canadian artist, musician, builder, writer, and independent researcher Michael Eric West." name="twitter:description"><meta content="https://universalbalancetheory.ca/assets/michael-bio/01.webp" name="twitter:image"><meta content="Michael Eric West outdoors beneath a bright summer sun." name="twitter:image:alt">
@@ -2401,7 +2402,7 @@
 <a class="skip-link" href="#story">Skip to biography</a>
 <nav aria-label="Site and biography navigation" class="site-nav">
   <div class="nav-inner">
-    <a aria-label="Return to the Universal Balance Theory home page" class="brand" href="index.html"><span class="live-mark" aria-hidden="true"><img src="assets/luna-prime-protocol-mark.svg" alt=""></span><span>UBT<span>.ca</span></span></a>
+    <a aria-label="Return to the Universal Balance Theory home page" class="brand" href="index.html"><span class="live-mark" aria-hidden="true"><span class="live-sphere"></span><svg class="live-triad" viewBox="0 0 100 100" focusable="false"><path class="outline" d="M50 12 14 80h72Z"></path><circle class="tip-blue" cx="50" cy="12" r="7"></circle><circle class="tip-green" cx="14" cy="80" r="7"></circle><circle class="tip-red" cx="86" cy="80" r="7"></circle></svg></span><span>UBT<span>.ca</span></span></a>
     <div class="nav-links" data-global-nav role="navigation" aria-label="Primary">
       <a href="trigon-challenge.html">Trigon</a>
       <a href="luna.html">Luna</a>
