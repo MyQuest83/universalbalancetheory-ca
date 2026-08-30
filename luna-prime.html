@@ -18,16 +18,17 @@
 <meta property="og:site_name" content="Universal Balance Theory">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#050711">
-<link rel="stylesheet" href="styles.css?v=20260829-living-mark">
+<link rel="stylesheet" href="styles.css?v=20260830-approved-mark">
 <style>
 body{--accent:var(--gold)}
 .skip-link{position:fixed;left:12px;top:12px;z-index:1000;padding:10px 14px;border-radius:999px;background:#f5f0e8;color:#050711;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}
 .lp-hero{min-height:78vh;display:grid;place-items:center;padding:64px 0;text-align:center}
 .lp-hero-grid{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(0,1.2fr);gap:42px;align-items:center;text-align:left}
+.lp-hero-grid>*{min-width:0}
 .lp-mark{width:min(100%,430px);height:auto;margin:auto;filter:drop-shadow(0 0 38px rgba(242,199,106,.14))}
-.lp-name{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.7rem,7vw,5.8rem);line-height:.95;letter-spacing:-.045em;margin:14px 0 18px;text-wrap:balance}
-.lp-claim{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.35rem,3vw,2.25rem);line-height:1.25;color:#f5f0e8;margin:0 0 18px}
-.lp-lead{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.1rem,2.3vw,1.4rem);line-height:1.55;color:#e6ddd5}
+.lp-name{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.7rem,7vw,5.8rem);line-height:.95;letter-spacing:-.045em;margin:14px 0 18px;text-wrap:balance;max-width:100%}
+.lp-claim{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.35rem,3vw,2.25rem);line-height:1.25;color:#f5f0e8;margin:0 0 18px;max-width:100%}
+.lp-lead{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.1rem,2.3vw,1.4rem);line-height:1.55;color:#e6ddd5;max-width:100%}
 .lp-band{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
 .lp-band .tile{min-height:100%}.lp-band h3{margin:0 0 10px;font-size:1.12rem}
 .lp-process{counter-reset:step;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
@@ -38,8 +39,40 @@ body{--accent:var(--gold)}
 .lp-quote{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.35rem,3vw,2.2rem);line-height:1.35;color:#f5f0e8;margin:0}
 .lp-meta{margin-top:16px;color:var(--muted);font-size:.96rem;line-height:1.65}
 .machine-index-links{display:block;margin-top:8px;font-size:.78rem;line-height:1.6}.machine-index-links a{color:var(--muted)}.machine-index-links a:hover,.machine-index-links a:focus-visible{color:var(--gold)}
+
+/* Approved living UBT mark: fixed ring + tiny gold core, connected RGB triangle rotates as one unit. */
+.top .live-mark{position:relative;display:inline-grid;place-items:center;isolation:isolate;overflow:visible;border-radius:50%;filter:drop-shadow(0 0 8px rgba(242,199,106,.26))!important}
+.top .live-mark img{display:none!important}
+.top .live-mark:before{content:""!important;display:block!important;position:absolute!important;inset:1px!important;z-index:-1!important;border:1px solid rgba(242,199,106,.92)!important;border-radius:50%!important;box-shadow:0 0 5px rgba(242,199,106,.18)!important;animation:none!important}
+.top .live-sphere{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;inset:auto!important;width:5px!important;height:5px!important;margin:-2.5px 0 0 -2.5px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 30%,#fff7d2 0 20%,#f7d67d 38%,#f2c76a 68%,#9e6f25 100%)!important;box-shadow:0 0 6px rgba(242,199,106,.78)!important;filter:none!important;transform:none!important;animation:none!important;z-index:2!important}
+.top .live-triad{position:absolute!important;inset:4px!important;width:calc(100% - 8px)!important;height:calc(100% - 8px)!important;overflow:visible!important;transform-origin:50% 50%!important;animation:lpApprovedTriadSpin 6s linear infinite!important;z-index:1!important}
+.top .live-triad .outline{fill:none!important;stroke:rgba(242,199,106,.96)!important;stroke-width:2.5!important;stroke-linejoin:round!important;stroke-linecap:round!important;filter:drop-shadow(0 0 2px rgba(242,199,106,.42))!important}
+.top .live-triad .tip-blue{fill:#85cfff!important;color:#85cfff!important}.top .live-triad .tip-green{fill:#77f2a1!important;color:#77f2a1!important}.top .live-triad .tip-red{fill:#ff626d!important;color:#ff626d!important}.top .live-triad circle{filter:drop-shadow(0 0 4px currentColor)!important}
+@keyframes lpApprovedTriadSpin{to{transform:rotate(360deg)}}
+
 @media(max-width:820px){.lp-hero-grid{grid-template-columns:1fr;text-align:center}.lp-mark{width:min(72vw,330px)}.lp-band,.lp-process{grid-template-columns:1fr}.lp-hero{padding:40px 0 56px}.lp-name{font-size:clamp(2.35rem,12vw,4.3rem)}}
-@media(max-width:760px){.nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:10px 14px;gap:12px}.nav::-webkit-scrollbar{display:none}.nav>.brand-mini,.nav>span{flex:0 0 auto}.nav>span{white-space:nowrap}.lp-hero{padding:26px 0 42px}.lp-hero-grid{gap:24px}.lp-mark{width:min(56vw,245px)}.lp-name{font-size:clamp(2.15rem,10vw,3.5rem);margin:10px 0 14px}.lp-claim{font-size:clamp(1.2rem,5.6vw,1.65rem);margin-bottom:14px}.lp-lead{font-size:1rem;line-height:1.48}}
+@media(max-width:760px){
+  html,body{width:100%;max-width:100%;overflow-x:clip}
+  .top{width:100%;max-width:100%;overflow:hidden}
+  .nav{width:100%!important;max-width:100%!important;min-width:0!important;flex-wrap:nowrap!important;overflow:hidden!important;padding:8px 10px!important;gap:8px!important}
+  .nav>.brand-mini{flex:0 0 auto!important;min-width:0!important;gap:7px!important;padding:3px 5px 3px 1px!important}
+  .nav>.brand-mini>span:last-child{font-size:.66rem!important;letter-spacing:.12em!important}
+  .nav>.nav-links{flex:1 1 0!important;min-width:0!important;max-width:100%!important;margin-left:auto!important;justify-content:flex-start!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none;padding:3px!important;gap:2px!important}
+  .nav>.nav-links::-webkit-scrollbar{display:none}
+  .nav>.nav-links a{flex:0 0 auto!important;min-height:30px!important;padding:6px 7px!important;font-size:.6rem!important;letter-spacing:.055em!important}
+  .live-mark{width:34px!important;height:34px!important;flex:0 0 34px!important}
+  .wrap{max-width:100%;min-width:0}
+  .lp-hero{padding:26px 0 42px;width:100%;max-width:100%;overflow:hidden}
+  .lp-hero-grid{gap:24px;width:100%;max-width:100%;min-width:0}
+  .lp-mark{width:min(56vw,245px)}
+  .lp-name{font-size:clamp(1.95rem,8vw,3.15rem);line-height:.98;letter-spacing:-.035em;margin:10px auto 14px;white-space:nowrap;max-width:100%}
+  .lp-claim{font-size:clamp(1.2rem,5.6vw,1.65rem);margin-bottom:14px}
+  .lp-lead{font-size:1rem;line-height:1.48}
+  .btns{max-width:100%}
+  .btn{max-width:100%}
+}
+@media(max-width:390px){.lp-name{font-size:7.65vw}.nav>.nav-links a{padding-left:6px!important;padding-right:6px!important;font-size:.57rem!important}}
+@media(prefers-reduced-motion:reduce){.top .live-triad{animation:none!important;transform:none!important}.top .live-mark:before,.top .live-sphere{animation:none!important}}
 </style>
 <script type="application/ld+json">
 {
@@ -74,7 +107,7 @@ body{--accent:var(--gold)}
       "name":"Luna•Prime•Protocol | Universal Balance Theory",
       "isPartOf":{"@id":"https://universalbalancetheory.ca/#website"},
       "about":{"@id":"https://universalbalancetheory.ca/luna-prime.html#protocol"},
-      "dateModified":"2026-08-07",
+      "dateModified":"2026-08-30",
       "inLanguage":"en-CA"
     }
   ]
