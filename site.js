@@ -113,15 +113,32 @@
     document.head.appendChild(schema);
   }
 
+  function applyExactLivingMarks(){
+    document.querySelectorAll('.live-mark').forEach(mark=>{
+      let core=mark.querySelector('.live-sphere');
+      if(!core){core=document.createElement('span');core.className='live-sphere';mark.prepend(core);}
+      let svg=mark.querySelector('svg.live-triad');
+      if(!svg){
+        svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute('class','live-triad');
+        svg.setAttribute('viewBox','0 0 100 100');
+        svg.setAttribute('focusable','false');
+        mark.appendChild(svg);
+      }
+      svg.setAttribute('viewBox','0 0 100 100');
+      svg.innerHTML='<path class="outline" d="M50 8.3064516 L86.1076721 70.8467742 L13.8923279 70.8467742 Z"></path><circle class="tip-blue" cx="50" cy="8.3064516" r="4.9274194"></circle><circle class="tip-green" cx="86.1076721" cy="70.8467742" r="4.9274194"></circle><circle class="tip-red" cx="13.8923279" cy="70.8467742" r="4.9274194"></circle>';
+    });
+  }
+
   if(!document.head.querySelector('style[data-ubt-approved-mark]')){
     const markStyle=document.createElement('style');
-    markStyle.dataset.ubtApprovedMark='20260829-tight-triangle';
+    markStyle.dataset.ubtApprovedMark='20260830-mp4-exact-centred';
     markStyle.textContent=`
 .live-mark{position:relative;display:inline-grid;place-items:center;isolation:isolate;overflow:visible;border-radius:50%;filter:drop-shadow(0 0 8px rgba(242,199,106,.26))!important}
 .live-mark img{display:none!important}
 .live-mark:before{content:""!important;display:block!important;position:absolute!important;inset:1px!important;z-index:-1!important;border:1px solid rgba(242,199,106,.92)!important;border-radius:50%!important;box-shadow:0 0 5px rgba(242,199,106,.18)!important;animation:none!important}
-.live-sphere{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;inset:auto!important;width:5px!important;height:5px!important;margin:-2.5px 0 0 -2.5px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 30%,#fff7d2 0 20%,#f7d67d 38%,#f2c76a 68%,#9e6f25 100%)!important;box-shadow:0 0 6px rgba(242,199,106,.78)!important;filter:none!important;transform:none!important;animation:none!important;z-index:2!important}
-.live-triad{position:absolute!important;inset:4px!important;width:calc(100% - 8px)!important;height:calc(100% - 8px)!important;overflow:visible!important;transform-origin:50% 50%!important;animation:ubtApprovedTriadSpin 12s linear infinite!important;z-index:1!important}
+.live-sphere{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;inset:auto!important;width:2px!important;height:2px!important;margin:-1px 0 0 -1px!important;border-radius:50%!important;background:#f2c76a!important;box-shadow:0 0 4px rgba(242,199,106,.92)!important;filter:none!important;transform:none!important;animation:none!important;z-index:3!important}
+.live-triad{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:visible!important;transform-box:view-box!important;transform-origin:50px 50px!important;animation:ubtApprovedTriadSpin 6s linear infinite!important;z-index:1!important}
 .live-triad .outline{fill:none!important;stroke:rgba(242,199,106,.96)!important;stroke-width:2.5!important;stroke-linejoin:round!important;stroke-linecap:round!important;filter:drop-shadow(0 0 2px rgba(242,199,106,.42))!important}
 .live-triad .tip-blue{fill:#85cfff!important;color:#85cfff!important}
 .live-triad .tip-green{fill:#77f2a1!important;color:#77f2a1!important}
@@ -132,6 +149,8 @@
 `;
     document.head.appendChild(markStyle);
   }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyExactLivingMarks,{once:true});
+  else applyExactLivingMarks();
 
   const footer=document.querySelector('footer .wrap, .footer .wrap');
   if(footer && !footer.querySelector('.luna-fineprint')){
