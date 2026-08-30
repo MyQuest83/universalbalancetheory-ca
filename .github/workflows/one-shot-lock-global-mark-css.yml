@@ -1,0 +1,36 @@
+name: One-shot lock exact living mark CSS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/one-shot-lock-global-mark-css.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append exact shared fallback CSS
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('styles.css')
+          text=p.read_text(encoding='utf-8')
+          marker='/* 2026-08-30 exact MP4 living mark lock */'
+          if marker not in text:
+              text += '''\n\n/* 2026-08-30 exact MP4 living mark lock */\n.live-mark{position:relative!important;display:inline-grid!important;place-items:center!important;isolation:isolate!important;overflow:visible!important;border-radius:50%!important;filter:drop-shadow(0 0 8px rgba(242,199,106,.26))!important}\n.live-mark img{display:none!important}\n.live-mark:before{content:""!important;display:block!important;position:absolute!important;inset:1px!important;z-index:-1!important;border:1px solid rgba(242,199,106,.92)!important;border-radius:50%!important;box-shadow:0 0 5px rgba(242,199,106,.18)!important;animation:none!important}\n.live-sphere{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;inset:auto!important;width:2px!important;height:2px!important;margin:-1px 0 0 -1px!important;border-radius:50%!important;background:#f2c76a!important;box-shadow:0 0 4px rgba(242,199,106,.92)!important;filter:none!important;transform:none!important;animation:none!important;z-index:3!important}\n.live-triad{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:visible!important;transform-box:view-box!important;transform-origin:50px 50px!important;animation:ubtExactTriadSpin 6s linear infinite!important;z-index:1!important}\n.live-triad .outline{fill:none!important;stroke:rgba(242,199,106,.96)!important;stroke-width:2.5!important;stroke-linejoin:round!important;stroke-linecap:round!important;filter:drop-shadow(0 0 2px rgba(242,199,106,.42))!important}\n.live-triad .tip-blue{fill:#85cfff!important;color:#85cfff!important}\n.live-triad .tip-green{fill:#77f2a1!important;color:#77f2a1!important}\n.live-triad .tip-red{fill:#ff626d!important;color:#ff626d!important}\n.live-triad circle{filter:drop-shadow(0 0 4px currentColor)!important}\n@keyframes ubtExactTriadSpin{to{transform:rotate(360deg)}}\n@media(prefers-reduced-motion:reduce){.live-triad{animation:none!important;transform:none!important}.live-mark:before,.live-sphere{animation:none!important}}\n'''
+              p.write_text(text,encoding='utf-8')
+          Path('.github/workflows/one-shot-lock-global-mark-css.yml').unlink(missing_ok=True)
+          PY
+      - name: Commit shared lock
+        run: |
+          git config user.name "UBT site maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Lock shared living UBT mark to approved MP4"
+          git push
