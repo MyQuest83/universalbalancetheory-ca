@@ -1,0 +1,47 @@
+name: One-shot centre living UBT mark
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/one-shot-centre-living-mark.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Centre residual inline marks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          old = '<path class="outline" d="M50 12 14 80h72Z"></path><circle class="tip-blue" cx="50" cy="12" r="7"></circle><circle class="tip-green" cx="14" cy="80" r="7"></circle><circle class="tip-red" cx="86" cy="80" r="7"></circle>'
+          new = '<path class="outline" d="M50 8.3064516 L86.1076721 70.8467742 L13.8923279 70.8467742 Z"></path><circle class="tip-blue" cx="50" cy="8.3064516" r="4.9274194"></circle><circle class="tip-green" cx="86.1076721" cy="70.8467742" r="4.9274194"></circle><circle class="tip-red" cx="13.8923279" cy="70.8467742" r="4.9274194"></circle>'
+
+          for path in Path('.').glob('*.html'):
+              text = path.read_text(encoding='utf-8')
+              changed = text.replace(old, new).replace('20260829-living-mark','20260830-mp4-exact').replace('20260829-gold-core','20260830-mp4-exact')
+              if path.name == 'michael.html' and 'data-mp4-exact-mark' not in changed:
+                  override = '''\n<style data-mp4-exact-mark>\n/* Exact web translation of approved MP4 living mark. */\n.site-nav .brand .live-mark{position:relative!important;display:inline-grid!important;place-items:center!important;isolation:isolate!important;overflow:visible!important;border-radius:50%!important;filter:drop-shadow(0 0 8px rgba(242,199,106,.26))!important}\n.site-nav .brand .live-mark:before{content:""!important;display:block!important;position:absolute!important;inset:1px!important;z-index:-1!important;border:1px solid rgba(242,199,106,.92)!important;border-radius:50%!important;box-shadow:0 0 5px rgba(242,199,106,.18)!important;animation:none!important}\n.site-nav .brand .live-sphere{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;inset:auto!important;width:2px!important;height:2px!important;margin:-1px 0 0 -1px!important;border-radius:50%!important;background:#f2c76a!important;box-shadow:0 0 4px rgba(242,199,106,.92)!important;filter:none!important;transform:none!important;animation:none!important;z-index:3!important}\n.site-nav .brand .live-triad{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:visible!important;transform-box:view-box!important;transform-origin:50px 50px!important;animation:michaelExactTriadSpin 6s linear infinite!important;z-index:1!important}\n.site-nav .brand .live-triad .outline{fill:none!important;stroke:rgba(242,199,106,.96)!important;stroke-width:2.5!important;stroke-linejoin:round!important;stroke-linecap:round!important;filter:drop-shadow(0 0 2px rgba(242,199,106,.42))!important}\n.site-nav .brand .live-triad .tip-blue{fill:#85cfff!important;color:#85cfff!important}.site-nav .brand .live-triad .tip-green{fill:#77f2a1!important;color:#77f2a1!important}.site-nav .brand .live-triad .tip-red{fill:#ff626d!important;color:#ff626d!important}.site-nav .brand .live-triad circle{filter:drop-shadow(0 0 4px currentColor)!important}\n@keyframes michaelExactTriadSpin{to{transform:rotate(360deg)}}\n@media(prefers-reduced-motion:reduce){.site-nav .brand .live-triad{animation:none!important;transform:none!important}.site-nav .brand .live-mark:before,.site-nav .brand .live-sphere{animation:none!important}}\n</style>\n'''
+                  changed = changed.replace('</head>', override + '</head>', 1)
+              if changed != text:
+                  path.write_text(changed, encoding='utf-8')
+
+          wf = Path('.github/workflows/one-shot-centre-living-mark.yml')
+          if wf.exists():
+              wf.unlink()
+          PY
+      - name: Commit sweep
+        run: |
+          git config user.name "UBT site maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Centre residual living UBT marks to approved MP4"
+          git push
