@@ -1,0 +1,67 @@
+name: One-shot fix living mark visual rotation origin
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/one-shot-fix-visual-rotation-origin.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fix actual visual rotation origin
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          text_ext = {'.html', '.css', '.js'}
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or path.suffix not in text_ext:
+                  continue
+              if '.git' in path.parts:
+                  continue
+              text = path.read_text(encoding='utf-8')
+              changed = text
+              # The rendered header mark is ~34-38 CSS px wide. 50px 50px was outside
+              # the element and caused the visible orbital wobble. Percentages are the
+              # true element centre and match the approved MP4 motion.
+              changed = changed.replace('transform-origin:50px 50px!important;', 'transform-origin:50% 50%!important;')
+              changed = changed.replace('transform-origin: 50px 50px!important;', 'transform-origin:50% 50%!important;')
+              # Keep the origin in the rendered element coordinate system.
+              changed = changed.replace('transform-box:view-box!important;transform-origin:50% 50%!important;', 'transform-origin:50% 50%!important;')
+              changed = changed.replace('transform-box: view-box!important; transform-origin: 50% 50%!important;', 'transform-origin:50% 50%!important;')
+
+              if path.suffix == '.html':
+                  for old in ('20260829-living-mark','20260829-gold-core','20260830-approved-mark','20260830-mp4-exact'):
+                      changed = changed.replace(old, '20260830-visual-lock')
+              if changed != text:
+                  path.write_text(changed, encoding='utf-8')
+
+          wf = Path('.github/workflows/one-shot-fix-visual-rotation-origin.yml')
+          if wf.exists():
+              wf.unlink()
+          PY
+
+          if grep -R --include='*.html' --include='*.css' --include='*.js' -n 'transform-origin: *50px 50px' .; then
+            echo 'Bad pixel rotation origin remains' >&2
+            exit 1
+          fi
+          node --check site.js
+          node --check trigon/trigon-page.js
+          git diff --check
+
+      - name: Commit visual fix
+        run: |
+          git config user.name "UBT site maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Fix living UBT mark true visual rotation centre"
+          git push
