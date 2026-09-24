@@ -1,0 +1,12 @@
+# Public website ownership
+# Review ownership is recorded here. Enforcement still depends on GitHub repository rules.
+
+* @MyQuest83
+
+# Higher-sensitivity public surfaces
+/.github/ @MyQuest83
+/SECURITY.md @MyQuest83
+/PROVENANCE.md @MyQuest83
+/CNAME @MyQuest83
+/.well-known/ @MyQuest83
+/trigon/ @MyQuest83
