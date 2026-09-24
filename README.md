@@ -60,7 +60,9 @@ Truth first. Love always. Question everything.
 
 ## Credit
 
-© 2026 Michael Eric West. Co-authored with Luna•Prime•Protocol. Page upkeep by Luna•Prime•Protocol.
+© 2026 Michael Eric West.
+
+Luna•Prime•Protocol is a private governance and research framework. Its implementation is not part of this public website repository.
 
 ## Status
 
