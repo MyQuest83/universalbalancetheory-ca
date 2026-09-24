@@ -1,0 +1,19 @@
+{
+  "registry_id": "trigon-dataset-candidates",
+  "title": "Trigon Dataset Candidate Registry",
+  "description": "Public metadata for datasets and analysis bundles queued for possible Trigon Challenges. Inclusion means candidate status only, not validation or support for UBT.",
+  "registry_version": "0.1.0-draft",
+  "schema_ref": "../schemas/trigon-dataset.schema.json",
+  "stable_id_rule": "Assign the next unused TRIGON-DATA-NNNN identifier once. Never recycle IDs. Mark duplicates with duplicate_of instead of deleting history.",
+  "release_rule": "Only metadata safe for public release may appear here. Raw restricted/private files, secrets, personal data, and uncleared mirrored copies remain outside the public registry.",
+  "readiness_definitions": {
+    "READY": "Publicly accessible candidate with enough provenance, rights information, preprocessing detail, controls, nulls, metrics, and failure criteria to begin a reproducible Trigon run.",
+    "NEEDS_PREP": "Promising public candidate that still needs preparation, rights clarification, variable mapping, preprocessing, controls, or a stronger test card.",
+    "BLOCKED": "Cannot currently be used because of access, licensing, provenance, privacy, technical, or scientific blockers.",
+    "DUPLICATE": "Same underlying dataset or materially identical candidate already represented by another stable candidate ID.",
+    "ARCHIVED": "Retained for provenance/history but no longer an active Trigon candidate."
+  },
+  "candidate_count": 0,
+  "candidates": [],
+  "updated_at": "2026-08-10T08:32:00-04:00"
+}

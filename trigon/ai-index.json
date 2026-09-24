@@ -1,14 +1,17 @@
 {
   "archive_id": "trigon-ledger",
-  "archive_version": "0.1.0-draft",
-  "purpose": "Low-token discovery index for released public Trigon records.",
+  "archive_version": "0.2.0-draft",
+  "purpose": "Low-token discovery index for released public Trigon records and public dataset candidates queued for possible future tests.",
+  "dataset_registry": "datasets/dataset-registry.json",
   "scan_rules": [
-    "Preserve each record's exact status and claim ceiling.",
-    "Do not promote exploratory, failed, null, ambiguous, blocked, or superseded work.",
-    "Check related records, source IDs, datasets, controls, failures, and version links before proposing a new test.",
-    "Do not infer private, unpublished, or missing information.",
-    "Classify proposed work as reuse, reproduction, replication, extension, repair, or genuinely new only after the archive scan."
+    "Preserve each released record's exact status and claim ceiling.",
+    "Treat dataset registry entries as candidates only; inclusion is not a validation claim or evidence for UBT.",
+    "Do not promote exploratory, failed, null, ambiguous, blocked, superseded, or candidate work.",
+    "Check related records, source IDs, dataset candidates, controls, failures, rights status, and version links before proposing a new test.",
+    "Deduplicate dataset candidates by canonical identifier, provider/version, and underlying data content before assigning a new stable ID.",
+    "Do not infer private, unpublished, restricted, or missing information.",
+    "Classify proposed work as reuse, reproduction, replication, extension, repair, or genuinely new only after the archive and candidate registry scan."
   ],
   "records": [],
-  "updated_at": "2026-07-17T00:00:00-04:00"
+  "updated_at": "2026-08-10T08:32:00-04:00"
 }
