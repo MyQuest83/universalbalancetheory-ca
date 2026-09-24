@@ -1,0 +1,34 @@
+name: Export clean public snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/export-clean-snapshot.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sanitized public tree
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Build history-free snapshot
+        shell: bash
+        run: |
+          zip -r universalbalancetheory-ca-clean.zip . \
+            -x ".git/*" \
+               ".github/workflows/export-clean-snapshot.yml"
+
+      - name: Upload clean snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: universalbalancetheory-ca-clean
+          path: universalbalancetheory-ca-clean.zip
+          if-no-files-found: error
+          retention-days: 7
