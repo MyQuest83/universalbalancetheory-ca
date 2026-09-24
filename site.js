@@ -62,7 +62,6 @@
   ensureMeta('robots','index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
   if(!document.head.querySelector('link[rel="canonical"]'))ensureLink('canonical',canonicalUrl);
   ensureLink('alternate',origin+'/llms.txt','text/plain','Concise AI site map');
-  ensureLink('alternate',origin+'/llms-full.txt','text/plain','Expanded AI context');
   ensureLink('alternate',origin+'/site-index.json','application/json','Structured UBT public index');
 
   if(!document.head.querySelector('script[data-ubt-global-schema]')){
@@ -156,7 +155,7 @@
   if(footer && !footer.querySelector('.luna-fineprint')){
     const fine=document.createElement('small');
     fine.className='luna-fineprint';
-    fine.textContent='© 2026 Michael Eric West. Co-authored with Luna•Prime•Protocol. Page upkeep by Luna•Prime•Protocol.';
+    fine.textContent='© 2026 Michael Eric West.';
     fine.style.display='block';
     fine.style.marginTop='10px';
     fine.style.fontSize='0.74rem';
