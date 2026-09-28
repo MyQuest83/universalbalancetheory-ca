@@ -10,7 +10,6 @@ ensureMeta("author","Michael Eric West");
 ensureMeta("robots","index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1");
 ensureLink("canonical",origin+"/trigon-challenge.html");
 ensureLink("alternate",origin+"/llms.txt","text/plain","Concise AI site map");
-ensureLink("alternate",origin+"/llms-full.txt","text/plain","Expanded AI context");
 ensureLink("alternate",origin+"/site-index.json","application/json","Structured UBT public index");
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const title=$("#coreTitle"),subtitle=$("#coreSubtitle"),core=$("#coreButton"),prompt=$("#promptText"),setup=$("#promptSetup"),lanePill=$("#selectedLane"),depthPill=$("#selectedDepth"),copy=$("#copyPrompt"),copyStatus=$("#copyStatus");
