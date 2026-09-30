@@ -94,6 +94,8 @@ jobs:
 
           stale = []
           for path in text_files:
+              if path.as_posix() == ".github/workflows/public-site-qc.yml":
+                  continue
               text = path.read_text(encoding="utf-8", errors="replace")
               if "llms-full.txt" in text:
                   stale.append(str(path))
