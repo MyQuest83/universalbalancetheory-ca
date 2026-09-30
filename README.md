@@ -2,7 +2,7 @@
 
 Public website for Universal Balance Theory by Michael Eric West.
 
-Universal Balance Theory is presented here as a framework, research program, governance protocol, and public challenge for studying balance, transition, rupture, and the geometry of complex systems.
+Universal Balance Theory is presented here as a public research and testing framework for studying balance, transition, rupture, and the geometry of complex systems.
 
 ## Website
 
@@ -16,7 +16,7 @@ universalbalancetheory.ca
 
 - `index.html` - cinematic public gateway
 - `trigon-challenge.html` - participant-led public testing page
-- `trigon-ledger.html` - expandable public record and archive shell
+- `trigon-ledger.html` - compatibility redirect to `trigon-challenge.html#public-record`
 - `trigon/manifest.json` - canonical released-record manifest
 - `trigon/ai-index.json` - low-token AI discovery index
 - `trigon/status-definitions.json` - public status vocabulary
@@ -39,7 +39,7 @@ universalbalancetheory.ca
 
 - Book 1: https://zenodo.org/records/19421797
 - Trigon Challenge: https://universalbalancetheory.ca/trigon-challenge.html
-- Trigon Ledger: https://universalbalancetheory.ca/trigon-ledger.html
+- Trigon public record: https://universalbalancetheory.ca/trigon-challenge.html#public-record
 - Michael Eric West biography: https://universalbalancetheory.ca/michael.html
 - Medium: https://medium.com/@myquest321666
 - Substack: https://substack.com/@myquest321666
@@ -50,7 +50,7 @@ UBT is shared as an active framework and test path. It is not presented as compl
 
 The Trigon Challenge is participant-led. AI can assist, but it does not judge. Results may show consistency, ambiguity, revision needs, failure, or a path forward.
 
-The Trigon Ledger preserves released public records, statuses, claim ceilings, provenance, failures, uncertainty, and downloadable verification material when permitted. A record appears only after public release review.
+The Trigon public record preserves released records, statuses, claim ceilings, provenance, failures, uncertainty, and downloadable verification material when permitted. A record appears only after public release review.
 
 The public posture is:
 

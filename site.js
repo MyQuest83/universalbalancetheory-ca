@@ -77,7 +77,7 @@
           url:origin+'/',
           name:'Universal Balance Theory',
           alternateName:'UBT',
-          description:'A public framework, research path, governance protocol, and participant-led testing challenge for studying balance, transition, rupture, and the geometry of complex systems.',
+          description:'A public research and testing framework for studying balance, transition, rupture, and the geometry of complex systems.',
           inLanguage:'en-CA',
           creator:{'@id':origin+'/michael.html#person'}
         },
