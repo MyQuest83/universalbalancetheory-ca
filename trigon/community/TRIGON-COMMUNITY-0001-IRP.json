@@ -1,0 +1,89 @@
+{
+  "record_id": "TRIGON-COMMUNITY-0001",
+  "title": "Interpretive Risk Protocol (IRP) minimal-baseline Trigon run",
+  "record_type": "trigon_test",
+  "status": "complete_ambiguous",
+  "status_original": "Participant preserved this as TRIGON-IRP-0001 / Trigon Challenge #0002",
+  "test_depth": "medium",
+  "claim_ceiling": "This run is a completed community-submitted Trigon pressure test of a deliberately minimal IRP baseline. It does not validate IRP, UBT, or any source-document claims. It supports only the narrower conclusion that the tested IRP vocabulary was useful for organizing interpretive movement while the minimal protocol lacked enough operational definitions and decision rules for reproducible application.",
+  "public_release": true,
+  "release_gate": {
+    "approved": true,
+    "privacy_review": "passed",
+    "provenance_review": "passed",
+    "source_review": "passed",
+    "claim_review": "passed",
+    "approved_at": "2026-08-10T08:51:00-04:00"
+  },
+  "question": "Can the Interpretive Risk Protocol consistently distinguish its framework parts across different domains without adding unsupported meaning?",
+  "hypothesis": "A minimal IRP vocabulary may help separate observation, inference, interpretation, analogy, speculation, confidence, ambiguity, and interpretive drift, but reproducibility should fail or become ambiguous if operational definitions and decision rules are required but absent.",
+  "summary": "Community Trigon Run #0001 preserves Eric Bergthold's completed June 30, 2026 IRP test. Three domains were tested using a deliberately minimal IRP condition with part names but no operational definitions, boundary rules, activation criteria, confidence rubric, or drift standard. The model could organize each source using the IRP vocabulary, but each follow-up self-audit identified model-supplied scaffolding that had been necessary to do so. The public result is therefore AMBIGUOUS with a specific operational failure: conceptual usefulness was observed, while reproducible protocol behavior was not established.",
+  "domain": "interpretive auditing / cross-domain framework testing",
+  "tags": [
+    "community-run",
+    "IRP",
+    "interpretive-risk",
+    "cross-domain",
+    "self-audit",
+    "ambiguity",
+    "reproducibility",
+    "Trigon"
+  ],
+  "source_ids": [],
+  "dataset_ids": [],
+  "related_record_ids": [],
+  "method_summary": "Participant-reported run date: 2026-06-30. Participant-reported model: GPT-5.5 High Intelligence. Minimal IRP supplied only the names Observation, Inference, Interpretation, Analogy, Speculation, Confidence, Ambiguity, and Interpretive Drift. Three source documents were tested one scenario at a time: David Krakauer's 'Timelessness and Tragedy'; 'One Better Map, One Possible Footprint: Crystal Spacetime And Primordial Blackholes'; and Dario Amodei's 'Policy on the AI Exponential'. After each result row, the model was asked to audit its own output for interpretive structure it had introduced that was absent from both the source and IRP. Raw participant attachments are retained in private provenance and are not mirrored by this public record.",
+  "control_summary": [
+    "Minimal baseline intentionally omitted operational definitions and decision rules.",
+    "Each source was run as a separate scenario rather than blended into one analysis.",
+    "The model was instructed not to invent missing rules, silently improve the framework, hide failures, or treat ambiguity as success.",
+    "Each scenario was followed by a self-audit specifically searching for model-added interpretive scaffolding.",
+    "Public reporting preserves caveats and does not convert ambiguity into a pass/fail win."
+  ],
+  "primary_result": {
+    "classification": "AMBIGUOUS",
+    "conceptual_lens": "useful signal observed",
+    "reproducible_protocol": "not established in the minimal condition",
+    "scenarios_completed": 3,
+    "scenario_confidence_scores": [68, 74, 72],
+    "confidence_score_caveat": "The run itself found these numerical confidence values non-reproducible because no scoring rubric had been supplied.",
+    "main_operational_failure": "The model had to supply definitions, category boundaries, activation logic, confidence calibration, drift standards, integrating-region framing, genre classifications, and other methodological scaffolding not contained in the minimal IRP."
+  },
+  "exploratory_results": [
+    {
+      "finding": "The follow-up self-audits exposed the Trigon output itself as an interpretive artifact.",
+      "status": "interesting secondary observation, not independent validation"
+    }
+  ],
+  "model_added_scaffolding": [
+    "ordinary-language definitions for undefined IRP parts",
+    "category-boundary decisions",
+    "activation-strength language",
+    "numerical confidence values without a rubric",
+    "provisional interpretive-drift standards",
+    "integrating-region framing",
+    "genre/organizing labels"
+  ],
+  "ambiguities": [
+    "Observation versus Inference",
+    "Inference versus Interpretation",
+    "Interpretation versus Analogy",
+    "Speculation versus Forecast",
+    "Speculation versus risk-based policy planning",
+    "Synthesis versus Interpretive Drift",
+    "source confidence versus audit confidence"
+  ],
+  "failures": [
+    "The minimal IRP condition did not provide operational definitions or decision rules sufficient for reproducible classification.",
+    "Confidence scores were judgments rather than calibrated outputs.",
+    "Interpretive Drift could be flagged but not adjudicated using the supplied minimal framework alone."
+  ],
+  "evidence_summary": "Participant submission and follow-up email preserve the test question, test condition, three scenario summaries, run date, model used, raw-output attachment list, caveats, attribution note, and explicit permission for a public summary with caveats. The full 23-page test thread contains the exact initial prompt, three result rows, and three self-audits. Source documents are referenced by title only here and are not redistributed.",
+  "downloads": [],
+  "recommended_next_step": "Run a preregistered second condition using an operationalized IRP with explicit definitions, boundary rules, activation criteria, confidence calibration, and a drift standard, then compare inter-run consistency and model-added scaffolding against this minimal baseline.",
+  "created_at": "2026-07-01T04:45:54Z",
+  "updated_at": "2026-08-10T08:51:00-04:00",
+  "version": "1.0.0-public-draft",
+  "supersedes": null,
+  "superseded_by": null
+}
