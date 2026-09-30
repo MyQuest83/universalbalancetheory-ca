@@ -1,0 +1,204 @@
+name: Public site QC
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out public site
+        uses: actions/checkout@v4
+
+      - name: Validate JSON
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          paths = sorted(Path(".").rglob("*.json"))
+          for path in paths:
+              with path.open("r", encoding="utf-8") as handle:
+                  json.load(handle)
+          print(f"JSON PASS: {len(paths)} files")
+          PY
+
+      - name: Check JavaScript syntax and Trigon release gate
+        shell: bash
+        run: |
+          node --check site.js
+          node --check trigon/trigon-page.js
+          node --check trigon/validate-records.mjs
+          node trigon/validate-records.mjs
+
+      - name: Audit static links, fragments, privacy boundary, and secrets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlsplit, unquote
+          import re
+          import sys
+
+          root = Path(".")
+          errors = []
+          warnings = []
+
+          required = [
+              "index.html",
+              "trigon-challenge.html",
+              "michael.html",
+              "links.html",
+              "luna-prime.html",
+              "llms.txt",
+              "site-index.json",
+              "sitemap.xml",
+              "CNAME",
+          ]
+          for name in required:
+              if not (root / name).is_file():
+                  errors.append(f"missing required file: {name}")
+
+          cname = (root / "CNAME").read_text(encoding="utf-8").strip()
+          if cname != "universalbalancetheory.ca":
+              errors.append(f"CNAME mismatch: {cname!r}")
+
+          if (root / "llms-full.txt").exists():
+              errors.append("forbidden public file exists: llms-full.txt")
+
+          lpp = (root / "luna-prime.html").read_text(encoding="utf-8")
+          expected_robots = "noindex, nofollow, noarchive, nosnippet"
+          if expected_robots not in lpp:
+              errors.append("luna-prime.html missing strict noindex/nofollow/noarchive/nosnippet boundary")
+
+          text_suffixes = {
+              ".html", ".htm", ".js", ".css", ".json", ".xml", ".txt",
+              ".md", ".yml", ".yaml", ".svg"
+          }
+          text_files = [
+              p for p in root.rglob("*")
+              if p.is_file()
+              and ".git" not in p.parts
+              and p.suffix.lower() in text_suffixes
+          ]
+
+          stale = []
+          for path in text_files:
+              text = path.read_text(encoding="utf-8", errors="replace")
+              if "llms-full.txt" in text:
+                  stale.append(str(path))
+          if stale:
+              errors.append("stale llms-full.txt references: " + ", ".join(stale))
+
+          secret_patterns = {
+              "private key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----"),
+              "GitHub token": re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b"),
+              "OpenAI key": re.compile(r"\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b"),
+              "AWS access key": re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
+              "credential assignment": re.compile(
+                  r"(?im)^\s*(?:OPENAI_API_KEY|GITHUB_TOKEN|AWS_SECRET_ACCESS_KEY|PRIVATE_KEY)\s*=\s*[^\s#]+"
+              ),
+          }
+          for path in text_files:
+              text = path.read_text(encoding="utf-8", errors="replace")
+              for label, pattern in secret_patterns.items():
+                  if pattern.search(text):
+                      errors.append(f"possible {label} in {path}")
+
+          class AuditParser(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=True)
+                  self.refs = []
+                  self.ids = []
+                  self.img_without_alt = 0
+                  self.blank_without_rel = 0
+
+              def handle_starttag(self, tag, attrs):
+                  a = dict(attrs)
+                  if "id" in a:
+                      self.ids.append(a["id"])
+                  if tag in {"a", "link"} and a.get("href"):
+                      self.refs.append(a["href"])
+                  if tag in {"script", "img", "source", "iframe"} and a.get("src"):
+                      self.refs.append(a["src"])
+                  if tag == "img" and "alt" not in a:
+                      self.img_without_alt += 1
+                  if tag == "a" and a.get("target") == "_blank":
+                      rel = set((a.get("rel") or "").split())
+                      if not {"noopener", "noreferrer"} & rel:
+                          self.blank_without_rel += 1
+
+          html_data = {}
+          for path in sorted(root.glob("*.html")):
+              parser = AuditParser()
+              parser.feed(path.read_text(encoding="utf-8", errors="replace"))
+              dupes = sorted({x for x in parser.ids if parser.ids.count(x) > 1})
+              if dupes:
+                  errors.append(f"{path}: duplicate id(s): {', '.join(dupes)}")
+              if parser.img_without_alt:
+                  errors.append(f"{path}: {parser.img_without_alt} image(s) missing alt attribute")
+              if parser.blank_without_rel:
+                  errors.append(f"{path}: {parser.blank_without_rel} target=_blank link(s) missing noopener/noreferrer")
+              html_data[path.name] = (set(parser.ids), parser.refs)
+
+          def resolve_local(source, raw):
+              raw = raw.strip()
+              if not raw or raw.startswith(("#", "mailto:", "tel:", "javascript:", "data:")):
+                  return None
+              parts = urlsplit(raw)
+              if parts.scheme or parts.netloc:
+                  return None
+              path_part = unquote(parts.path)
+              if not path_part:
+                  target = source
+              elif path_part.startswith("/"):
+                  target = root / path_part.lstrip("/")
+              else:
+                  target = source.parent / path_part
+              return target, unquote(parts.fragment)
+
+          for name, (ids, refs) in html_data.items():
+              source = root / name
+              for raw in refs:
+                  resolved = resolve_local(source, raw)
+                  if resolved is None:
+                      if raw.startswith("#"):
+                          frag = unquote(raw[1:])
+                          if frag and frag not in ids:
+                              errors.append(f"{name}: missing local fragment #{frag}")
+                      continue
+                  target, frag = resolved
+                  if target.is_dir():
+                      target = target / "index.html"
+                  if not target.exists():
+                      errors.append(f"{name}: broken local reference {raw!r}")
+                      continue
+                  if frag and target.suffix.lower() in {".html", ".htm"}:
+                      target_name = str(target.relative_to(root))
+                      if target_name in html_data:
+                          target_ids = html_data[target_name][0]
+                      else:
+                          parser = AuditParser()
+                          parser.feed(target.read_text(encoding="utf-8", errors="replace"))
+                          target_ids = set(parser.ids)
+                      if frag not in target_ids:
+                          errors.append(f"{name}: missing target fragment {raw!r}")
+
+          if errors:
+              print("QC FAIL")
+              for item in errors:
+                  print(f"- {item}")
+              sys.exit(1)
+
+          print(f"Static/privacy/secret QC PASS: {len(html_data)} HTML pages, {len(text_files)} text files")
+          PY
