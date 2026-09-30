@@ -1,0 +1,32 @@
+name: Export final in-place public snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/export-final-inplace-20260930.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sanitized public tree
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Build history-free snapshot
+        shell: bash
+        run: |
+          zip -r universalbalancetheory-ca-final-inplace-2026-09-30.zip . \
+            -x ".git/*" \
+               ".github/workflows/export-final-inplace-20260930.yml"
+      - name: Upload snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: universalbalancetheory-ca-final-inplace-2026-09-30
+          path: universalbalancetheory-ca-final-inplace-2026-09-30.zip
+          if-no-files-found: error
+          retention-days: 30
