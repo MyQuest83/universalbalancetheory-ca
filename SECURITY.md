@@ -4,7 +4,7 @@
 
 This repository publishes the static public website at `https://universalbalancetheory.ca/`. It must contain only material intentionally approved for public release.
 
-Do not commit passwords, personal access tokens, API keys, OAuth credentials, refresh tokens, private keys, recovery codes, private Drive links, private chat exports, medical or financial records, or unpublished Luna Bank material.
+Do not commit passwords, personal access tokens, API keys, OAuth credentials, refresh tokens, private keys, recovery codes, private Drive links, private chat exports, medical or financial records, or unpublished research material.
 
 ## Reporting a vulnerability
 
@@ -35,3 +35,6 @@ Please avoid destructive testing, denial-of-service activity, social engineering
 - Review dependencies and security alerts regularly.
 - Keep private research and personal continuity data outside this public repository.
 - Treat any accidentally committed credential as compromised, even after deletion from the latest file version.
+- Keep backups outside the public repository; a public backup branch is still public.
+- Deleting a file or adding `noindex` does not remove earlier commits, public branches, cached copies, or existing downloads.
+- The QC workflow checks common secret formats, executable links, and private references in the six refreshed public pages. It is not a complete privacy or security audit of repository history or retained pages.

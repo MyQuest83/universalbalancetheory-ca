@@ -2,6 +2,8 @@
 <html lang="en-CA">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' ; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#04060d">
 <title>The Trigon Challenge | Universal Balance Theory</title>
@@ -9,9 +11,11 @@
 <meta name="author" content="Michael Eric West">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://universalbalancetheory.ca/trigon-challenge.html">
-<link rel="stylesheet" href="trigon/trigon-page.css?v=20260830-visual-lock">
+<link rel="stylesheet" href="trigon/trigon-page.css?v=20261019-v3">
+<link rel="stylesheet" href="usability.css?v=20261019-v3">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
-<body>
+<body class="trigon-navigation">
 <a class="skip-link" href="#lane-choice">Skip to lane choice</a>
 <div class="starfield" aria-hidden="true"></div>
 <div class="aurora" aria-hidden="true"></div>
@@ -21,13 +25,7 @@
     <span class="brand-mark live-mark" aria-hidden="true"><span class="live-sphere"></span><svg class="live-triad" viewBox="0 0 100 100" focusable="false"><path class="outline" d="M50 8.3064516 L86.1076721 70.8467742 L13.8923279 70.8467742 Z"></path><circle class="tip-blue" cx="50" cy="8.3064516" r="4.9274194"></circle><circle class="tip-green" cx="86.1076721" cy="70.8467742" r="4.9274194"></circle><circle class="tip-red" cx="13.8923279" cy="70.8467742" r="4.9274194"></circle></svg></span>
     <span>UBT</span>
   </a>
-  <nav class="nav" aria-label="Primary">
-    <a href="trigon-challenge.html" aria-current="page">Trigon</a>
-    <a href="luna.html">Luna</a>
-    <a href="aria.html">Aria</a>
-    <a href="shadow.html">Shadow</a>
-    <a href="links.html">Links</a>
-  </nav>
+  <nav class="nav" aria-label="Primary"><a href="trigon-challenge.html" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 22 21H2Z"/><path d="m12 9 4 8H8Z"/></svg><span>Trigon</span></a><a href="luna.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.7 13A9 9 0 0 1 11 3.3 9 9 0 1 0 20.7 13Z"/></svg><span>Luna</span></a><a href="aria.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6M10 3v7L4 20h16l-6-10V3M7 15h10"/></svg><span>Aria</span></a><a href="shadow.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4v6c0 4-8 8-8 8s-8-4-8-8V7Z"/><path d="m9 12 2 2 4-4"/></svg><span>Shadow</span></a><a href="links.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 6a4 4 0 0 1 6 0l-5 5a4 4 0 0 1-6 0"/></svg><span>Links</span></a></nav>
 </header>
 
 <main>
@@ -38,62 +36,26 @@
     <p class="hero-sub">Bring the idea. Choose its lane. Choose the depth. Run the test honestly. Preserve what worked, what failed, and what remained uncertain.</p>
     <div class="truth-line"><b>Participant first</b><i></i><b>AI assists</b><i></i><b>Evidence decides</b></div>
 
-    <div class="nexus" aria-label="Interactive Trigon lane selector">
-      <span class="orbit orbit-a" aria-hidden="true"></span>
-      <span class="orbit orbit-b" aria-hidden="true"></span>
-      <span class="orbit orbit-c" aria-hidden="true"></span>
-
-      <svg class="beams" viewBox="0 0 1060 610" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="beamLife"><stop stop-color="#78d3ff" stop-opacity="0"/><stop offset=".58" stop-color="#78d3ff" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
-          <linearGradient id="beamScience"><stop stop-color="#72efa1" stop-opacity="0"/><stop offset=".58" stop-color="#72efa1" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
-          <linearGradient id="beamTech"><stop stop-color="#ff6674" stop-opacity="0"/><stop offset=".58" stop-color="#ff6674" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
-          <linearGradient id="beamSubmit"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".58" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient>
-        </defs>
-        <path class="beam" d="M530 305 C405 250 300 165 170 105" stroke="url(#beamLife)"/>
-        <path class="beam science" d="M530 305 C410 365 315 455 190 520" stroke="url(#beamScience)"/>
-        <path class="beam tech" d="M530 305 C640 225 735 160 850 105" stroke="url(#beamTech)"/>
-        <path class="beam submit" d="M530 305 C675 330 790 370 950 340" stroke="url(#beamSubmit)"/>
-        <circle r="5" fill="#78d3ff"><animateMotion dur="4.8s" repeatCount="indefinite" path="M530 305 C405 250 300 165 170 105"/></circle>
-        <circle r="5" fill="#72efa1"><animateMotion dur="5.4s" repeatCount="indefinite" path="M530 305 C410 365 315 455 190 520"/></circle>
-        <circle r="5" fill="#ff6674"><animateMotion dur="4.3s" repeatCount="indefinite" path="M530 305 C640 225 735 160 850 105"/></circle>
-        <circle r="5" fill="#fff"><animateMotion dur="3.8s" repeatCount="indefinite" path="M530 305 C675 330 790 370 950 340"/></circle>
-      </svg>
-
-      <button class="core" id="coreButton" type="button" aria-label="Replay the Trigon gateway pulse">
-        <span class="core-ring r1"></span><span class="core-ring r2"></span><span class="core-ring r3"></span>
-        <span class="energy-ring e1"></span><span class="energy-ring e2"></span>
-        <svg viewBox="0 0 320 320" aria-hidden="true">
-          <defs><linearGradient id="triG" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#78d3ff"/><stop offset=".5" stop-color="#72efa1"/><stop offset="1" stop-color="#ff6674"/></linearGradient></defs>
-          <path d="M160 42 L54 250 L266 250 Z" fill="rgba(255,255,255,.025)" stroke="url(#triG)" stroke-width="3"/>
-          <circle cx="160" cy="160" r="48" fill="none" stroke="rgba(242,199,106,.28)" stroke-width="2" stroke-dasharray="8 10"/>
-        </svg>
-        <span class="core-copy"><strong id="coreTitle">Choose</strong><small id="coreSubtitle">a testing lane</small></span>
-      </button>
-
-      <a class="lane-orb life-orb" href="#life" data-title="Life" data-subtitle="Human systems, behaviour and meaning">
-        <span class="orb-copy"><em>◉</em><strong>Life</strong><small>mind • people • meaning</small><b>Choose lane</b></span>
-      </a>
-      <a class="lane-orb science-orb" href="#science" data-title="Nature / Science" data-subtitle="Living systems, evidence and geometry">
-        <span class="orb-copy"><em>⌬</em><strong>Nature / Science</strong><small>biology • ecology • physics</small><b>Choose lane</b></span>
-      </a>
-      <a class="lane-orb tech-orb" href="#tech" data-title="Tech" data-subtitle="AI, software and engineered systems">
-        <span class="orb-copy"><em>◇</em><strong>Tech</strong><small>AI • systems • code</small><b>Choose lane</b></span>
-      </a>
-      <a class="lane-orb submit-orb" href="#submit" data-title="Submit" data-subtitle="Package and share a completed test">
-        <span class="orb-copy"><em>↑</em><strong>Submit</strong><small>share the completed test</small><b>Review first</b></span>
-      </a>
+    <div class="hero-triad" aria-hidden="true"><span class="triad-dot blue"></span><span class="triad-dot green"></span><span class="triad-dot red"></span><svg viewBox="0 0 120 105" focusable="false"><path d="M60 10 L110 95 L10 95 Z"/></svg></div>
+    <div class="actions hero-actions">
+      <a class="btn btn-primary" href="#lane-choice"><span aria-hidden="true">△</span> Start a test</a>
+      <a class="btn" href="#public-record"><span aria-hidden="true">▤</span> Browse public records</a>
+      <a class="btn" href="https://zenodo.org/records/23473479"><svg class="resource-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg> Read the v3 paper</a>
     </div>
+    <p class="release-note">UBT for the World v3 is available. <a href="https://substack.com/@myquest321666/note/c-364793040">Read the release note <svg class="resource-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg></a></p>
 
-    <div class="actions">
-      <a class="btn" href="#lane-choice">Choose a Lane</a>
-      <a class="btn" href="#depth-choice">Choose Test Depth</a>
-      <a class="btn" href="#prompt">Open the Prompt</a>
-      <a class="btn" href="#public-record">Scan the Public Record</a>
-    </div>
   </div>
 </section>
 
+<nav class="step-nav wrap" aria-label="Challenge steps">
+  <a href="#lane-choice"><span>1</span> Choose lane</a>
+  <a href="#depth-choice"><span>2</span> Choose depth</a>
+  <a href="#run-guide"><span>3</span> Read the guide</a>
+  <a href="#prompt"><span>4</span> Get the prompt</a>
+  <a href="#submit"><span>5</span> Share results</a>
+</nav>
+
+<span id="start" aria-hidden="true"></span>
 <section class="section" id="lane-choice">
   <div class="wrap">
     <div class="kicker">Step 1 · Choose the lane</div>
@@ -164,11 +126,13 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="run-guide">
   <div class="wrap">
     <div class="kicker">Step 3 · Run the challenge</div>
     <h2>Simple on the surface. Expandable when needed.</h2>
     <p class="lead">The participant runs the first pass. AI may help organize, question, and record the test, but it does not become the judge and it may not silently repair the framework.</p>
+    <details class="guide-details">
+      <summary>See the six steps for an honest test</summary>
     <div class="flow">
       <article><span>1</span><strong>Bring the idea</strong><p>Framework, model, diagram, theory, system, or focused question.</p></article>
       <article><span>2</span><strong>Start clean</strong><p>Use a fresh or temporary AI chat when separation from prior context matters.</p></article>
@@ -177,6 +141,7 @@
       <article><span>5</span><strong>Run scenarios</strong><p>Test the framework against cases, prompts, files, or situations.</p></article>
       <article><span>6</span><strong>Record honestly</strong><p>Keep success, ambiguity, nulls, failures, and AI-added meaning visible.</p></article>
     </div>
+    </details>
 
     <div class="info-card">
       <h3>What the challenge is</h3>
@@ -184,7 +149,7 @@
       <div class="gold-box"><strong>AI can assist, but it does not judge. The participant runs the first pass.</strong></div>
       <details><summary>What counts as a useful result?</summary><p>A useful result may reveal consistency, ambiguity, a weak spot, a better next version, a reason to rebuild, or a need for clearer definitions. Failure can be more informative than vague success.</p></details>
       <details><summary>Privacy and separation</summary><p>Use a fresh chat, Temporary Chat, or Memory Off when the platform provides it. Do not upload private, sensitive, or unpublished material unless you understand the platform settings and release implications.</p></details>
-      <details><summary>Public guide paper</summary><p>Open public testing uses <strong>UBT for the World (v2)</strong>, DOI <code>10.5281/zenodo.19421797</code>.</p><a class="btn" href="https://zenodo.org/records/19421797">Open the public guide</a></details>
+      <details><summary>Public guide papers</summary><p><strong>UBT for the World v3</strong> is the latest release. Earlier editions remain available for reference.</p><div class="actions left"><a class="btn" href="https://zenodo.org/records/23473479">Read v3 on Zenodo</a><a class="btn" href="https://zenodo.org/records/19421797">v2 archive</a></div></details>
     </div>
   </div>
 </section>
@@ -195,7 +160,20 @@
     <h2>Copy the setup into a fresh AI chat.</h2>
     <p class="lead">Your selected lane and depth are added to the top. The original testing rules remain intact.</p>
     <div class="prompt-layout">
-      <pre id="promptText">TRIGON TEST SETUP
+      <aside class="prompt-side" aria-label="Prompt actions">
+        <div class="prompt-status"><strong>Current setup</strong><p id="promptSetup" aria-live="polite">Choose a lane and depth above, or fill the placeholders yourself.</p></div>
+        <div class="prompt-buttons">
+          <button class="btn btn-primary" id="copyPrompt" type="button" hidden>Copy prompt</button>
+          <button class="btn" id="downloadPrompt" type="button" hidden>Download .txt</button>
+          <button class="btn" id="selectPrompt" type="button" hidden>Select text manually</button>
+        </div>
+        <p id="copyStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+        <a class="btn" href="#public-record">Browse public records first</a>
+      </aside>
+      <details class="prompt-preview" id="promptPreview">
+        <summary>Preview the full testing prompt</summary>
+        <label for="promptText">Testing prompt <span>(read-only; select to copy)</span></label>
+        <textarea id="promptText" readonly spellcheck="false" rows="20">TRIGON TEST SETUP
 Lane: [SELECT A LANE]
 Depth: [SELECT A TEST DEPTH]
 
@@ -244,13 +222,10 @@ For each scenario, create a result row with:
 - failure or null notes
 - whether extra meaning had to be added
 
-Before we begin, restate the task neutrally and confirm that you will preserve ambiguity, failure, and uncertainty.</pre>
-      <aside class="prompt-side">
-        <div class="prompt-status"><strong>Current setup</strong><p id="promptSetup">Choose a lane and depth above. The prompt updates automatically.</p></div>
-        <button class="btn" id="copyPrompt" type="button">Copy prompt</button>
-        <a class="btn" href="#public-record">Scan the Public Record first</a>
-        <span id="copyStatus" aria-live="polite"></span>
-      </aside>
+Before we begin, restate the task neutrally and confirm that you will preserve ambiguity, failure, and uncertainty.</textarea>
+        <p class="field-help">Paste the prompt into a fresh chat, then replace the framework and scenario placeholders with material you choose to share.</p>
+      </details>
+      <noscript><p class="field-help">Open the preview to copy the prompt manually. Fill in your lane and depth before running the test.</p></noscript>
     </div>
   </div>
 </section>
@@ -271,10 +246,10 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
       <div class="actions left">
         <a class="btn" href="links.html#book2">Submission options</a>
         <a class="btn" href="#public-record">Public Record</a>
-        <a class="btn" href="https://zenodo.org/records/19421797">Read the guide</a>
+        <a class="btn" href="https://zenodo.org/records/23473479">Read the v3 guide</a>
       </div>
     </div>
-    <a class="submit-medallion" href="links.html#book2"><span>↑</span><strong>Submit</strong><small>review first</small></a>
+
   </div>
 </section>
 
@@ -284,10 +259,16 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
     <h2>Scan what already exists.</h2>
     <p class="lead">Search released Trigon records before beginning new work. The archive preserves summaries, source trails, methods, evidence, uncertainty, failures, and approved downloads without repeating the testing instructions above.</p>
 
+    <div class="actions left archive-links">
+      <a class="btn" href="trigon-ledger.html">About the public ledger</a>
+      <a class="btn" href="trigon/status-definitions.json">Status definitions (JSON)</a>
+      <a class="btn" href="trigon/sources/source-registry.json">Public sources (JSON)</a>
+    </div>
+    <noscript><p class="field-help">Interactive search needs JavaScript. <a href="trigon/manifest.json">Open the public record manifest (JSON)</a> to check released records.</p></noscript>
     <div class="archive-panel">
       <div class="archive-intro">
         <div><strong>Released public records</strong><p>Only material that passes source, privacy, provenance, claim-boundary, and permission review appears here.</p></div>
-        <span class="archive-status"><i></i><span id="archiveStatus">Loading public records…</span></span>
+        <span class="archive-status" role="status"><i aria-hidden="true"></i><span id="archiveStatus">Loading public records…</span></span>
       </div>
 
       <div class="archive-toolbar" aria-label="Public record filters">
@@ -298,9 +279,18 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
         <label>Sort<select id="sortFilter"><option value="updated-desc">Newest update</option><option value="updated-asc">Oldest update</option><option value="title-asc">Title A to Z</option><option value="depth-asc">Depth</option><option value="status-asc">Status</option></select></label>
       </div>
 
+      <div class="archive-actions"><button class="btn" id="clearFilters" type="button" hidden>Clear filters</button><a class="btn" href="trigon/manifest.json">Open public manifest (JSON)</a></div>
       <div class="archive-shell">
-        <div class="archive-head"><strong>Archive results</strong><span id="archiveCount">No released records</span></div>
-        <div class="records" id="recordList" aria-live="polite"></div>
+        <div class="archive-head"><strong>Archive results</strong><span id="archiveCount" aria-live="polite">Loading…</span></div>
+        <div class="records" id="recordList"></div>
+        <div class="archive-empty" id="archiveNoMatch" hidden>
+          <h3>No records match these filters.</h3><p>Try a shorter search or clear the filters to see all released records.</p>
+          <button class="btn" id="resetSearch" type="button">Clear filters</button>
+        </div>
+        <div class="archive-empty" id="archiveError" hidden>
+          <h3>The public archive could not load.</h3><p>You can retry or open the public manifest directly. A connection error does not tell us whether records have been released.</p>
+          <div class="actions"><button class="btn" id="retryArchive" type="button">Retry loading</button><a class="btn" href="trigon/manifest.json">Open public manifest (JSON)</a></div>
+        </div>
         <div class="archive-empty" id="archiveEmpty" hidden>
           <span>△</span>
           <h3>The archive is ready. No public records are released yet.</h3>
@@ -320,6 +310,6 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
   <small>Truth first. Love always. Question everything.</small>
 </footer>
 
-<script src="trigon/trigon-page.js?v=20260928-ai-link"></script>
+<script src="trigon/trigon-page.js?v=20261019-v3"></script>
 </body>
 </html>
