@@ -37,4 +37,4 @@ Please avoid destructive testing, denial-of-service activity, social engineering
 - Treat any accidentally committed credential as compromised, even after deletion from the latest file version.
 - Keep backups outside the public repository; a public backup branch is still public.
 - Deleting a file or adding `noindex` does not remove earlier commits, public branches, cached copies, or existing downloads.
-- The QC workflow checks common secret formats, executable links, and private references in the six refreshed public pages. It is not a complete privacy or security audit of repository history or retained pages.
+- The QC workflow checks common secret formats, executable links, and private references in public pages, auxiliary source indexes, and shared metadata. It is not a complete privacy or security audit of repository history or retained pages.

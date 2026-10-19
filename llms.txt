@@ -2,11 +2,11 @@
 
 Canonical public website: https://universalbalancetheory.ca/
 Creator: Michael Eric West
-Public guide: https://zenodo.org/records/19421797
+Public guide: UBT for the World (MEW 2026), v3, public preprint, 2026-10-19
+Publication record: https://zenodo.org/records/23473479
+Permanent DOI: https://doi.org/10.5281/zenodo.23473479
 
 Universal Balance Theory (UBT) is shared publicly as an active framework and test path. It is not presented as completed proof of new physics.
-
-Luna•Prime•Protocol is a private governance and research framework developed by Michael Eric West. Public implementation details are intentionally not published on this website.
 
 Public research surfaces:
 - Home: https://universalbalancetheory.ca/

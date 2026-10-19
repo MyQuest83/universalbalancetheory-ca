@@ -78,9 +78,9 @@ jobs:
           if (root / "llms-full.txt").exists():
               errors.append("forbidden public file exists: llms-full.txt")
 
-          lpp = (root / "luna-prime.html").read_text(encoding="utf-8")
+          legacy_page = (root / "luna-prime.html").read_text(encoding="utf-8")
           expected_robots = "noindex, nofollow, noarchive, nosnippet"
-          if expected_robots not in lpp:
+          if expected_robots not in legacy_page:
               errors.append("luna-prime.html missing strict noindex/nofollow/noarchive/nosnippet boundary")
 
           text_suffixes = {
@@ -119,11 +119,13 @@ jobs:
                   if pattern.search(text):
                       errors.append(f"possible {label} in {path}")
 
-          # The six refreshed pages have a public-only boundary. The author's
-          # existing biography is intentionally outside this content review.
-          public_pages = [
+          # Review public pages and the auxiliary sources consumed by crawlers
+          # and shared runtime metadata. The biography remains unchanged.
+          public_sources = [
               "index.html", "trigon-challenge.html", "luna.html",
               "aria.html", "shadow.html", "links.html",
+              "ai-index.html", "luna-prime.html", "llms.txt",
+              "site-index.json", "site.js",
           ]
           private_references = {
               "private project reference": re.compile(r"\bLPP\b|Luna[\s•·_-]*Prime", re.I),
@@ -132,7 +134,7 @@ jobs:
               "chat session link": re.compile(r"(?:chatgpt\.com|chat\.openai\.com)/(?:c|share)/", re.I),
               "local workspace path": re.compile(r"/(?:workspace|mnt/data|Users)/", re.I),
           }
-          for name in public_pages:
+          for name in public_sources:
               text = (root / name).read_text(encoding="utf-8")
               for label, pattern in private_references.items():
                   if pattern.search(text):
