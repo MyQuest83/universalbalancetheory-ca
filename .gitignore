@@ -37,3 +37,8 @@ coverage/
 *.7z
 chat.html
 *chat-export*
+*.bundle
+backups/
+private/
+.auth/
+playwright/.auth/

@@ -6,7 +6,7 @@ This repository is the public website/deployment surface for **Universal Balance
 
 Universal Balance Theory is the work of Michael Eric West.
 
-**Luna•Prime•Protocol** may be named publicly as Michael Eric West's private governance and research framework, but its internal architecture, prompts, agent structure, procedures, tooling, governance mechanics, and implementation are not part of this public repository.
+Private project architecture, prompts, procedures, tooling, and unpublished implementation material must remain outside this public repository.
 
 This file records repository and release boundaries. It does not create, transfer, waive, or reinterpret legal intellectual-property rights.
 

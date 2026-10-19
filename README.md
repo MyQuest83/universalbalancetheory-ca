@@ -31,13 +31,15 @@ universalbalancetheory.ca
 - `sitemap.xml` - public URL index for search engines
 - `robots.txt` - crawler rules and sitemap pointer
 - `styles.css` - shared supporting styles
+- `usability.css` - navigation icons and refreshed secondary-page controls
 - `site.js` - shared accent routing and footer upkeep credit
 - `CNAME` - GitHub Pages custom domain
 - `.nojekyll` - static-site marker
 
 ## Public links
 
-- Book 1: https://zenodo.org/records/19421797
+- UBT for the World v3: https://zenodo.org/records/23473479
+- Previous v2 release: https://zenodo.org/records/19421797
 - Trigon Challenge: https://universalbalancetheory.ca/trigon-challenge.html
 - Trigon public record: https://universalbalancetheory.ca/trigon-challenge.html#public-record
 - Michael Eric West biography: https://universalbalancetheory.ca/michael.html
@@ -62,7 +64,7 @@ Truth first. Love always. Question everything.
 
 © 2026 Michael Eric West.
 
-Luna•Prime•Protocol is a private governance and research framework. Its implementation is not part of this public website repository.
+Only intentionally released public material belongs in this website repository. Private research, personal records, and backups must remain outside it.
 
 ## Status
 

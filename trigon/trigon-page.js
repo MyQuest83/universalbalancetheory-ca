@@ -1,45 +1,240 @@
-(()=>{
-const origin="https://universalbalancetheory.ca";
-document.documentElement.lang="en-CA";
-function applyExactLivingMark(){document.querySelectorAll('.live-mark').forEach(mark=>{const svg=mark.querySelector('svg.live-triad');if(svg){svg.setAttribute('viewBox','0 0 100 100');svg.innerHTML='<path class="outline" d="M50 8.3064516 L86.1076721 70.8467742 L13.8923279 70.8467742 Z"></path><circle class="tip-blue" cx="50" cy="8.3064516" r="4.9274194"></circle><circle class="tip-green" cx="86.1076721" cy="70.8467742" r="4.9274194"></circle><circle class="tip-red" cx="13.8923279" cy="70.8467742" r="4.9274194"></circle>'}})}
-if(!document.head.querySelector('style[data-ubt-approved-mark]')){const markStyle=document.createElement('style');markStyle.dataset.ubtApprovedMark='20260830-mp4-exact-centred';markStyle.textContent=`.live-mark{position:relative;display:inline-grid;place-items:center;isolation:isolate;overflow:visible;border-radius:50%;filter:drop-shadow(0 0 8px rgba(242,199,106,.26))!important}.live-mark img{display:none!important}.live-mark:before{content:""!important;display:block!important;position:absolute!important;inset:1px!important;z-index:-1!important;border:1px solid rgba(242,199,106,.92)!important;border-radius:50%!important;box-shadow:0 0 5px rgba(242,199,106,.18)!important;animation:none!important}.live-sphere{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;inset:auto!important;width:2px!important;height:2px!important;margin:-1px 0 0 -1px!important;border-radius:50%!important;background:#f2c76a!important;box-shadow:0 0 4px rgba(242,199,106,.92)!important;filter:none!important;transform:none!important;animation:none!important;z-index:3!important}.live-triad{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:visible!important;transform-origin:50% 50%!important;animation:ubtApprovedTriadSpin 6s linear infinite!important;z-index:1!important}.live-triad .outline{fill:none!important;stroke:rgba(242,199,106,.96)!important;stroke-width:2.5!important;stroke-linejoin:round!important;stroke-linecap:round!important;filter:drop-shadow(0 0 2px rgba(242,199,106,.42))!important}.live-triad .tip-blue{fill:#85cfff!important;color:#85cfff!important}.live-triad .tip-green{fill:#77f2a1!important;color:#77f2a1!important}.live-triad .tip-red{fill:#ff626d!important;color:#ff626d!important}.live-triad circle{filter:drop-shadow(0 0 4px currentColor)!important}@keyframes ubtApprovedTriadSpin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.live-triad{animation:none!important;transform:none!important}.live-mark:before,.live-sphere{animation:none!important}}`;document.head.appendChild(markStyle)}
-applyExactLivingMark();
-function ensureMeta(name,content){let node=document.head.querySelector(`meta[name="${name}"]`);if(!node){node=document.createElement("meta");node.name=name;node.content=content;document.head.appendChild(node)}}
-function ensureLink(rel,href,type,title){let node=document.head.querySelector(`link[rel="${rel}"][href="${href}"]`);if(!node){node=document.createElement("link");node.rel=rel;node.href=href;if(type)node.type=type;if(title)node.title=title;document.head.appendChild(node)}}
-ensureMeta("author","Michael Eric West");
-ensureMeta("robots","index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1");
-ensureLink("canonical",origin+"/trigon-challenge.html");
-ensureLink("alternate",origin+"/llms.txt","text/plain","Concise AI site map");
-ensureLink("alternate",origin+"/site-index.json","application/json","Structured UBT public index");
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const title=$("#coreTitle"),subtitle=$("#coreSubtitle"),core=$("#coreButton"),prompt=$("#promptText"),setup=$("#promptSetup"),lanePill=$("#selectedLane"),depthPill=$("#selectedDepth"),copy=$("#copyPrompt"),copyStatus=$("#copyStatus");
-let lane="",depth="";
-function showOrb(orb){title.textContent=orb.dataset.title||"Choose";subtitle.textContent=orb.dataset.subtitle||"a testing lane"}
-function resetOrb(){title.textContent="Choose";subtitle.textContent="a testing lane"}
-$$(".nexus .lane-orb").forEach(orb=>{orb.addEventListener("mouseenter",()=>showOrb(orb));orb.addEventListener("focus",()=>showOrb(orb));orb.addEventListener("mouseleave",resetOrb);orb.addEventListener("blur",resetOrb)});
-core.addEventListener("click",()=>core.animate([{transform:"translate(-50%,-50%) scale(1)"},{transform:"translate(-50%,-50%) scale(1.06)"},{transform:"translate(-50%,-50%) scale(1)"}],{duration:900,easing:"cubic-bezier(.2,.8,.2,1)"}));
-function updatePrompt(){
-lanePill.textContent="Lane: "+(lane||"not selected");depthPill.textContent="Depth: "+(depth||"not selected");
-setup.textContent=lane&&depth?`${lane} lane · ${depth} test`:lane?`${lane} lane · choose a depth`:depth?`${depth} test · choose a lane`:"Choose a lane and depth above. The prompt updates automatically.";
-prompt.textContent=prompt.textContent.replace(/Lane: .*/,"Lane: "+(lane||"[SELECT A LANE]")).replace(/Depth: .*/,"Depth: "+(depth||"[SELECT A TEST DEPTH]"));
-}
-$$("[data-lane]").forEach(button=>button.addEventListener("click",()=>{lane=button.dataset.lane;$$("[data-lane]").forEach(item=>item.setAttribute("aria-pressed",String(item===button)));updatePrompt()}));
-$$("[data-depth]").forEach(button=>button.addEventListener("click",()=>{depth=button.dataset.depth;$$("[data-depth]").forEach(item=>item.setAttribute("aria-pressed",String(item===button)));updatePrompt()}));
-copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(prompt.innerText||prompt.textContent);copy.textContent="Copied";copyStatus.textContent="Prompt copied.";setTimeout(()=>{copy.textContent="Copy prompt";copyStatus.textContent=""},1500)}catch{copyStatus.textContent="Select and copy the prompt manually."}});
+(() => {
+  'use strict';
+  const $ = selector => document.querySelector(selector);
+  const $$ = selector => [...document.querySelectorAll(selector)];
+  const prompt = $('#promptText');
+  const template = prompt.value;
+  const feedback = $('#copyStatus');
+  let lane = '';
+  let depth = '';
 
-const list=$("#recordList"),empty=$("#archiveEmpty"),count=$("#archiveCount"),statusLine=$("#archiveStatus"),search=$("#recordSearch"),statusFilter=$("#statusFilter"),domainFilter=$("#domainFilter"),depthFilter=$("#depthFilter"),sortFilter=$("#sortFilter");
-const state={records:[],filtered:[]},arr=v=>Array.isArray(v)?v:[],norm=v=>String(v||"").trim().toLowerCase(),esc=v=>String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
-function href(v){try{const u=new URL(String(v||""),document.baseURI);return["http:","https:"].includes(u.protocol)?u.href:"#"}catch{return"#"}}
-function addOptions(select,values){[...new Set(values.filter(Boolean))].sort().forEach(value=>{const o=document.createElement("option");o.value=norm(value);o.textContent=value;select.appendChild(o)})}
-function recordCard(record){
-const files=arr(record.downloads),tabs=[["summary","Summary"],["sources","Sources"],["methods","Methods"],["evidence","Evidence"],["notes","Notes"]],panes={summary:record.summary||record.question||"Summary pending.",sources:arr(record.source_ids).length?arr(record.source_ids).join(", "):"No public source list is attached.",methods:record.method_summary||"Method summary pending.",evidence:record.evidence_summary||"Evidence summary pending.",notes:arr(record.ambiguities).concat(arr(record.failures)).join("\n")||"No public ambiguity or failure notes are attached."},recordTitle=record.title||record.question||record.record_id||"Untitled record",id=record.record_id||"Record ID pending";
-return`<details class="record-card"><summary><div><div class="record-title">${esc(recordTitle)}</div><div class="record-meta"><span class="record-pill">${esc(id)}</span><span class="record-pill">${esc(record.status||"unclassified")}</span><span class="record-pill">${esc(record.test_depth||"depth pending")}</span>${record.domain?`<span class="record-pill">${esc(record.domain)}</span>`:""}</div></div><span class="record-chevron">⌄</span></summary><div class="record-body"><div class="record-tabs" role="tablist">${tabs.map((tab,i)=>`<button type="button" role="tab" aria-selected="${i===0}" data-tab="${tab[0]}">${tab[1]}</button>`).join("")}</div>${tabs.map((tab,i)=>`<div class="record-pane" data-pane="${tab[0]}" ${i?"hidden":""}>${esc(panes[tab[0]])}</div>`).join("")}${files.length?`<div class="download-row">${files.map(file=>`<a href="${href(file.href)}">${esc(file.label||file.format||"Download")}</a>`).join("")}</div>`:""}</div></details>`}
-function wireTabs(){$$(".record-card").forEach(card=>card.querySelectorAll("[data-tab]").forEach(button=>button.addEventListener("click",()=>{card.querySelectorAll("[data-tab]").forEach(b=>b.setAttribute("aria-selected","false"));card.querySelectorAll("[data-pane]").forEach(p=>p.hidden=true);button.setAttribute("aria-selected","true");const pane=card.querySelector(`[data-pane="${button.dataset.tab}"]`);if(pane)pane.hidden=false})))}
-function apply(){
-const q=norm(search.value),st=norm(statusFilter.value),dm=norm(domainFilter.value),dp=norm(depthFilter.value),rank={light:1,medium:2,heavy:3};
-state.filtered=state.records.filter(r=>{const hay=norm([r.record_id,r.title,r.question,r.summary,r.domain,arr(r.tags).join(" "),arr(r.source_ids).join(" ")].join(" "));return(!q||hay.includes(q))&&(!st||norm(r.status)===st)&&(!dm||norm(r.domain)===dm)&&(!dp||norm(r.test_depth)===dp)});
-state.filtered.sort((a,b)=>{switch(sortFilter.value){case"updated-asc":return String(a.updated_at||"").localeCompare(String(b.updated_at||""));case"title-asc":return String(a.title||a.record_id||"").localeCompare(String(b.title||b.record_id||""));case"depth-asc":return(rank[norm(a.test_depth)]||9)-(rank[norm(b.test_depth)]||9);case"status-asc":return String(a.status||"").localeCompare(String(b.status||""));default:return String(b.updated_at||"").localeCompare(String(a.updated_at||""))}});
-list.innerHTML=state.filtered.map(recordCard).join("");empty.hidden=state.records.length!==0;count.textContent=state.records.length?`${state.filtered.length} of ${state.records.length} records`:"No released records";statusLine.textContent=state.records.length?(state.filtered.length?"Public archive loaded":"No records match these filters"):"Public archive loaded. No records released yet.";wireTabs()}
-[search,statusFilter,domainFilter,depthFilter,sortFilter].forEach(control=>control.addEventListener(control===search?"input":"change",apply));
-fetch("trigon/manifest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(manifest=>{state.records=arr(manifest.records).filter(record=>record&&record.public_release===true);addOptions(statusFilter,state.records.map(r=>r.status));addOptions(domainFilter,state.records.map(r=>r.domain));apply()}).catch(()=>{statusLine.textContent="Public archive connection unavailable.";count.textContent="";empty.hidden=true;list.innerHTML='<div class="archive-empty"><span>!</span><h3>The archive connection is unavailable.</h3><p>The Trigon page is intact, but the public manifest could not be read. Please try again later.</p></div>'});
+  function updatePrompt() {
+    $('#selectedLane').textContent = `Lane: ${lane || 'not selected'}`;
+    $('#selectedDepth').textContent = `Depth: ${depth || 'not selected'}`;
+    $('#promptSetup').textContent = lane && depth
+      ? `${lane} lane · ${depth} test. Ready to copy or download.`
+      : `${lane || 'Choose a lane'} · ${depth ? `${depth} test` : 'choose a depth'}. Unselected choices remain as placeholders.`;
+    prompt.value = template
+      .replace(/^Lane: .*$/m, `Lane: ${lane || '[SELECT A LANE]'}`)
+      .replace(/^Depth: .*$/m, `Depth: ${depth || '[SELECT A TEST DEPTH]'}`);
+    feedback.textContent = '';
+    $('#copyPrompt').textContent = 'Copy prompt';
+  }
+
+  function wireSelection(attribute, setValue) {
+    const buttons = $$(`[data-${attribute}]`);
+    buttons.forEach(button => {
+      const label = button.textContent;
+      button.dataset.originalLabel = label;
+      button.addEventListener('click', () => {
+        setValue(button.dataset[attribute]);
+        buttons.forEach(item => {
+          const selected = item === button;
+          item.setAttribute('aria-pressed', String(selected));
+          item.textContent = selected ? `✓ ${item.dataset[attribute]} selected` : item.dataset.originalLabel;
+          const card = item.closest('article');
+          card.classList.toggle('is-selected', selected);
+          let next = card.querySelector('.selection-next');
+          if (!next && selected) {
+            next = document.createElement('a');
+            next.className = 'selection-next';
+            next.href = attribute === 'lane' ? '#depth-choice' : '#prompt';
+            next.textContent = attribute === 'lane' ? 'Next: choose test depth →' : 'Next: get the prompt →';
+            card.append(next);
+          }
+          if (next) next.hidden = !selected;
+        });
+        updatePrompt();
+      });
+    });
+  }
+  wireSelection('lane', value => { lane = value; });
+  wireSelection('depth', value => { depth = value; });
+
+  function selectPrompt() {
+    $('#promptPreview').open = true;
+    prompt.focus();
+    prompt.select();
+    prompt.setSelectionRange(0, prompt.value.length);
+    feedback.textContent = 'Prompt selected. Use your device’s Copy command, then paste it into a fresh chat.';
+  }
+  ['copyPrompt', 'downloadPrompt', 'selectPrompt'].forEach(id => { $(`#${id}`).hidden = false; });
+  $('#selectPrompt').addEventListener('click', selectPrompt);
+  $('#copyPrompt').addEventListener('click', async () => {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(prompt.value);
+      $('#copyPrompt').textContent = '✓ Copied';
+      feedback.textContent = lane && depth
+        ? 'Prompt copied. Paste it into a fresh chat and fill in your framework and scenarios.'
+        : 'Template copied. Fill in the lane, depth, framework, and scenario placeholders before testing.';
+    } catch {
+      selectPrompt();
+    }
+  });
+  $('#downloadPrompt').addEventListener('click', () => {
+    const file = new Blob([prompt.value + '\n'], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'trigon-testing-prompt.txt';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    feedback.textContent = lane && depth
+      ? 'Text download requested with your selected lane and depth.'
+      : 'Template download requested. Fill in all placeholders before testing.';
+  });
+
+  const list = $('#recordList');
+  const search = $('#recordSearch');
+  const statusFilter = $('#statusFilter');
+  const domainFilter = $('#domainFilter');
+  const depthFilter = $('#depthFilter');
+  const sortFilter = $('#sortFilter');
+  const controls = [search, statusFilter, domainFilter, depthFilter, sortFilter];
+  const arr = value => Array.isArray(value) ? value : [];
+  const norm = value => String(value ?? '').trim().toLowerCase();
+  let records = [];
+  let loaded = false;
+
+  function element(tag, text, className) {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent = String(text);
+    if (className) node.className = className;
+    return node;
+  }
+
+  // Only public web links are rendered; record strings never become HTML.
+  function publicHref(value) {
+    if (typeof value !== 'string' || !value.trim()) return null;
+    try {
+      const url = new URL(value, document.baseURI);
+      if (url.username || url.password) return null;
+      if (url.protocol === 'https:' || (url.protocol === 'http:' && url.origin === location.origin)) return url.href;
+    } catch { /* An invalid link is omitted, while the record stays visible. */ }
+    return null;
+  }
+
+  function recordCard(record) {
+    const card = element('details', undefined, 'record-card');
+    const summary = element('summary');
+    const heading = element('span', undefined, 'record-heading');
+    heading.append(element('span', record.title || record.question || record.record_id || 'Untitled record', 'record-title'));
+    const meta = element('span', undefined, 'record-meta');
+    [record.record_id || 'Record ID pending', record.status || 'unclassified', record.test_depth || 'depth pending', record.domain]
+      .filter(Boolean).forEach(value => meta.append(element('span', value, 'record-pill')));
+    heading.append(meta);
+    const chevron = element('span', '+', 'record-chevron');
+    chevron.setAttribute('aria-hidden', 'true');
+    summary.append(heading, chevron);
+    const body = element('div', undefined, 'record-body');
+    body.append(element('h3', 'Summary'), element('p', record.summary || record.question || 'Summary pending.', 'record-pane'));
+    const sections = [
+      ['Sources', arr(record.source_ids).join('\n') || 'No public source list is attached.'],
+      ['Methods', record.method_summary || 'Method summary pending.'],
+      ['Evidence', record.evidence_summary || 'Evidence summary pending.'],
+      ['Ambiguities and failures', arr(record.ambiguities).concat(arr(record.failures)).join('\n') || 'No public ambiguity or failure notes are attached.']
+    ];
+    sections.forEach(([label, text]) => {
+      const detail = element('details', undefined, 'record-detail');
+      detail.append(element('summary', label), element('p', text, 'record-pane'));
+      body.append(detail);
+    });
+    const downloads = element('div', undefined, 'download-row');
+    arr(record.downloads).forEach(file => {
+      if (!file || typeof file !== 'object') return;
+      const href = publicHref(file.href);
+      if (!href) return;
+      const link = element('a', file.label || file.format || 'Open file', 'btn');
+      link.href = href;
+      downloads.append(link);
+    });
+    if (downloads.childElementCount) body.append(downloads);
+    card.append(summary, body);
+    return card;
+  }
+
+  function addOptions(select, values) {
+    select.replaceChildren(select.options[0]);
+    [...new Set(values.filter(value => typeof value === 'string' && value.trim()))].sort().forEach(value => {
+      const option = element('option', value);
+      option.value = norm(value);
+      select.append(option);
+    });
+  }
+
+  function applyFilters() {
+    if (!loaded) return;
+    const query = norm(search.value);
+    const status = norm(statusFilter.value);
+    const domain = norm(domainFilter.value);
+    const depthChoice = norm(depthFilter.value);
+    const rank = { light: 1, medium: 2, heavy: 3 };
+    const filtered = records.filter(record => {
+      const haystack = norm([record.record_id, record.title, record.question, record.summary, record.domain,
+        arr(record.tags).join(' '), arr(record.source_ids).join(' ')].join(' '));
+      return (!query || haystack.includes(query)) && (!status || norm(record.status) === status)
+        && (!domain || norm(record.domain) === domain) && (!depthChoice || norm(record.test_depth) === depthChoice);
+    });
+    filtered.sort((a, b) => {
+      switch (sortFilter.value) {
+        case 'updated-asc': return String(a.updated_at || '').localeCompare(String(b.updated_at || ''));
+        case 'title-asc': return String(a.title || a.record_id || '').localeCompare(String(b.title || b.record_id || ''));
+        case 'depth-asc': return (rank[norm(a.test_depth)] || 9) - (rank[norm(b.test_depth)] || 9);
+        case 'status-asc': return String(a.status || '').localeCompare(String(b.status || ''));
+        default: return String(b.updated_at || '').localeCompare(String(a.updated_at || ''));
+      }
+    });
+    list.replaceChildren(...filtered.map(recordCard));
+    $('#archiveEmpty').hidden = records.length !== 0;
+    $('#archiveNoMatch').hidden = !records.length || filtered.length !== 0;
+    $('#archiveCount').textContent = records.length ? `${filtered.length} of ${records.length} records` : 'No released records';
+    $('#archiveStatus').textContent = records.length ? 'Public archive loaded.' : 'Public archive loaded. No records released yet.';
+    $('#clearFilters').hidden = ![search, statusFilter, domainFilter, depthFilter].some(control => control.value) && sortFilter.value === 'updated-desc';
+  }
+
+  function clearFilters() {
+    [search, statusFilter, domainFilter, depthFilter].forEach(control => { control.value = ''; });
+    sortFilter.value = 'updated-desc';
+    applyFilters();
+    search.focus();
+  }
+  $('#clearFilters').addEventListener('click', clearFilters);
+  $('#resetSearch').addEventListener('click', clearFilters);
+  controls.forEach(control => control.addEventListener(control === search ? 'input' : 'change', applyFilters));
+
+  async function loadArchive() {
+    loaded = false;
+    $('#archiveError').hidden = true;
+    $('#archiveEmpty').hidden = true;
+    $('#archiveNoMatch').hidden = true;
+    $('#archiveStatus').textContent = 'Loading public records…';
+    $('#archiveCount').textContent = 'Loading…';
+    controls.forEach(control => { control.disabled = true; });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetch('trigon/manifest.json', { cache: 'no-store', signal: controller.signal });
+      if (!response.ok) throw new Error('Manifest request failed');
+      const manifest = await response.json();
+      if (!manifest || !Array.isArray(manifest.records)) throw new Error('Invalid public manifest');
+      records = manifest.records.filter(record => record && typeof record === 'object' && record.public_release === true);
+      addOptions(statusFilter, records.map(record => record.status));
+      addOptions(domainFilter, records.map(record => record.domain));
+      loaded = true;
+      controls.forEach(control => { control.disabled = false; });
+      applyFilters();
+    } catch {
+      list.replaceChildren();
+      $('#archiveStatus').textContent = 'Public archive connection unavailable.';
+      $('#archiveCount').textContent = 'Unable to load';
+      $('#archiveError').hidden = false;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+  $('#retryArchive').addEventListener('click', loadArchive);
+  loadArchive();
 })();
