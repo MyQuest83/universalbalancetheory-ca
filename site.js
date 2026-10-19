@@ -86,7 +86,7 @@
           '@id':origin+'/michael.html#person',
           name:'Michael Eric West',
           url:origin+'/michael.html',
-          sameAs:['https://github.com/MyQuest83','https://medium.com/@myquest321666','https://substack.com/@myquest321666','https://zenodo.org/records/19421797']
+          sameAs:['https://github.com/MyQuest83','https://medium.com/@myquest321666','https://substack.com/@myquest321666']
         },
         {
           '@type':'CreativeWork',
@@ -96,7 +96,7 @@
           url:origin+'/',
           creator:{'@id':origin+'/michael.html#person'},
           description:'An active public framework and test path. It is not presented as completed proof of new physics.',
-          citation:'https://doi.org/10.5281/zenodo.19421797'
+          citation:'https://doi.org/10.5281/zenodo.23473479'
         },
         {
           '@type':'WebPage',

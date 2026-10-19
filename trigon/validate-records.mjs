@@ -6,7 +6,11 @@ import { resolve } from 'node:path';
 const root = resolve(process.cwd());
 const manifestPath = resolve(root, process.argv[2] || 'trigon/manifest.json');
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
-const records = Array.isArray(manifest.records) ? manifest.records : [];
+if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest) || !Array.isArray(manifest.records)) {
+  console.error('Trigon record validation failed: manifest must be an object with a records array.');
+  process.exit(1);
+}
+const records = manifest.records;
 const required = [
   'record_id',
   'title',
@@ -22,7 +26,6 @@ const required = [
   'version'
 ];
 const allowedDepths = new Set(['light', 'medium', 'heavy']);
-const allowedProtocols = new Set(['http:', 'https:']);
 const seen = new Set();
 const errors = [];
 
@@ -33,8 +36,9 @@ function fail(recordId, message) {
 function safeDownloadHref(href) {
   if (typeof href !== 'string' || !href.trim()) return false;
   try {
-    const url = new URL(href, 'https://universalbalancetheory.ca/trigon/');
-    return allowedProtocols.has(url.protocol);
+    // Match the public archive page's URL resolution and production policy.
+    const url = new URL(href, 'https://universalbalancetheory.ca/trigon-challenge.html');
+    return url.protocol === 'https:' && !url.username && !url.password;
   } catch {
     return false;
   }
@@ -67,9 +71,9 @@ for (const record of records) {
   }
 
   for (const download of Array.isArray(record.downloads) ? record.downloads : []) {
-    if (!safeDownloadHref(download?.href)) fail(id, `unsafe or invalid download href: ${download?.href || '[missing]'}`);
+    if (!safeDownloadHref(download?.href)) fail(id, 'unsafe or invalid download href');
     if (download?.checksum_sha256 && !/^[a-f0-9]{64}$/i.test(download.checksum_sha256)) {
-      fail(id, `invalid SHA-256 checksum for ${download.label || download.href || 'download'}`);
+      fail(id, 'invalid SHA-256 checksum for download');
     }
   }
 }

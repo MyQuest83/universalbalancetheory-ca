@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.3",
-  "updated": "2026-09-30",
+  "schema_version": "1.4",
+  "updated": "2026-10-19",
   "site": {
     "name": "Universal Balance Theory",
     "alternate_name": "UBT",
@@ -10,11 +10,13 @@
     "claim_boundary": "UBT is an active framework and test path. It is not presented as completed proof of new physics."
   },
   "canonical_publication": {
-    "title": "UBT for the World (v2)",
-    "url": "https://zenodo.org/records/19421797",
-    "doi": "10.5281/zenodo.19421797"
+    "title": "UBT for the World (MEW 2026)",
+    "version": "v3",
+    "resource_type": "preprint",
+    "publication_date": "2026-10-19",
+    "url": "https://zenodo.org/records/23473479",
+    "doi": "10.5281/zenodo.23473479"
   },
-  "lpp_public_note": "Luna•Prime•Protocol is a private governance and research framework developed by Michael Eric West. Public implementation details are intentionally not published here.",
   "pages": [
     {
       "id": "home",
