@@ -86,7 +86,7 @@
           '@id':origin+'/michael.html#person',
           name:'Michael Eric West',
           url:origin+'/michael.html',
-          sameAs:['https://github.com/MyQuest83','https://medium.com/@myquest321666','https://substack.com/@myquest321666']
+          sameAs:['https://medium.com/@myquest321666','https://substack.com/@myquest321666']
         },
         {
           '@type':'CreativeWork',
