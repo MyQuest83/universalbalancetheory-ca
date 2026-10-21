@@ -188,6 +188,7 @@
       }
     });
     list.replaceChildren(...filtered.map(recordCard));
+    $('#archiveToolbar').hidden = records.length === 0;
     $('#archiveEmpty').hidden = records.length !== 0;
     $('#archiveNoMatch').hidden = !records.length || filtered.length !== 0;
     $('#archiveCount').textContent = records.length ? `${filtered.length} of ${records.length} records` : 'No released records';
@@ -210,6 +211,7 @@
     $('#archiveError').hidden = true;
     $('#archiveEmpty').hidden = true;
     $('#archiveNoMatch').hidden = true;
+    $('#archiveToolbar').hidden = true;
     $('#archiveStatus').textContent = 'Loading public records…';
     $('#archiveCount').textContent = 'Loading…';
     controls.forEach(control => { control.disabled = true; });
