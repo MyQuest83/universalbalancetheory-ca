@@ -1,0 +1,19 @@
+{
+  "series_id": "trigon-community",
+  "title": "Community Trigon Runs",
+  "description": "Completed or release-ready Trigon Challenges submitted by people outside the core UBT/Luna•Prime R&D lane. Community authorship, historical identifiers, consent, provenance, uncertainty, and claim ceilings are preserved per run.",
+  "public_id_rule": "Assign public release IDs sequentially as TRIGON-COMMUNITY-NNNN. Historical submission labels remain in each record and are never rewritten.",
+  "separation_rule": "Community runs must remain visibly separate from UBT/Luna•Prime project-originated R&D runs so outside contributions are not presented as internal research and internal experiments are not presented as independent submissions.",
+  "runs": [
+    {
+      "public_id": "TRIGON-COMMUNITY-0001",
+      "title": "Interpretive Risk Protocol (IRP) minimal-baseline Trigon run",
+      "contributor": "Eric Bergthold",
+      "historical_submission_label": "TRIGON-IRP-0001 / Trigon Challenge #0002",
+      "status": "complete_ambiguous",
+      "record": "TRIGON-COMMUNITY-0001-IRP.json",
+      "public_summary": "TRIGON-COMMUNITY-0001-IRP.md"
+    }
+  ],
+  "updated_at": "2026-08-10T08:51:00-04:00"
+}
