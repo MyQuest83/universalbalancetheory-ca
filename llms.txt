@@ -9,6 +9,8 @@ Permanent DOI: https://doi.org/10.5281/zenodo.23473479
 Universal Balance Theory (UBT) is shared publicly as an active framework and test path. It is not presented as completed proof of new physics.
 
 Public research surfaces:
+- Twelve published V3 pathways: https://universalbalancetheory.ca/research.html
+- Public V3 pathway data: https://universalbalancetheory.ca/data/v3-pathways.json
 - Evidence, reported outcomes and supporting-material access: https://universalbalancetheory.ca/evidence.html
 - Evidence-type definitions: https://universalbalancetheory.ca/trigon/evidence-types.json
 - Home: https://universalbalancetheory.ca/

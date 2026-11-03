@@ -38,6 +38,7 @@ jobs:
         shell: bash
         run: |
           node --check site.js
+          node --check reader.js
           node --check gateway-intro.js
           node --check gateway-warp-renderer.js
           node --check trigon/trigon-page.js
@@ -60,8 +61,8 @@ jobs:
 
           required = [
               "index.html",
-              "evidence.html",
               "trigon-challenge.html",
+              "evidence.html", "research.html",
               "michael.html",
               "links.html",
               "luna-prime.html",
@@ -123,12 +124,12 @@ jobs:
                       errors.append(f"possible {label} in {path}")
 
           # Review public pages and the auxiliary sources consumed by crawlers
-          # and shared runtime metadata. The biography remains unchanged.
+          # and shared runtime metadata. The biography narrative remains unchanged.
           public_sources = [
-              "index.html", "evidence.html", "trigon-challenge.html", "luna.html",
+              "index.html", "trigon-challenge.html", "evidence.html", "research.html", "luna.html",
               "aria.html", "shadow.html", "links.html",
               "ai-index.html", "luna-prime.html", "llms.txt",
-              "site-index.json", "site.js",
+              "site-index.json", "site.js", "reader.js", "reader.css", "data/v3-pathways.json",
           ]
           private_references = {
               "private project reference": re.compile(r"\bLPP\b|Luna[\s•·_-]*Prime", re.I),

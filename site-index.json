@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.5",
+  "schema_version": "1.6",
   "updated": "2026-11-03",
   "site": {
     "name": "Universal Balance Theory",
@@ -22,6 +22,11 @@
       "id": "home",
       "url": "https://universalbalancetheory.ca/",
       "topic": "Public overview"
+    },
+    {
+      "id": "research",
+      "url": "https://universalbalancetheory.ca/research.html",
+      "topic": "The twelve research pathways in published V3 Section 20, with methods, results and source pages"
     },
     {
       "id": "evidence",
@@ -48,6 +53,7 @@
     "https://universalbalancetheory.ca/llms.txt",
     "https://universalbalancetheory.ca/site-index.json",
     "https://universalbalancetheory.ca/sitemap.xml",
-    "https://universalbalancetheory.ca/trigon/evidence-types.json"
+    "https://universalbalancetheory.ca/trigon/evidence-types.json",
+    "https://universalbalancetheory.ca/data/v3-pathways.json"
   ]
 }
