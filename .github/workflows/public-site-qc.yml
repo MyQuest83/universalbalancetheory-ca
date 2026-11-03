@@ -59,6 +59,7 @@ jobs:
           required = [
               "index.html",
               "trigon-challenge.html",
+              "evidence.html",
               "michael.html",
               "links.html",
               "luna-prime.html",
@@ -122,7 +123,7 @@ jobs:
           # Review public pages and the auxiliary sources consumed by crawlers
           # and shared runtime metadata. The biography remains unchanged.
           public_sources = [
-              "index.html", "trigon-challenge.html", "luna.html",
+              "index.html", "trigon-challenge.html", "evidence.html", "luna.html",
               "aria.html", "shadow.html", "links.html",
               "ai-index.html", "luna-prime.html", "llms.txt",
               "site-index.json", "site.js",
