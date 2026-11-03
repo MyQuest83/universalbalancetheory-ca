@@ -12,7 +12,7 @@
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://universalbalancetheory.ca/trigon-challenge.html">
 <link rel="stylesheet" href="trigon/trigon-page.css?v=20261019-v3">
-<link rel="stylesheet" href="usability.css?v=20261019-v3">
+<link rel="stylesheet" href="usability.css?v=20261103-evidence">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
 <body class="trigon-navigation">
@@ -148,6 +148,12 @@
       <p>The Trigon Challenge is a participant-led pressure test. Your framework remains yours. The record separates original material, participant decisions, source material, and AI-added scaffolding.</p>
       <div class="gold-box"><strong>AI can assist, but it does not judge. The participant runs the first pass.</strong></div>
       <details><summary>What counts as a useful result?</summary><p>A useful result may reveal consistency, ambiguity, a weak spot, a better next version, a reason to rebuild, or a need for clearer definitions. Failure can be more informative than vague success.</p></details>
+      <details id="ai-record"><summary>Evidence labels, AI records and assessment</summary>
+        <p>Use the <a href="evidence.html#evidence-types">evidence guide</a> to distinguish conceptual consistency, mathematics, models, simulations, observations, controlled experiments and independent replication. State the outcome and its tested scope separately.</p>
+        <p>Preserve the date and timezone, platform, displayed model identifier/version, available settings, tools, retrieval sources, supplied context and input order, exact prompts and raw outputs. Record whether memory or prior conversation was included. Mark unavailable details <strong>unknown</strong>. Keep reviewer roles, first assessments, corrections and disagreements, including whether reviewers saw one another's conclusions.</p>
+        <p><strong>Assessment:</strong> use reasons and uncertainty in words by default. An optional numerical score must name the quantity assessed, its rubric, assessor and calibration status. An uncalibrated score is a structured assessment. It must not be presented as a calibrated probability of truth or assumed comparable across people, models or domains.</p>
+        <p>Retain the complete run for checking. Share only a consented public extract, documenting redactions and any limits on access.</p>
+      </details>
       <details><summary>Privacy and separation</summary><p>Use a fresh chat, Temporary Chat, or Memory Off when the platform provides it. Do not upload private, sensitive, or unpublished material unless you understand the platform settings and release implications.</p></details>
       <details><summary>Public guide papers</summary><p><strong>UBT for the World v3</strong> is the latest release. Earlier editions remain available for reference.</p><div class="actions left"><a class="btn" href="https://zenodo.org/records/23473479">Read v3 on Zenodo</a><a class="btn" href="https://zenodo.org/records/19421797">v2 archive</a></div></details>
     </div>
@@ -158,7 +164,7 @@
   <div class="wrap">
     <div class="kicker">Step 4 · Use the testing prompt</div>
     <h2>Copy the setup into a fresh AI chat.</h2>
-    <p class="lead">Your selected lane and depth are added to the top. The original testing rules remain intact.</p>
+    <p class="lead">Your selected lane and depth are added to the top. The prompt preserves your definitions and records the evidence, outcome and AI contribution separately.</p>
     <div class="prompt-layout">
       <aside class="prompt-side" aria-label="Prompt actions">
         <div class="prompt-status"><strong>Current setup</strong><p id="promptSetup" aria-live="polite">Choose a lane and depth above, or fill the placeholders yourself.</p></div>
@@ -176,6 +182,14 @@
         <textarea id="promptText" readonly spellcheck="false" rows="20">TRIGON TEST SETUP
 Lane: [SELECT A LANE]
 Depth: [SELECT A TEST DEPTH]
+Prompt version: 2026-11-03
+
+Run record:
+- Date and time (with timezone): [FILL IN]
+- Platform and displayed model identifier/version: [FILL IN; UNKNOWN if not exposed]
+- Available settings, tools, retrieval sources and memory/context state: [FILL IN; UNKNOWN if not exposed]
+- Exact supplied prompts, files/context and input order: [PRESERVE WITH THE RUN]
+- Participant and reviewer roles; whether reviewers saw earlier conclusions: [FILL IN]
 
 You are helping me run a Trigon Challenge test.
 
@@ -206,10 +220,14 @@ Important rules:
 2. Do not invent meanings for unnamed parts.
 3. Do not treat ambiguity as success.
 4. Do not hide failures.
-5. Do not claim this proves my framework.
-6. Do not claim this proves UBT.
+5. Credit identities, proofs and supported findings within their stated assumptions and tested scope.
+6. Distinguish a bounded result from a claim about an entire framework or universal physical law; state what the evidence actually establishes.
 7. Record uncertainty honestly.
 8. Ask only necessary clarifying questions.
+9. Label evidence as conceptual consistency, mathematical result, conditional model, simulation, observational analysis, controlled experiment or independent replication; distinguish definitions, proof sketches and complete proofs. Record outcome separately.
+10. Preserve exact prompts and raw outputs, including corrections and disagreements. Mark unavailable model details or settings UNKNOWN rather than guessing.
+11. When comparing reviewers, record whether their initial assessments were made without seeing one another's conclusions. AI agreement alone does not establish independent experimental replication.
+12. Use a reasoned qualitative assessment by default. Any optional numerical score must identify the quantity, rubric, assessor and calibration evidence or UNCALIBRATED status; it must not be presented as a calibrated probability without validation.
 
 For each scenario, create a result row with:
 - scenario ID
@@ -217,12 +235,14 @@ For each scenario, create a result row with:
 - activated framework parts
 - overlap or interaction
 - central or integrating region activation, if relevant
-- confidence from 0 to 100
+- evidence type, outcome and exact sources
+- qualitative assessment with reasons and limits
+- optional numerical assessment only with a declared rubric and calibration status; leave blank when no rubric is declared
 - ambiguity notes
 - failure or null notes
 - whether extra meaning had to be added
 
-Before we begin, restate the task neutrally and confirm that you will preserve ambiguity, failure, and uncertainty.</textarea>
+Before we begin, restate the task neutrally, identify available prior records, and preserve supported findings, ambiguity, failure and uncertainty. Keep a complete run record. Share only a consented, privacy-reviewed extract for public release, with redactions and access limits noted.</textarea>
         <p class="field-help">Paste the prompt into a fresh chat, then replace the framework and scenario placeholders with material you choose to share.</p>
       </details>
       <noscript><p class="field-help">Open the preview to copy the prompt manually. Fill in your lane and depth before running the test.</p></noscript>
@@ -239,10 +259,14 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
       <ul class="submit-list">
         <li>Framework name and public name preference</li>
         <li>Selected lane, depth, question, scenarios, and controls</li>
-        <li>Raw results, uncertainty, ambiguity, nulls, and failures</li>
+        <li>Evidence type, outcome, supported scope, uncertainty, ambiguity, nulls, and failures</li>
+        <li>Run date, displayed model/version, available settings, exact prompts and raw outputs; mark unknown details</li>
+        <li>Supplied context and input order, reviewer roles, corrections and disagreements</li>
+        <li>For any optional numerical assessment, its defined rubric, assessor and calibration status</li>
         <li>Sources, data files, permissions, and provenance</li>
-        <li>Permission level for public summary or archive release</li>
+        <li>Permission for public release, consented attribution, redactions and access or redistribution limits</li>
       </ul>
+      <p><strong>Submission route:</strong> email a completed record using the submission options below. This static site has no upload form or account system. Public release follows review of the material and its permissions.</p>
       <div class="actions left">
         <a class="btn" href="links.html#book2">Submission options</a>
         <a class="btn" href="#public-record">Public Record</a>
@@ -257,10 +281,11 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
   <div class="wrap">
     <div class="kicker">Public Record Archive</div>
     <h2>Scan what already exists.</h2>
-    <p class="lead">Search released Trigon records before beginning new work. The archive preserves summaries, source trails, methods, evidence, uncertainty, failures, and approved downloads without repeating the testing instructions above.</p>
+    <p class="lead">Search the website's released participant records before beginning new work. This registry is separate from the research reported in the <a href="evidence.html">v3 evidence and source guide</a>. An empty participant registry does not mean the manuscript contains no research.</p>
 
     <div class="actions left archive-links">
-      <a class="btn" href="trigon-ledger.html">About the public ledger</a>
+      <a class="btn" href="evidence.html#sources">Research sources &amp; access</a>
+      <a class="btn" href="trigon/evidence-types.json">Evidence labels (JSON)</a>
       <a class="btn" href="trigon/status-definitions.json">Status definitions (JSON)</a>
       <a class="btn" href="trigon/sources/source-registry.json">Public sources (JSON)</a>
     </div>
@@ -293,8 +318,8 @@ Before we begin, restate the task neutrally and confirm that you will preserve a
         </div>
         <div class="archive-empty" id="archiveEmpty" hidden>
           <span>△</span>
-          <h3>The archive is ready. No public records are released yet.</h3>
-          <p>Records appear only after public-release review. Until then, the empty archive honestly reflects the current state.</p>
+          <h3>No participant records have been released in this registry yet.</h3>
+          <p>Participant records appear after public-release review. The published paper and its manuscript-reported studies have a separate <a href="evidence.html">evidence and source guide</a>.</p>
           <div class="actions"><a class="btn" href="#prompt">Open the testing prompt</a><a class="btn" href="#submit">Review submission requirements</a></div>
         </div>
       </div>

@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-11-03",
+  "purpose": "Evidence types describe how a result is supported. Record outcome and test depth separately; types are not a score or a ranking.",
+  "types": [
+    {
+      "id": "conceptual_consistency",
+      "label": "Conceptual consistency",
+      "meaning": "Checks whether stated ideas and definitions fit together; identify any interpretation added by the reviewer."
+    },
+    {
+      "id": "mathematical_result",
+      "label": "Mathematical result",
+      "meaning": "Distinguish a definition, exact identity, proof sketch, and complete proof. Keep the assumptions and domain with the result."
+    },
+    {
+      "id": "conditional_model",
+      "label": "Conditional model",
+      "meaning": "States what follows within a declared model, including imposed parameter relationships and boundary conditions."
+    },
+    {
+      "id": "simulation",
+      "label": "Simulation or numerical reproduction",
+      "meaning": "Reports computational results for specified code, inputs and settings; identify what was reproduced and what was not run."
+    },
+    {
+      "id": "observational_analysis",
+      "label": "Observational analysis",
+      "meaning": "Reports findings from measured data, with provenance, uncertainty, comparators and the limits of the study design."
+    },
+    {
+      "id": "controlled_experiment",
+      "label": "Controlled experiment",
+      "meaning": "Reports a physical intervention and measured response under recorded controls and conditions."
+    },
+    {
+      "id": "independent_replication",
+      "label": "Independent replication",
+      "meaning": "Identifies who independently repeated which result, using what method or data, and with what outcome. Agreement between AI reviews alone does not establish replication."
+    }
+  ],
+  "assessment_rule": "Give supported results credit within their demonstrated scope. Preserve adverse, ambiguous, superseded and unrun outcomes. Optional numerical assessments need a declared rubric and calibration status; uncalibrated scores must not be described as calibrated probabilities."
+}
