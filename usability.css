@@ -42,6 +42,7 @@
 .research-page .reading-panel{padding:28px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.025)}
 .research-page .reading-panel p{font-size:1rem;max-width:76ch;margin:12px 0;line-height:1.75}
 .research-page .reading-panel p:last-child{margin-bottom:0}
+.research-page .reading-panel a:not(.btn),.research-page .boundary a,.research-links p a,.trigon-navigation p a:not(.btn){color:#f4dcaa;text-underline-offset:.2em}
 .research-page .step-list{padding:0;margin:0;list-style:none;display:grid;gap:0;counter-reset:steps}
 .research-page .step-list li{counter-increment:steps;position:relative;padding:20px 0 20px 52px;border-top:1px solid rgba(255,255,255,.1);line-height:1.65;color:#c5cad4}
 .research-page .step-list li:first-child{border-top:0}
