@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-11-03",
+  "note": "Evidence type is separate from outcome status, test depth and scope. Categories do not automatically imply physical validity or priority.",
+  "types": [
+    {
+      "id": "conceptual_consistency",
+      "label": "Conceptual consistency",
+      "meaning": "Coherence of definitions and concepts; does not show a real-world effect."
+    },
+    {
+      "id": "mathematical_result",
+      "label": "Mathematical result",
+      "meaning": "A formally specified identity or theorem under declared assumptions. Distinguish proved results, proof sketches and checked examples."
+    },
+    {
+      "id": "conditional_model",
+      "label": "Conditional model",
+      "meaning": "A relationship following from a specified set of modelling assumptions; assumptions may not be physically selected."
+    },
+    {
+      "id": "simulation",
+      "label": "Simulation",
+      "meaning": "A computed result for recorded inputs, software, model and controls; not a physical measurement."
+    },
+    {
+      "id": "observational_analysis",
+      "label": "Observational analysis",
+      "meaning": "A result derived from observations or existing data, with source, selection, uncertainty and comparator limits."
+    },
+    {
+      "id": "controlled_experiment",
+      "label": "Controlled experiment",
+      "meaning": "A measured intervention or prospective comparison under recorded controls and rejection criteria."
+    },
+    {
+      "id": "independent_replication",
+      "label": "Independent replication",
+      "meaning": "A new appropriately independent verification of a specific reported result, with its scope and method disclosed."
+    }
+  ],
+  "assessment_rule": "Use reasons in words by default. Optional numbers require a named quantity, rubric, assessor and calibration status; uncalibrated scores must not be described as calibrated probabilities."
+}
