@@ -56,13 +56,14 @@
 
     for (var i = 0; i < 580; i += 1) {
       var colourChoice = random();
+      var direction = random() * TAU;
       stars.push({
-        angle: random() * TAU,
+        directionX: Math.cos(direction),
+        directionY: Math.sin(direction),
         radial: 0.08 + Math.sqrt(random()) * 0.98,
         depth: random(),
         size: 0.45 + Math.pow(random(), 3) * 1.45,
         light: 0.28 + random() * 0.65,
-        bend: random() * 0.11,
         colour: colours[colourChoice < 0.41 ? 0 : colourChoice < 0.70 ? 1 :
           colourChoice < 0.87 ? 2 : colourChoice < 0.96 ? 3 : colourChoice < 0.982 ? 4 : 5]
       });
@@ -89,7 +90,6 @@
       var travel = p * 0.06 + Math.pow(p, 2.65) * 2.85;
       var rush = smooth(0.12, 0.75, p);
       var brightness = opening * (0.38 + rush * 0.62);
-      var twist = 0.20 * p + 0.22 * flight;
       ctx.save();
       ctx.globalCompositeOperation = 'screen';
       ctx.lineCap = 'round';
@@ -99,14 +99,13 @@
         var edgeFade = smooth(0, 0.09, z) * (1 - smooth(0.88, 1, z));
         var distance = star.radial * unit / (z + 0.065);
         if (distance > extent * 1.9 || (!flight && distance < radius * 1.01)) continue;
-        var angle = star.angle + twist / (1 + distance / unit) + star.bend * rush;
-        var sx = x + Math.cos(angle) * distance;
-        var sy = y + Math.sin(angle) * distance;
+        /* Fixed rays keep both the flight path and each streak exactly radial. */
+        var sx = x + star.directionX * distance;
+        var sy = y + star.directionY * distance;
         var length = Math.min(distance * 0.42, (0.7 + rush * rush * 135) / (0.38 + z * 5));
         var tailDistance = Math.max(0, distance - length);
-        var tailAngle = angle - length / (distance + 1) * (0.03 + rush * 0.07);
-        var tx = x + Math.cos(tailAngle) * tailDistance;
-        var ty = y + Math.sin(tailAngle) * tailDistance;
+        var tx = x + star.directionX * tailDistance;
+        var ty = y + star.directionY * tailDistance;
         if ((sx < -50 && tx < -50) || (sx > width + 50 && tx > width + 50) ||
             (sy < -50 && ty < -50) || (sy > height + 50 && ty > height + 50)) continue;
         ctx.globalAlpha = brightness * edgeFade * star.light;
@@ -114,8 +113,7 @@
         ctx.lineWidth = star.size * (0.65 + 0.38 * rush) * Math.min(1.7, 0.8 / (z + 0.3));
         ctx.beginPath();
         ctx.moveTo(tx, ty);
-        ctx.quadraticCurveTo((tx + sx) * 0.5 + (sy - ty) * 0.035,
-          (ty + sy) * 0.5 - (sx - tx) * 0.035, sx, sy);
+        ctx.lineTo(sx, sy);
         ctx.stroke();
         if (star.size > 1.45 && z > 0.12) {
           ctx.globalAlpha *= 0.25;
@@ -244,7 +242,6 @@
       var minRadius = Math.max(3, Math.min(width, height) * 0.006);
       var maxRadius = extent * 1.75;
       var depthRange = maxRadius / minRadius;
-      var turn = p * 0.45;
       var count = compact ? 16 : 21;
       ctx.save();
       ctx.translate(x, y);
@@ -262,13 +259,13 @@
       ctx.arc(0, 0, extent, 0, TAU);
       ctx.fill();
 
-      /* Log-spaced depth layers flow outwards, with fades at both wrap boundaries. */
+      /* Depth rings expand at fixed orientations, with fades at both wrap boundaries. */
       for (var k = 0; k < count; k += 1) {
         var depth = fraction(k / count + travel * 0.48);
         var r = minRadius * Math.pow(depthRange, depth);
         var visibility = smooth(0, 0.12, depth) * (1 - smooth(0.85, 1, depth));
-        var tilt = turn + k * 0.49;
-        var squash = 0.91 + Math.sin(k * 1.7 + p * 2) * 0.035;
+        var tilt = k * 0.49;
+        var squash = 0.91 + Math.sin(k * 1.7) * 0.035;
         ctx.lineWidth = Math.max(0.45, r * 0.0035);
         ctx.strokeStyle = k % 5 === 0 ? '#f6bf76' : '#5896c9';
         ctx.globalAlpha = strength * visibility * 0.10;
@@ -276,7 +273,7 @@
         ctx.ellipse(0, 0, r, r * squash, tilt, 0, TAU);
         ctx.stroke();
 
-        var arcStart = k * 2.399 + p * (0.6 + (k % 3) * 0.12);
+        var arcStart = k * 2.399;
         ctx.strokeStyle = k % 5 === 0 ? '#e8b877' : k % 7 === 0 ? '#87c7c0' : '#92d5ef';
         ctx.globalAlpha = strength * visibility * (0.21 + depth * 0.13);
         ctx.lineWidth = Math.max(0.7, r * 0.005);
@@ -299,17 +296,13 @@
       var threads = compact ? 18 : 25;
       for (var t = 0; t < threads; t += 1) {
         ctx.globalAlpha = strength * (t % 4 === 0 ? 0.35 : 0.14);
+        /* Unbent, nonrotating guides share the stars' exact vanishing point. */
+        var angle = t / threads * TAU + 0.11;
+        var dx = Math.cos(angle);
+        var dy = Math.sin(angle);
         ctx.beginPath();
-        for (var point = 0; point <= 26; point += 1) {
-          var u = point / 26;
-          var rr = minRadius + u * u * maxRadius;
-          var angle = t / threads * TAU + turn + 0.44 * (1 - u) * (1 - u) +
-            Math.sin(u * 4 + p * 2.3 + t * 0.17) * 0.05;
-          var px = Math.cos(angle) * rr;
-          var py = Math.sin(angle) * rr;
-          if (point === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
+        ctx.moveTo(dx * minRadius, dy * minRadius);
+        ctx.lineTo(dx * maxRadius, dy * maxRadius);
         ctx.stroke();
       }
       ctx.restore();
