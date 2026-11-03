@@ -16,6 +16,8 @@ universalbalancetheory.ca
 
 - `index.html` - cinematic public gateway
 - `trigon-challenge.html` - participant-led public testing page
+- `evidence.html` - source-linked v3 evidence guide and supporting-material access
+- `trigon/evidence-types.json` - evidence types, distinct from outcome status and test depth
 - `trigon-ledger.html` - compatibility redirect to `trigon-challenge.html#public-record`
 - `trigon/manifest.json` - canonical released-record manifest
 - `trigon/ai-index.json` - low-token AI discovery index
@@ -52,7 +54,7 @@ UBT is shared as an active framework and test path. It is not presented as compl
 
 The Trigon Challenge is participant-led. AI can assist, but it does not judge. Results may show consistency, ambiguity, revision needs, failure, or a path forward.
 
-The Trigon public record preserves released records, statuses, claim ceilings, provenance, failures, uncertainty, and downloadable verification material when permitted. A record appears only after public release review.
+The Trigon public record is intended for released participant records, with statuses, claim ceilings, provenance, failures, uncertainty and permitted downloads. As of 2026-11-03 its manifest contains no released participant records. This is separate from research reported in the v3 manuscript; `evidence.html` links that research and the published request route for supporting material. A participant record appears only after public release review.
 
 The public posture is:
 
