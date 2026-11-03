@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.4",
-  "updated": "2026-10-19",
+  "schema_version": "1.5",
+  "updated": "2026-11-03",
   "site": {
     "name": "Universal Balance Theory",
     "alternate_name": "UBT",
@@ -24,6 +24,11 @@
       "topic": "Public overview"
     },
     {
+      "id": "evidence",
+      "url": "https://universalbalancetheory.ca/evidence.html",
+      "topic": "Version 3 evidence types, manuscript-reported outcomes and public-source access"
+    },
+    {
       "id": "trigon-challenge",
       "url": "https://universalbalancetheory.ca/trigon-challenge.html",
       "topic": "Participant-led public testing"
@@ -42,6 +47,7 @@
   "machine_readable": [
     "https://universalbalancetheory.ca/llms.txt",
     "https://universalbalancetheory.ca/site-index.json",
-    "https://universalbalancetheory.ca/sitemap.xml"
+    "https://universalbalancetheory.ca/sitemap.xml",
+    "https://universalbalancetheory.ca/trigon/evidence-types.json"
   ]
 }
