@@ -14,7 +14,11 @@ universalbalancetheory.ca
 
 ## Current structure
 
-- `index.html` - cinematic public gateway
+- `index.html` - concise V3 introduction, original published cover artwork, and clear reading paths
+- `research.html` - searchable, source-linked expansions of all twelve V3 research pathways
+- `data/v3-pathways.json` - public V3 pathway text and page references
+- `reader.css` and `reader.js` - responsive navigation, pathway filtering, disclosure controls and motion preference
+- `V3-READER-SOURCES.md` - publication, artwork attribution and source checksums
 - `trigon-challenge.html` - participant-led public testing page
 - `evidence.html` - source-linked v3 evidence guide and supporting-material access
 - `trigon/evidence-types.json` - evidence types, distinct from outcome status and test depth
@@ -53,6 +57,8 @@ universalbalancetheory.ca
 UBT is shared as an active framework and test path. It is not presented as completed proof of new physics.
 
 The Trigon Challenge is participant-led. AI can assist, but it does not judge. Results may show consistency, ambiguity, revision needs, failure, or a path forward.
+
+The research reader is a snapshot of the published 19 October 2026 V3 paper. Its twelve entries expand §20.1–20.12, retain adverse and unresolved outcomes, and link to the relevant PDF pages. Manuscript-reported findings are not labelled as independent replication. The reader does not include later research or private correspondence.
 
 The Trigon public record is intended for released participant records, with statuses, claim ceilings, provenance, failures, uncertainty and permitted downloads. As of 2026-11-03 its manifest contains no released participant records. This is separate from research reported in the v3 manuscript; `evidence.html` links that research and the published request route for supporting material. A participant record appears only after public release review.
 

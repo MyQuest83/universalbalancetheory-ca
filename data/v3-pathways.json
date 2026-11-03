@@ -1,0 +1,799 @@
+{
+  "schema_version": "1.0.0",
+  "source": {
+    "title": "UBT for the World v3",
+    "author": "Michael Eric West",
+    "publication_date": "2026-10-19",
+    "url": "https://zenodo.org/records/23473479",
+    "pdf_url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content",
+    "doi": "10.5281/zenodo.23473479",
+    "pages": 118,
+    "sha256": "78470f41cbdfa283c85cefb41ca2ba421a6d37ca0d1426c5acc55019ba81468c",
+    "license": "CC BY 4.0"
+  },
+  "note": "Accessible paraphrases of published V3 Section 20. Results were not rerun for this website.",
+  "pathways": [
+    {
+      "id": "pathway-01",
+      "number": 1,
+      "section": "20.1",
+      "title": "Exact mathematics and graph theory",
+      "short_title": "Mathematics & graphs",
+      "summary": "Exact constants and a complete small-graph enumeration agree within their declared scope. Weighted counterexamples keep the assumptions visible.",
+      "question": "Which graph patterns retain the specified spectral relationship when the graph class and normalization are fixed?",
+      "evidence_types": [
+        "Mathematical result",
+        "Computational enumeration"
+      ],
+      "outcome": "Exact checks supported within scope",
+      "outcome_tone": "supported",
+      "method": "The archived run checked the exact constant certificate and independently enumerated all labelled simple graphs on two through six vertices. It also tested a weighted three-vertex path as a counterexample.",
+      "results": [
+        "The certificate verified 80 decimal places of the published constant and checked 100 continued-fraction convergents.",
+        "Of 33,866 labelled simple graphs, 27,475 were connected. Exactly 12 matched the specified normalized first positive eigenvalue; these are the 12 labellings of the five-cycle C5.",
+        "72 graphs contained the constant somewhere in the trace-normalized spectrum, while only 12 had it as the gap. The stronger all-size inverse theorem and its assumptions are discussed separately in Chapter 18."
+      ],
+      "metrics": [
+        {
+          "label": "Graphs enumerated",
+          "value": 33866,
+          "unit": "labelled graphs",
+          "meaning": "All simple graphs on two through six vertices."
+        },
+        {
+          "label": "Connected graphs",
+          "value": 27475,
+          "unit": "graphs",
+          "meaning": ""
+        },
+        {
+          "label": "Gap matches",
+          "value": 12,
+          "unit": "labelled graphs",
+          "meaning": "All are labellings of C5."
+        },
+        {
+          "label": "Certified precision",
+          "value": 80,
+          "unit": "decimal places",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "A finite enumeration establishes a finite search result; the all-size claim relies on its mathematical proof.",
+        "Arbitrary real-weighted graphs admit a different graph with the same scalar, so the unweighted assumption matters.",
+        "These mathematical results do not themselves identify a physical selection mechanism."
+      ],
+      "next_step": "State the graph class, allowed weights, normalization and equality conditions. Reproduce the C5 calculation and weighted counterexample, then test a declared stability bound on held-out perturbations.",
+      "takeaway": "A precise mathematical result is strongest when its assumptions and counterexamples travel with it.",
+      "source": {
+        "section": "20.1",
+        "pdf_pages": [
+          77
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=77",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-02",
+      "number": 2,
+      "section": "20.2",
+      "title": "Circuits and control systems",
+      "short_title": "Circuits & control",
+      "summary": "Twenty simulated five-node RC trajectories closely match the modal solution. The preferred relaxation ratio depends on a stated component-matching condition.",
+      "question": "How closely does a five-node circuit simulation match its analytic modes, and which response relationships survive a change in component settings?",
+      "evidence_types": [
+        "Conditional model",
+        "Simulation"
+      ],
+      "outcome": "Numerical agreement; bench test unrun",
+      "outcome_tone": "supported",
+      "method": "An independent fourth-order Runge–Kutta integration was compared with the modal solution for 20 five-node RC trajectories, using the recorded capacitance and conductances.",
+      "results": [
+        "The maximum voltage disagreement was about 5.90 × 10⁻¹³ V.",
+        "The ratio giving the published scale factor appears with the imposed conductance match G₀ = 10G₁ and disappears when that match is changed.",
+        "The paper separately proposes a calibrated five-port response experiment, with frequency holdouts and distance-two connections as a negative control."
+      ],
+      "metrics": [
+        {
+          "label": "Simulated trajectories",
+          "value": 20,
+          "unit": "trajectories",
+          "meaning": ""
+        },
+        {
+          "label": "Maximum voltage error",
+          "value": 5.9e-13,
+          "unit": "V",
+          "meaning": "Numerical integration versus modal solution."
+        }
+      ],
+      "limits": [
+        "This is a reproducible realization within ordinary circuit theory.",
+        "It is not a live bench measurement or an advantage over ordinary component-level predictions.",
+        "The relaxation matching condition and the five-port structural identity are different results. The latter does not require that same match."
+      ],
+      "next_step": "Measure the five-port response with frozen port order, frequency bands and calibration. Check reciprocity, leakage, isotropy, conditioning and uncertainty before evaluating the structural prediction.",
+      "takeaway": "A circuit can test a sharply defined model while revealing exactly which component choices produce its behavior.",
+      "source": {
+        "section": "20.2",
+        "pdf_pages": [
+          77,
+          78
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=77",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-03",
+      "number": 3,
+      "section": "20.3",
+      "title": "Thermodynamics and energy systems",
+      "short_title": "Thermodynamics & energy",
+      "summary": "A ground-referenced quantity is invariant to an additive energy shift in exact algebra. The direct finite-precision implementation still fails its numerical tolerance.",
+      "question": "Can an energy-based diagnostic retain the same physical meaning when the arbitrary energy zero changes?",
+      "evidence_types": [
+        "Mathematical result",
+        "Numerical benchmark"
+      ],
+      "outcome": "Exact invariance; numerical and predictive limits",
+      "outcome_tone": "mixed",
+      "method": "The complete three-level benchmark was rerun on 4,001 temperatures with frozen energy shifts and compared with high-precision arithmetic.",
+      "results": [
+        "The ground-referenced construction cancels an additive energy shift exactly in algebra.",
+        "Its direct binary64 implementation has maximum residual about 6.77285 × 10⁻⁷, exceeding the stated 10⁻¹¹ tolerance.",
+        "The reference-temperature residual has a larger maximum error, about 0.0268536. The predictive comparison remains adverse."
+      ],
+      "metrics": [
+        {
+          "label": "Temperature grid",
+          "value": 4001,
+          "unit": "temperatures",
+          "meaning": ""
+        },
+        {
+          "label": "Ground-referenced residual",
+          "value": 6.77285e-07,
+          "unit": "",
+          "meaning": "Direct binary64 implementation."
+        },
+        {
+          "label": "Declared tolerance",
+          "value": 1e-11,
+          "unit": "",
+          "meaning": "The reported residual exceeds this threshold."
+        },
+        {
+          "label": "Reference-temperature residual",
+          "value": 0.0268536,
+          "unit": "",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "Exact invariance and numerical stability are separate properties.",
+        "Low temperatures and extreme offsets expose cancellation error.",
+        "A numerical repair would still need its own predictive comparison."
+      ],
+      "next_step": "Derive a stable implementation, freeze offsets and temperature range, and test unseen cases against a high-precision oracle before making a predictive interpretation.",
+      "takeaway": "Correct algebra earns credit even when a particular implementation or predictive use fails.",
+      "source": {
+        "section": "20.3",
+        "pdf_pages": [
+          78
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=78",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-04",
+      "number": 4,
+      "section": "20.4",
+      "title": "Astronomy and gravitational waves",
+      "short_title": "Astronomy & gravitational waves",
+      "summary": "A bounded replay reproduces six M87 fits and a matching synthetic ring. Curvature identifiability and gravitational-wave uncertainty calibration remain unresolved.",
+      "question": "What can a limited astronomical signal actually distinguish, and how reliable are the resulting fitted estimates?",
+      "evidence_types": [
+        "Observational analysis",
+        "Synthetic instrument checks"
+      ],
+      "outcome": "Bounded replay supported; calibration incomplete",
+      "outcome_tone": "partial",
+      "method": "One preserved official M87 visibility product was reparsed with a declared short-baseline cut. Six same-file fits and synthetic positive and wrong-model controls were reproduced. The pathway also retains the separate historical GW250114 injection study.",
+      "results": [
+        "The M87 file had 6,458 rows: 5,865 retained, 593 excluded, and no invalid rows. Six fits reproduce the historical results for that file.",
+        "A matching model recovers a noiseless 40 μas ring, while a Gaussian control leaves about 0.119 Jy RMS residual.",
+        "The full historical M87 harness recovered 191 of 192 correct-model noiseless cases and remains PARTIAL.",
+        "The GW250114 study included 48 injections in six design groups sharing eight noise contexts. Nominal 95% frequency support covered truth in only 4 of 8 SNR-20 trials at the +5 ms start."
+      ],
+      "metrics": [
+        {
+          "label": "M87 input rows",
+          "value": 6458,
+          "unit": "rows",
+          "meaning": ""
+        },
+        {
+          "label": "Retained rows",
+          "value": 5865,
+          "unit": "rows",
+          "meaning": ""
+        },
+        {
+          "label": "Reproduced fits",
+          "value": 6,
+          "unit": "fits",
+          "meaning": ""
+        },
+        {
+          "label": "Historical correct-model recoveries",
+          "value": "191 / 192",
+          "unit": "cases",
+          "meaning": ""
+        },
+        {
+          "label": "GW coverage in cited subgroup",
+          "value": "4 / 8",
+          "unit": "trials",
+          "meaning": "Nominal 95% support, SNR 20, +5 ms start; not population coverage."
+        }
+      ],
+      "limits": [
+        "The one-product replay does not reproduce the full historical 64-file roster.",
+        "The amplitude-model checks do not identify spacetime curvature change.",
+        "The successful small replay does not clear the full-harness failures; the historical GW coverage failure was not reevaluated in this replay."
+      ],
+      "next_step": "For M87, establish an identifiable measurement-to-curvature relation or retain the morphology claim. For gravitational waves, freeze a larger injection and noise roster and repair uncertainty calibration.",
+      "takeaway": "A trustworthy instrument must show both what it can recover and what its measurements cannot distinguish.",
+      "source": {
+        "section": "20.4",
+        "pdf_pages": [
+          78,
+          79
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=78",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-05",
+      "number": 5,
+      "section": "20.5",
+      "title": "Cosmology and cosmic structure",
+      "short_title": "Cosmology & cosmic structure",
+      "summary": "The V-S-F-K chain retains first place in the descriptive replay. Its positive AUC increment misses the frozen practical-effect threshold, and external prediction remains adverse.",
+      "question": "Does a descriptive pattern in the cosmic web provide useful predictive information beyond catalogue construction and conventional comparators?",
+      "evidence_types": [
+        "Observational analysis",
+        "Saved-table recalculation"
+      ],
+      "outcome": "Descriptive support; practical criteria failed",
+      "outcome_tone": "mixed",
+      "method": "The hash-matched ASTRA-DESI v0.12 probability archive was replayed for 12 chains across 15 strata. An explicit path-sum implementation checked the ordering. Saved practical-effect and transfer tables were recalculated.",
+      "results": [
+        "Of 603,914 rows, 602,273 were valid and 1,641 zero-sum rows were excluded; no duplicate region/tracer/TARGETID keys were found.",
+        "V-S-F-K again ranks first with ratio 1.95778284223, and the independent path-sum implementation agrees exactly.",
+        "The AUC gain is +0.0005423793 against a required +0.005. Signs are positive in all eight transfers, but the useful-effect gate fails.",
+        "Weighted external log-SFR changes are ΔMAE ≈ −9.57623 × 10⁻⁶ and ΔR² ≈ −2.28433 × 10⁻⁵, with beneficial signs in one of four transfers."
+      ],
+      "metrics": [
+        {
+          "label": "Valid catalogue rows",
+          "value": 602273,
+          "unit": "rows",
+          "meaning": ""
+        },
+        {
+          "label": "Chains compared",
+          "value": 12,
+          "unit": "chains",
+          "meaning": ""
+        },
+        {
+          "label": "Descriptive ratio",
+          "value": 1.95778284223,
+          "unit": "",
+          "meaning": ""
+        },
+        {
+          "label": "AUC improvement",
+          "value": 0.0005423793,
+          "unit": "",
+          "meaning": ""
+        },
+        {
+          "label": "Required AUC improvement",
+          "value": 0.005,
+          "unit": "",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "The predictive models were not retrained during this replay.",
+        "In the recovered code, ΔMAE means baseline error minus augmented-model error; a negative value is worse.",
+        "The revealed archive is development data for a future test, not a fresh blind dataset."
+      ],
+      "next_step": "Pin features, construction variables and training settings for a complete predictive replay. A new release should reserve whole regions or releases and declare a useful effect size before inspecting outcomes.",
+      "takeaway": "Keep a reproducible descriptive success beside its failed stronger test, so readers can see exactly what survived.",
+      "source": {
+        "section": "20.5",
+        "pdf_pages": [
+          79
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=79",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-06",
+      "number": 6,
+      "section": "20.6",
+      "title": "Structural biology and biophysics",
+      "short_title": "Structural biology & biophysics",
+      "summary": "One graph-score comparison passes, but quality and specificity limits keep the seven-structure biological result at NULL / INSUFFICIENT.",
+      "question": "Can a reproducible structural graph result be linked to a separately measured biological function?",
+      "evidence_types": [
+        "Observational structure analysis",
+        "Computational replay"
+      ],
+      "outcome": "Component pass; overall insufficient",
+      "outcome_tone": "mixed",
+      "method": "All seven PRX structure files were reacquired from RCSB and matched their historical hashes. The original extraction, quality-control and scoring workflows were rerun.",
+      "results": [
+        "Four entries could be scored, two failed the original quality gates, and one had too few dimers.",
+        "The P2 graph-score margin of 0.054043709289 exceeds its frozen threshold of 0.027431633896.",
+        "P1 topology/quality control fails and P3 specificity cannot be evaluated, so the overall outcome remains NULL / INSUFFICIENT.",
+        "The four valid gap values reproduce exactly; tiny eigenvalue differences are within 5.56 × 10⁻¹⁷."
+      ],
+      "metrics": [
+        {
+          "label": "Structure roster",
+          "value": 7,
+          "unit": "entries",
+          "meaning": ""
+        },
+        {
+          "label": "Scored structures",
+          "value": 4,
+          "unit": "entries",
+          "meaning": ""
+        },
+        {
+          "label": "P2 margin",
+          "value": 0.054043709289,
+          "unit": "",
+          "meaning": ""
+        },
+        {
+          "label": "P2 threshold",
+          "value": 0.027431633896,
+          "unit": "",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "The passing component is not the overall result.",
+        "Uniform scaling of graph weights preserves the normalized spectrum and does not create an independent biological signal.",
+        "Homologous structures and repeated graph nodes must not be counted as automatically independent evidence."
+      ],
+      "next_step": "Choose an observable beyond graph construction, freeze extraction and quality rules, compare with an ordinary biological model, and reserve entire proteins or batches.",
+      "takeaway": "A mixed result deserves a complete denominator: the passed comparison, failed controls, exclusions and unavailable check all matter.",
+      "source": {
+        "section": "20.6",
+        "pdf_pages": [
+          80
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=80",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-07",
+      "number": 7,
+      "section": "20.7",
+      "title": "Mechanics and acoustics",
+      "short_title": "Mechanics & acoustics",
+      "summary": "The generator matches an independent recurrence but not the published sequence windows. A simple input-derived rule reconstructs every published label for the second target.",
+      "question": "Are the archived motion data, generating equation and prediction target consistent with the physical question?",
+      "evidence_types": [
+        "Source audit",
+        "Computational benchmark"
+      ],
+      "outcome": "Source mismatch and target leakage identified",
+      "outcome_tone": "adverse",
+      "method": "The variable-length pendulum archive was downloaded and its publisher checksum verified. The saved generator was compared with an independent recurrence and the archived windows; target labels were tested directly against supplied inputs.",
+      "results": [
+        "The configured generator does not reproduce the archived windows: maximum feature discrepancies are 13.3393 and 11.6109 in the two segments. The frozen result is SOURCE MISMATCH.",
+        "The final length entry is zero. The generator also omits a term required by the standard prescribed-length equation unless an additional tangential force is supplied.",
+        "The sign of the last supplied angle-times-angular-velocity reconstructs all 382 published second-target labels, versus saved RNN accuracies of about 90.576% and 75.916%.",
+        "A 31-position shift control drops to about 67.539% in each segment, checking alignment without creating an independent physical target."
+      ],
+      "metrics": [
+        {
+          "label": "Directly reconstructed labels",
+          "value": 382,
+          "unit": "of 382 labels",
+          "meaning": ""
+        },
+        {
+          "label": "Saved RNN accuracy, segment 1",
+          "value": 90.576,
+          "unit": "%",
+          "meaning": ""
+        },
+        {
+          "label": "Saved RNN accuracy, segment 2",
+          "value": 75.916,
+          "unit": "%",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "These are source and model limitations, not measured physical failures of UBT.",
+        "A target already encoded in the inputs cannot demonstrate new predictive information.",
+        "Acoustic transfer remains a separate future test."
+      ],
+      "next_step": "Resolve generator provenance, derive the intended dynamics and use positive lengths throughout. Predict a genuinely future quantity and hold out complete trajectories and length bands.",
+      "takeaway": "Before optimizing a model, make sure its data and target measure the question you meant to ask.",
+      "source": {
+        "section": "20.7",
+        "pdf_pages": [
+          80,
+          81
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=80",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-08",
+      "number": 8,
+      "section": "20.8",
+      "title": "Power-grid engineering",
+      "short_title": "Power-grid engineering",
+      "summary": "All repaired AC power-flow cases converge, but the simple voltage-screening surrogate misses every held-out low-voltage violation.",
+      "question": "Can a simple screening model recognize voltage violations across increased loads and a different network?",
+      "evidence_types": [
+        "Simulation",
+        "Held-out engineering benchmark"
+      ],
+      "outcome": "Solver repaired; safety screening failed",
+      "outcome_tone": "adverse",
+      "method": "Two SimBench rural low-voltage networks were solved at 41 load factors each. A quadratic minimum-voltage surrogate trained on 21 low-load cases was evaluated on 61 higher-load or different-network cases.",
+      "results": [
+        "All 82 repaired AC power-flow cases converge after the disclosed solver-initialization change, which preserves the transformer phase shift.",
+        "The surrogate has MAE 0.0275626 per unit, misses all 13 lower-voltage violations, and raises no false alarms.",
+        "No test case exceeds the 1.05 upper bound, so upper-bound detection sensitivity cannot be assessed.",
+        "Refitting after a constant feature rescaling changes predictions by less than 10⁻¹⁵ per unit."
+      ],
+      "metrics": [
+        {
+          "label": "Converged repaired cases",
+          "value": 82,
+          "unit": "of 82 cases",
+          "meaning": ""
+        },
+        {
+          "label": "Training cases",
+          "value": 21,
+          "unit": "cases",
+          "meaning": ""
+        },
+        {
+          "label": "Held-out cases",
+          "value": 61,
+          "unit": "cases",
+          "meaning": ""
+        },
+        {
+          "label": "Missed low-voltage violations",
+          "value": 13,
+          "unit": "of 13 violations",
+          "meaning": ""
+        },
+        {
+          "label": "Prediction MAE",
+          "value": 0.0275626,
+          "unit": "per unit",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "The original failed batch did not retain individual case logs; per-case attempts cover the repaired run.",
+        "Zero false alarms cannot compensate for missing every observed hazard.",
+        "A simulation benchmark is not a qualified operating-grid system."
+      ],
+      "next_step": "Use independently available network inputs, compare with conventional AC power flow, calibrate screening on training data and reserve entire topology families and time profiles.",
+      "takeaway": "Engineering usefulness depends on the decisions a score gets right, especially the hazards it misses.",
+      "source": {
+        "section": "20.8",
+        "pdf_pages": [
+          81
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=81",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-09",
+      "number": 9,
+      "section": "20.9",
+      "title": "Ecology and climate",
+      "short_title": "Ecology & climate",
+      "summary": "The original NEON flux protocol is unrun. A separate NOAA forecast comparison finds that recent seasonal drift beats the longer-history linear model.",
+      "question": "Which baseline best predicts the next month in the selected environmental time series, and what does that say about the separate ecosystem-flux proposal?",
+      "evidence_types": [
+        "Observational forecasting benchmark",
+        "Unrun protocol"
+      ],
+      "outcome": "Seasonal baseline wins; NEON unrun",
+      "outcome_tone": "mixed",
+      "method": "A separately frozen benchmark used 552 monthly NOAA global marine-surface CO₂ observations from 1980–2025, with 432 initial training months and 120 successive held-out one-month forecasts.",
+      "results": [
+        "Seasonal-drift MAE is 0.614167 ppm, compared with 2.59725 ppm for seasonal naive and 5.01401 ppm for the expanding-window trend with month indicators.",
+        "Refitting a constant-scaled time feature changes predictions by only 1.756 × 10⁻⁹ ppm.",
+        "The month-indicator rotation control does not worsen aggregate MAE in the misspecified model and gives no positive seasonal-efficacy result.",
+        "The separate NEON ecosystem-flux protocol remains unrun after its documented endpoint returned HTTP 403."
+      ],
+      "metrics": [
+        {
+          "label": "Monthly observations",
+          "value": 552,
+          "unit": "months",
+          "meaning": ""
+        },
+        {
+          "label": "Evaluation horizon",
+          "value": 120,
+          "unit": "successive one-month forecasts",
+          "meaning": ""
+        },
+        {
+          "label": "Seasonal-drift MAE",
+          "value": 0.614167,
+          "unit": "ppm",
+          "meaning": ""
+        },
+        {
+          "label": "Seasonal-naive MAE",
+          "value": 2.59725,
+          "unit": "ppm",
+          "meaning": ""
+        },
+        {
+          "label": "Long-history trend MAE",
+          "value": 5.01401,
+          "unit": "ppm",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "Later fits can use earlier evaluation months; this was not a ten-year forecast issued in 2015.",
+        "The analysis used a revised data product and is retrospective, rather than a real-time historical-vintage test.",
+        "Atmospheric concentration and ecosystem exchange are different targets."
+      ],
+      "next_step": "Complete the separate NEON protocol when files and quality flags are available. Define observed targets apart from gap-filled estimates and reserve whole years and sites.",
+      "takeaway": "A simple, well-matched baseline can be more useful than a complicated model, and one environmental dataset cannot substitute for another.",
+      "source": {
+        "section": "20.9",
+        "pdf_pages": [
+          81,
+          82
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=81",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-10",
+      "number": 10,
+      "section": "20.10",
+      "title": "Institutions and economics",
+      "short_title": "Institutions & economics",
+      "summary": "An ordinary monthly regression beats a seasonal-naive forecast for Toronto 311 totals. Constant rescaling leaves the refitted predictions unchanged.",
+      "question": "How well can ordinary forecasts anticipate monthly public-service request counts, and what can those counts legitimately tell us?",
+      "evidence_types": [
+        "Administrative-data analysis",
+        "Rolling forecast benchmark"
+      ],
+      "outcome": "Conventional forecast improvement reproduced",
+      "outcome_tone": "supported",
+      "method": "Five official Toronto 311 annual files were parsed into 60 monthly totals. Starting with 36 training months, trend-plus-month regression and seasonal naive were compared over 24 successive monthly targets.",
+      "results": [
+        "The files contain 2,118,429 rows from 2021–2025; all dates parse, and the 2025 source requires CP1252 decoding.",
+        "Ordinary regression gives MAE 5,161.54 requests versus 5,692.04 for seasonal naive, a descriptive improvement of about 9.32%.",
+        "Refitting with a constant-scaled trend changes predictions by about 1.106 × 10⁻⁹ requests. The reported improvement belongs to the ordinary forecasting comparison."
+      ],
+      "metrics": [
+        {
+          "label": "Administrative rows",
+          "value": 2118429,
+          "unit": "rows",
+          "meaning": ""
+        },
+        {
+          "label": "Successive forecast targets",
+          "value": 24,
+          "unit": "months",
+          "meaning": ""
+        },
+        {
+          "label": "Regression MAE",
+          "value": 5161.54,
+          "unit": "requests",
+          "meaning": ""
+        },
+        {
+          "label": "Seasonal-naive MAE",
+          "value": 5692.04,
+          "unit": "requests",
+          "meaning": ""
+        },
+        {
+          "label": "Descriptive error reduction",
+          "value": 9.32,
+          "unit": "%",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "Each one-month forecast is fitted only to earlier months, not frozen as a two-year forecast at the start.",
+        "Citywide totals cover only part of demand and do not resolve categories, duplicates, geography changes, closure dates or wellbeing.",
+        "Repeated rows are not independent experiments."
+      ],
+      "next_step": "Choose a stable service category and geography, establish coverage and deduplication rules, compare with an appropriate count model and freeze a final period and useful error reduction.",
+      "takeaway": "Useful public-service forecasting is a concrete result; claims about welfare or resource outcomes require those outcomes to be measured.",
+      "source": {
+        "section": "20.10",
+        "pdf_pages": [
+          82
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=82",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-11",
+      "number": 11,
+      "section": "20.11",
+      "title": "Computing and information",
+      "short_title": "Computing & information",
+      "summary": "Nine published keyword-spotting submissions meet the accuracy requirement. The audit preserves timing precision and missing energy data; fixed rescaling changes no ranking.",
+      "question": "Can published device results be compared fairly without changing metric definitions or filling in missing measurements?",
+      "evidence_types": [
+        "Published benchmark-log audit"
+      ],
+      "outcome": "Source comparison reproduced within limits",
+      "outcome_tone": "supported",
+      "method": "The audit reanalyzed all nine paired Closed Division keyword-spotting submissions in the pinned MLPerf Tiny v1.3 repository, reading the paired accuracy and timing records.",
+      "results": [
+        "All nine submissions satisfy the 90% accuracy threshold.",
+        "Inverse median throughput ranges from about 0.06495 to 48.30157 milliseconds per inference, with median about 4.3672.",
+        "Five submissions report energy and four remain missing. Two timing records are text-only and keep their published precision.",
+        "Multiplication by the positive published scale factor preserves every ranking."
+      ],
+      "metrics": [
+        {
+          "label": "Paired submissions",
+          "value": 9,
+          "unit": "submissions",
+          "meaning": ""
+        },
+        {
+          "label": "Required accuracy",
+          "value": 90,
+          "unit": "%",
+          "meaning": ""
+        },
+        {
+          "label": "Energy reported",
+          "value": 5,
+          "unit": "of 9 submissions",
+          "meaning": ""
+        },
+        {
+          "label": "Energy missing",
+          "value": 4,
+          "unit": "of 9 submissions",
+          "meaning": ""
+        },
+        {
+          "label": "Average time-per-inference range",
+          "value": "0.06495–48.30157",
+          "unit": "ms",
+          "meaning": "Derived from inverse median throughput; not tail latency."
+        }
+      ],
+      "limits": [
+        "These are published device logs, not hardware executions performed for the book or an independent verification of vendor timing.",
+        "Reciprocal throughput is an average time-per-inference measure under the submitted procedure; it is not tail latency.",
+        "Configurations from one vendor are not independent scientific replications."
+      ],
+      "next_step": "Pin workload, quality, hardware, software and measurement boundary. If physical performance is claimed, test the same devices under a frozen procedure and preserve uncertainty and missing values.",
+      "takeaway": "Fair comparison begins with honest metric names, complete quality gates and visible missing data.",
+      "source": {
+        "section": "20.11",
+        "pdf_pages": [
+          82,
+          83
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=82",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    },
+    {
+      "id": "pathway-12",
+      "number": 12,
+      "section": "20.12",
+      "title": "Materials and the quantum and chemistry boundary",
+      "short_title": "Materials, quantum & chemistry",
+      "summary": "Correcting a graph-indexing defect removes the earlier large fivefold enrichment. Separate axis analyses remain adverse and numerically inconsistent.",
+      "question": "Does the proposed fivefold structure remain supported when reflection identities, graph indices and matched-null comparisons are checked?",
+      "evidence_types": [
+        "Observational material analysis",
+        "Source and indexing audit",
+        "Corrected computational replay"
+      ],
+      "outcome": "Correction verified; fivefold criteria failed",
+      "outcome_tone": "adverse",
+      "method": "The frozen 4,057-reflection IQC input and scorer were checked, axis results replayed, and an indexing defect repaired. An independent mapping check and all 1,999 primary matched-null rows were reproduced.",
+      "results": [
+        "Archived twofold/threefold/fivefold axis counts are 17/13/21; the replay gives 12/10/20. Both axis analyses fail the fivefold gate, and the numerical discrepancy remains unresolved.",
+        "Correct mapping changes the primary 10% tail C3/C4/C5/C6 counts from 2,762/992/3,461/11,314 to 65/10/3/0.",
+        "The corrected primary C5 result is z = 0.96659 and p = 0.1975. At 5%, 10% and 20% tails, C5 counts are 0, 3 and 33 with p-values 1.0, 0.1975 and 0.698.",
+        "Primary and directional-robustness criteria fail. The former enrichment interpretation is retired as an indexing artifact, with historical outputs retained."
+      ],
+      "metrics": [
+        {
+          "label": "Reflection inputs",
+          "value": 4057,
+          "unit": "reflections",
+          "meaning": ""
+        },
+        {
+          "label": "Primary null rows reproduced",
+          "value": 1999,
+          "unit": "rows",
+          "meaning": ""
+        },
+        {
+          "label": "Historical C5 count",
+          "value": 3461,
+          "unit": "motifs",
+          "meaning": "Retired result affected by the indexing defect."
+        },
+        {
+          "label": "Corrected C5 count",
+          "value": 3,
+          "unit": "motifs",
+          "meaning": "Primary 10% tail."
+        },
+        {
+          "label": "Corrected matched-null p",
+          "value": 0.1975,
+          "unit": "",
+          "meaning": ""
+        }
+      ],
+      "limits": [
+        "The two adverse axis executions are not numerically reproduced; floating-point sensitivity is a possible cause with no established mechanism.",
+        "No new specimen or held-out material prediction is introduced, and the topology repair does not complete a revised full pipeline.",
+        "The exploratory C4 p-value of 0.019 is not a multiplicity-corrected discovery or fivefold support.",
+        "Chemical applications and new quantum measurements remain unrun; a separate synthetic quantum-clock example is not their validation."
+      ],
+      "next_step": "Preserve row identities through sorting and graph operations, test invariance to input order, recover direct publisher provenance for the mirrored input, and reserve a new specimen for a successor prediction.",
+      "takeaway": "Publishing a correction improves the reliability of the record, even when it removes an attractive earlier result.",
+      "source": {
+        "section": "20.12",
+        "pdf_pages": [
+          83
+        ],
+        "url": "https://zenodo.org/api/records/23473479/files/UBT%20for%20the%20World%20v3.pdf/content#page=83",
+        "record_url": "https://zenodo.org/records/23473479"
+      }
+    }
+  ]
+}
