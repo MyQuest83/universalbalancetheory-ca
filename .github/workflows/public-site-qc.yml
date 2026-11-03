@@ -39,6 +39,7 @@ jobs:
         run: |
           node --check site.js
           node --check reader.js
+          node --check gateway-intro.js
           node --check trigon/trigon-page.js
           node --check trigon/validate-records.mjs
           node trigon/validate-records.mjs

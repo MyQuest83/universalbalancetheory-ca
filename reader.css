@@ -219,3 +219,16 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
  .trigon-navigation .hero { padding:36px 20px 30px; }.trigon-navigation .hero h1 { font-size:40px; }.trigon-navigation .hero-sub { font-size:15px; }.trigon-navigation .step-nav { position:static; }.research-page .page-heading { padding-top:34px; }.research-page .heading-sigil { display:none; }
 }
 @media print { .site-header,.reader-footer,.research-controls,.pathway-jump,.draft-label,.text-control { display:none!important; } body { background:#fff!important; color:#111!important; }.reader-page p,.pathway-expanded li { color:#222!important; }.pathway-card { break-inside:avoid; background:#fff; border-color:#ccc; }.pathway-grid { display:block; }.pathway-card { margin-bottom:15px; }.pathway-detail>summary { color:#111; } }
+
+/* Reader draft: retain the approved gateway and the public V3 cover together. */
+.gateway-panel{justify-self:center;width:100%;max-width:350px;display:grid;gap:30px;align-content:center}
+.gateway-mark{text-align:center}
+.gateway-panel .home-sigil{width:280px;max-width:100%;margin:0 auto}
+.reader-page .gateway-caption{font:11px/1.5 system-ui,sans-serif;letter-spacing:.04em;color:#a7b1c0;margin:17px 0 0}
+.edition-link{display:flex;align-items:center;gap:18px;padding:17px;border:1px solid #3c3c35;border-radius:10px;color:#ece4d3;text-decoration:none;background:#111720}
+.edition-link:hover{border-color:var(--reader-gold)}
+.edition-link>img{display:block;width:53px;height:auto;flex:none;border-radius:3px}
+.edition-link strong{display:block;font:18px/1.4 Georgia,serif}
+.edition-link small{display:block;font:11px/1.5 system-ui,sans-serif;color:#adb8c5;margin-top:4px}
+.edition-link span>span{display:block;font:11px/1.5 system-ui,sans-serif;color:var(--reader-gold);margin-top:8px}
+@media(max-width:760px){.gateway-panel{grid-row:1;grid-template-columns:1fr;gap:16px;max-width:100%}.gateway-panel .home-sigil{width:152px}.reader-page .gateway-caption{font-size:10px;margin-top:10px}.edition-link{padding:11px 14px;max-width:310px;justify-self:center;width:100%;gap:13px}.edition-link>img{width:34px}.edition-link strong{font-size:15px}.edition-link small{font-size:10px}.edition-link span>span{display:none}.home-reader .reader-hero{padding-top:26px;gap:25px}.home-reader .hero-copy .eyebrow{margin-bottom:10px}.home-reader .reader-hero h1{margin-top:12px}}

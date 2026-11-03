@@ -12,3 +12,7 @@ Scientific copy is restricted to the 19 October 2026 release of *UBT for the Wor
 - Existing public persona material and biography are retained.
 - No private correspondence or post-V3 research is included.
 - Draft only. Production has not been updated by this work.
+
+## Gateway continuity checkpoint · 3 November 2026
+
+The reader draft retains the gateway geometry and decorative timing published in PR #44. The intro controller is copied to a self-hosted script, with the background header selector adapted to the reader navigation. The ordinary-pi, fixed Super-Pi and Kerr demonstration lane remain decorative mappings from published V3; no new scientific content is introduced. The published V3 cover remains visible beside the gateway. This is a draft preparation change, awaiting design approval before deployment.
