@@ -15,7 +15,6 @@
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   let phase = 'idle';
   let phaseTimer = 0;
-  let openTimer = 0;
   let frame = 0;
   let startedAt = 0;
   let renderer = null;
@@ -23,6 +22,34 @@
   let inertStates = [];
   let quiet = false;
   let anchor = { x: 0, y: 0, radius: 0 };
+  const entryTimers = new Map();
+
+  function motionIsPaused() {
+    return motionQuery.matches || document.documentElement.classList.contains('motion-paused') || document.body.classList.contains('motion-paused');
+  }
+
+  function clearOrbEntries() {
+    entryTimers.forEach((timer, node) => {
+      window.clearTimeout(timer);
+      node.classList.remove('orbs-entering');
+    });
+    entryTimers.clear();
+  }
+
+  function captureOrbs(node) {
+    if (!node) return;
+    window.clearTimeout(entryTimers.get(node));
+    entryTimers.delete(node);
+    node.classList.remove('orbs-entering');
+    if (document.hidden || quiet || motionIsPaused()) return;
+    // Restart only the arrival on each dot, never the rotating parent tracks.
+    void node.offsetWidth;
+    node.classList.add('orbs-entering');
+    entryTimers.set(node, window.setTimeout(() => {
+      node.classList.remove('orbs-entering');
+      entryTimers.delete(node);
+    }, 2500));
+  }
 
   function setPhase(value) {
     phase = value;
@@ -35,9 +62,8 @@
 
   function clearWork() {
     window.clearTimeout(phaseTimer);
-    window.clearTimeout(openTimer);
     window.cancelAnimationFrame(frame);
-    phaseTimer = openTimer = frame = 0;
+    phaseTimer = frame = 0;
   }
 
   function releaseRenderer() {
@@ -49,9 +75,9 @@
 
   function finish(restoreFocus = true) {
     clearWork();
+    clearOrbEntries();
     releaseRenderer();
-    motionObserver.disconnect();
-    gate.classList.remove('on', 'open', 'hide', 'warping', 'quiet-intro', 'arriving');
+    gate.classList.remove('on', 'hide', 'warping', 'quiet-intro', 'arriving');
     document.body.classList.remove('intro-open');
     inertStates.forEach(([node, value]) => { node.inert = value; });
     inertStates = [];
@@ -60,11 +86,21 @@
     gate.setAttribute('aria-hidden', 'true');
     gate.setAttribute('aria-labelledby', 'introTitle');
     gate.setAttribute('aria-describedby', 'introSubtitle');
+    if (restoreFocus && !document.hidden) captureOrbs(lastTrigger);
   }
 
   function closeIntro() {
     if (phase === 'idle' || phase === 'closing') return;
+    if (phase === 'intro') {
+      const copy = gate.querySelector('.intro-copy');
+      if (copy) {
+        const style = window.getComputedStyle(copy);
+        copy.style.setProperty('--exit-opacity', style.opacity);
+        copy.style.setProperty('--exit-clip', style.clipPath === 'none' ? 'inset(0)' : style.clipPath);
+      }
+    }
     clearWork();
+    clearOrbEntries();
     // Freeze the current frame during the return fade; dispose after it is hidden.
     setPhase('closing');
     gate.classList.add('hide');
@@ -81,9 +117,7 @@
     gate.setAttribute('aria-labelledby', 'introTitle');
     gate.setAttribute('aria-describedby', 'introSubtitle');
     focus(skipIntro);
-    openTimer = window.setTimeout(() => {
-      if (phase === 'intro') gate.classList.add('open');
-    }, 80);
+    captureOrbs(gate.querySelector('.triad-orbit'));
     // The existing intro retains its full duration after the seven-second dive.
     phaseTimer = window.setTimeout(closeIntro, INTRO_MS);
   }
@@ -111,8 +145,9 @@
   }
 
   function honorMotionPreference() {
+    const pauseRequested = motionIsPaused();
+    if (pauseRequested) clearOrbEntries();
     if (phase === 'idle') return;
-    const pauseRequested = motionQuery.matches || document.documentElement.classList.contains('motion-paused') || document.body.classList.contains('motion-paused');
     // A pause is latched for this play-through, so changing preferences cannot restart a dive unexpectedly.
     quiet = quiet || pauseRequested;
     gate.classList.toggle('quiet-intro', quiet);
@@ -120,6 +155,9 @@
   }
 
   const motionObserver = new MutationObserver(honorMotionPreference);
+  // Keep the preference watch active for homepage arrivals as well as the modal.
+  motionObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  motionObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
   function playIntro(event) {
     event.preventDefault();
@@ -137,8 +175,6 @@
     gate.setAttribute('aria-hidden', 'false');
     document.body.classList.add('intro-open');
     focus(skipWarp);
-    motionObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    motionObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     startedAt = performance.now();
     phaseTimer = window.setTimeout(beginNormalIntro, WARP_MS);
     if (quiet) return; // Same timing, with a static halo instead of spatial motion.
@@ -177,8 +213,15 @@
   });
   motionQuery.addEventListener('change', honorMotionPreference);
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden && phase !== 'idle') finish();
+    if (document.hidden) {
+      clearOrbEntries();
+      if (phase !== 'idle') finish();
+    }
   });
-  window.addEventListener('pagehide', () => { if (phase !== 'idle') finish(false); });
+  window.addEventListener('pagehide', () => {
+    clearOrbEntries();
+    if (phase !== 'idle') finish(false);
+  });
   setPhase('idle');
+  triggers.forEach(captureOrbs);
 })();
