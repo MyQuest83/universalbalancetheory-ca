@@ -1,0 +1,148 @@
+/* Gateway geometry and decorative rhythms, using only published V3 material.
+ * Blue: ordinary-pi control, rate 1.
+ * Green: fixed Super-Pi ratio, sigma_s = (25 - sqrt(5)) / 20.
+ * Red: normalized Kerr spin factor at the chosen visual setting a_* = 0.5.
+ * The 14-second base period, colours and demonstration spin are design choices,
+ * not measured orbital periods or an additional physical constant.
+ * Source: UBT for the World v3, pp. 6-7, 14-15 and 19;
+ * https://zenodo.org/records/23473479
+ */
+.home-sigil,
+.triad-orbit {
+  --gateway-base-period: 14s;
+  position: relative;
+  display: block;
+  flex: none;
+  aspect-ratio: 1;
+  padding: 0;
+  color: var(--gold);
+  line-height: 0;
+}
+
+.home-sigil {
+  appearance: none;
+  width: clamp(205px, 24vw, 280px);
+  height: auto;
+  margin: 0 auto 10px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  filter: drop-shadow(0 0 18px rgba(242,199,106,.12));
+  cursor: pointer;
+}
+
+.home-sigil:focus-visible {
+  outline: 1px solid rgba(242,199,106,.65);
+  outline-offset: 7px;
+}
+
+.triad-orbit {
+  width: 156px;
+  height: 156px;
+  margin: 0 auto 26px;
+}
+
+/* The SVG, all ring centres and every rotation origin share the same centre. */
+.home-sigil .triangle,
+.triad-orbit svg {
+  position: absolute;
+  inset: 17%;
+  display: block;
+  width: 66%;
+  height: 66%;
+  overflow: visible;
+  filter: drop-shadow(0 0 18px rgba(242,199,106,.14));
+  pointer-events: none;
+}
+
+.home-sigil .ring,
+.triad-orbit::before,
+.triad-orbit::after,
+.triad-orbit .ring-core {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.triad-orbit::before,
+.triad-orbit::after {
+  content: "";
+}
+
+.home-sigil .r1,
+.triad-orbit::before { inset: 0; border-color: rgba(242,199,106,.22); }
+.home-sigil .r2,
+.triad-orbit::after { inset: 16%; }
+.home-sigil .r3,
+.triad-orbit .ring-core { inset: 32%; border-color: rgba(133,207,255,.18); }
+
+/* Each track uses the same inset as its ring, including at narrow widths. */
+.orbit-lane,
+.intro-lane {
+  position: absolute;
+  display: block;
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  transform: rotate(var(--start-angle));
+  animation: gateway-orbit calc(var(--gateway-base-period) / var(--lane-rate)) linear infinite;
+  pointer-events: none;
+}
+
+:is(.orbit-lane,.intro-lane).red {
+  inset: 0;
+  --start-angle: 150deg;
+  --lane-rate: 1.1547005383792517;
+  color: var(--shadow);
+}
+:is(.orbit-lane,.intro-lane).green {
+  inset: 16%;
+  --start-angle: 30deg;
+  --lane-rate: 1.1381966011250105;
+  color: var(--aria);
+}
+:is(.orbit-lane,.intro-lane).blue {
+  inset: 32%;
+  --start-angle: -90deg;
+  --lane-rate: 1;
+  color: var(--luna);
+}
+
+.orbit-lane .node,
+.intro-lane .intro-dot {
+  position: absolute;
+  display: block;
+  left: calc(100% - .5px);
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 16px currentColor;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.intro-lane .intro-dot { width: 12px; height: 12px; }
+
+@keyframes gateway-orbit {
+  from { transform: rotate(var(--start-angle)); }
+  to { transform: rotate(calc(var(--start-angle) + 360deg)); }
+}
+
+@media (max-width: 760px) {
+  .home-sigil { width: clamp(140px, 40vw, 168px); margin-bottom: 8px; }
+  .orbit-lane .node { width: 10px; height: 10px; }
+  .triad-orbit { width: 132px; height: 132px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-lane, .intro-lane { animation: none; }
+}
+
+.motion-paused .orbit-lane,
+.motion-paused .intro-lane { animation-play-state: paused; }
