@@ -17,6 +17,7 @@
   padding: 0;
   color: var(--gold);
   line-height: 0;
+  isolation: isolate;
 }
 
 .home-sigil {
@@ -53,6 +54,7 @@
   overflow: visible;
   filter: drop-shadow(0 0 18px rgba(242,199,106,.14));
   pointer-events: none;
+  z-index: 3;
 }
 
 .home-sigil .ring,
@@ -64,6 +66,7 @@
   border: 1px solid rgba(255,255,255,.14);
   border-radius: 50%;
   pointer-events: none;
+  z-index: 2;
 }
 
 .triad-orbit::before,
@@ -139,20 +142,82 @@
   left: 50%;
   top: 50%;
   will-change: transform, opacity;
-  background: radial-gradient(circle at 32% 25%, #fff 0, currentColor 28%, currentColor 60%, color-mix(in srgb, currentColor, #10111d 70%) 100%);
-  box-shadow: 0 0 7px currentColor, 0 0 20px color-mix(in srgb, currentColor, transparent 45%);
+  background: radial-gradient(circle at 28% 22%, #fff 0%, #fff 3%, color-mix(in srgb, currentColor, white 55%) 13%, currentColor 34%, color-mix(in srgb, currentColor, #080b15 54%) 68%, #050811 100%);
+  box-shadow: inset -.6px -1px 2.4px rgba(0,0,0,.68), inset .5px .6px 1.5px rgba(255,255,255,.5), 0 0 5px currentColor, 0 0 14px color-mix(in srgb, currentColor, transparent 65%);
+  filter: brightness(var(--orb-shade, 1));
 }
 .orbits-managed :is(.node, .intro-dot)::before {
   content: "";
   position: absolute;
-  left: calc(50% - .5px);
-  bottom: 70%;
-  width: 1px;
-  height: calc(46px * var(--orb-trail, 0));
-  opacity: var(--orb-trail, 0);
-  background: linear-gradient(to bottom, transparent, currentColor);
-  box-shadow: 0 0 5px currentColor;
+  left: 50%;
+  top: calc(50% - .5px);
+  width: calc(42px * var(--orb-trail, 0));
+  height: 1px;
+  opacity: calc(var(--orb-trail, 0) * .65);
+  transform: rotate(var(--orb-tail-angle, 0rad));
+  transform-origin: 0 50%;
+  background: linear-gradient(to right, currentColor, transparent);
+  box-shadow: 0 0 3px color-mix(in srgb, currentColor, transparent 50%);
   pointer-events: none;
+  z-index: -1;
+}
+
+/* The well is a brief depth cue during the foreground shot. Near-side orbs
+   cross in front; far-side orbs dim and pass behind its black centre. */
+.gateway-gravity-well {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 1;
+  opacity: var(--well-strength, 0);
+  pointer-events: none;
+  background: radial-gradient(circle, #000 0 58%, #030509 63%, rgba(255,207,121,.8) 66%, rgba(137,187,236,.15) 71%, transparent 75%);
+  box-shadow: 0 0 20px rgba(202,151,64,.13), 0 0 42px rgba(110,175,226,.13);
+}
+.gateway-gravity-well::before {
+  content: "";
+  position: absolute;
+  inset: -38%;
+  border-radius: 50%;
+  background: conic-gradient(from 24deg, transparent, rgba(250,205,115,.75), rgba(130,211,255,.12), transparent 43%, rgba(250,205,115,.6), transparent 84%);
+  -webkit-mask: radial-gradient(farthest-side, transparent 58%, #000 65%, #000 82%, transparent 96%);
+  mask: radial-gradient(farthest-side, transparent 58%, #000 65%, #000 82%, transparent 96%);
+  transform: rotate(-18deg) scaleY(.35) rotate(var(--well-turn, 0rad));
+  filter: blur(.35px);
+}
+.gateway-gravity-well::after {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  border-radius: 50%;
+  background: #000;
+  box-shadow: inset 0 0 3px #321f10;
+}
+
+/* Short illuminated arcs make the rings' motion readable. Their clock starts
+   before the first orb releases from the exact, stationary triangle tips. */
+.gateway-ring-marker {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  z-index: 2;
+  opacity: calc(var(--ring-awake, 0) * .72);
+  pointer-events: none;
+  background: conic-gradient(from -9deg, currentColor 0deg, transparent 38deg, transparent 182deg, color-mix(in srgb, currentColor, transparent 45%) 194deg, transparent 219deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1.4px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1.4px));
+}
+.gateway-ring-marker.blue { inset: 32%; color: var(--luna); }
+.gateway-ring-marker.green { inset: 16%; color: var(--aria); }
+.gateway-ring-marker.red { inset: 0; color: var(--shadow); }
+.orbits-managed .triangle,
+.orbits-managed.triad-orbit svg {
+  filter: drop-shadow(0 0 calc(4px + var(--lock-strength, 0) * 9px) rgba(242,199,106,.3));
 }
 .orbits-managed[data-orb-state="parked"] :is(.node, .intro-dot),
 .orbits-managed[data-orb-state="hidden"] :is(.node, .intro-dot) { will-change: auto; }
@@ -170,7 +235,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orbit-lane, .intro-lane { animation: none; }
-  .orbits-managed :is(.node, .intro-dot)::before { display: none; }
+  .orbits-managed :is(.node, .intro-dot)::before, .gateway-gravity-well { display: none; }
 }
 
 .motion-paused .orbit-lane,
