@@ -35,6 +35,9 @@ universalbalancetheory.ca
 - `styles.css` - shared supporting styles
 - `usability.css` - navigation icons and refreshed secondary-page controls
 - `site.js` - shared accent routing and footer upkeep credit
+- `gateway-intro.js` - continuous orb docking, gateway playback and staggered return
+- `visitor-counter.js` / `visitor-counter.css` - cookie-free aggregate page-visit counter with brass rolling digits
+- `docs/visitor-counter.md` - counting semantics, provider, privacy and recovery notes
 - `CNAME` - GitHub Pages custom domain
 - `.nojekyll` - static-site marker
 

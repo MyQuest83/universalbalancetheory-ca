@@ -129,21 +129,33 @@
 
 .intro-lane .intro-dot { width: 12px; height: 12px; }
 
-/* Fly in on the child dots; the parent tracks keep their uninterrupted rhythms. */
-:is(.orbit-lane,.intro-lane).red { --entry-x: 110vmax; --entry-y: -45vmax; --entry-delay: 0s; }
-:is(.orbit-lane,.intro-lane).green { --entry-x: 95vmax; --entry-y: 70vmax; --entry-delay: .16s; }
-:is(.orbit-lane,.intro-lane).blue { --entry-x: 120vmax; --entry-y: -75vmax; --entry-delay: .32s; }
-.orbs-entering .node,
-.orbs-entering .intro-dot {
-  animation: gateway-orb-capture 1.9s cubic-bezier(.16,.65,.24,1) var(--entry-delay) both;
+/* JavaScript owns each continuous position after enhancement. The CSS orbit
+   above remains a complete fallback when JavaScript is unavailable. */
+.orbits-managed :is(.orbit-lane, .intro-lane) {
+  animation: none;
+  transform: none;
 }
-@keyframes gateway-orb-capture {
-  0% { transform:translate(calc(-50% + var(--entry-x)),calc(-50% + var(--entry-y))) scale(.3); opacity:0; }
-  12% { opacity:1; }
-  62% { transform:translate(calc(-50% + 30px),calc(-50% - 22px)) scale(1.22); opacity:1; }
-  82% { transform:translate(calc(-50% - 7px),calc(-50% + 5px)) scale(.92); }
-  100% { transform:translate(-50%,-50%) scale(1); opacity:1; }
+.orbits-managed :is(.node, .intro-dot) {
+  left: 50%;
+  top: 50%;
+  will-change: transform, opacity;
+  background: radial-gradient(circle at 32% 25%, #fff 0, currentColor 28%, currentColor 60%, color-mix(in srgb, currentColor, #10111d 70%) 100%);
+  box-shadow: 0 0 7px currentColor, 0 0 20px color-mix(in srgb, currentColor, transparent 45%);
 }
+.orbits-managed :is(.node, .intro-dot)::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - .5px);
+  bottom: 70%;
+  width: 1px;
+  height: calc(46px * var(--orb-trail, 0));
+  opacity: var(--orb-trail, 0);
+  background: linear-gradient(to bottom, transparent, currentColor);
+  box-shadow: 0 0 5px currentColor;
+  pointer-events: none;
+}
+.orbits-managed[data-orb-state="parked"] :is(.node, .intro-dot),
+.orbits-managed[data-orb-state="hidden"] :is(.node, .intro-dot) { will-change: auto; }
 
 @keyframes gateway-orbit {
   from { transform: rotate(var(--start-angle)); }
@@ -158,11 +170,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orbit-lane, .intro-lane { animation: none; }
-  .orbs-entering .node, .orbs-entering .intro-dot { animation:none!important; opacity:1; transform:translate(-50%,-50%); }
+  .orbits-managed :is(.node, .intro-dot)::before { display: none; }
 }
 
 .motion-paused .orbit-lane,
 .motion-paused .intro-lane { animation-play-state: paused; }
-.motion-paused .orbs-entering .node,
-.motion-paused .orbs-entering .intro-dot,
-.quiet-intro .orbs-entering .intro-dot { animation:none!important; opacity:1; transform:translate(-50%,-50%); }
+.motion-paused .orbits-managed :is(.node, .intro-dot)::before,
+.quiet-intro .orbits-managed :is(.node, .intro-dot)::before { display: none; }

@@ -40,6 +40,7 @@ jobs:
           node --check site.js
           node --check gateway-intro.js
           node --check gateway-warp-renderer.js
+          node --check visitor-counter.js
           node --check trigon/trigon-page.js
           node --check trigon/validate-records.mjs
           node trigon/validate-records.mjs
