@@ -35,9 +35,10 @@ universalbalancetheory.ca
 - `styles.css` - shared supporting styles
 - `usability.css` - navigation icons and refreshed secondary-page controls
 - `site.js` - shared accent routing and footer upkeep credit
-- `gateway-intro.js` - continuous orb docking, gateway playback and staggered return
-- `visitor-counter.js` / `visitor-counter.css` - cookie-free aggregate page-visit counter with brass rolling digits
+- `gateway-intro.js` - randomized perspective arrivals, exact logo docking, gateway playback and gradual orbital release
+- `visitor-counter.js` / `visitor-counter.css` - centered inline page-visit counter with brass digits that wind on first view
 - `docs/visitor-counter.md` - counting semantics, provider, privacy and recovery notes
+- `docs/magnetic-orbs-release.md` - magnetic arrival timing, verification and rollback point
 - `CNAME` - GitHub Pages custom domain
 - `.nojekyll` - static-site marker
 

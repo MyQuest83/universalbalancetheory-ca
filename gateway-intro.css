@@ -50,7 +50,7 @@ html{scrollbar-gutter:stable}
 .intro-gate.warping:before,.intro-gate.warping:after,.intro-gate.warping .intro-split{display:none}
 .intro-gate.warping .intro-card{visibility:hidden;pointer-events:none}
 .intro-gate.warping .gateway-warp-canvas,.intro-gate.warping .gateway-warp-controls{display:block}
-/* Dock on the real homepage before opening the seven-second journey. */
+/* Dock at the exact logo tips before opening the seven-second journey. */
 .intro-gate.aligning .gateway-warp-canvas{visibility:hidden}
 .intro-gate.aligning .warp-skip{background:rgba(3,4,10,.6)}
 .gateway-warp-controls{position:absolute;inset:0;z-index:5;pointer-events:none}

@@ -4,6 +4,29 @@ The brass rolling-number tab displays one shared **page-visit total** for the
 public UBT website. It counts full page loads, including reloads and repeat
 visits. It does not identify or count unique people.
 
+## Page placement
+
+The counter is centered in the normal document flow. On the homepage it sits
+immediately below the hero's primary buttons; on other pages it sits in the
+footer. Expanding its notes increases the document height and moves later
+content down, without covering buttons or reserving fixed-screen padding.
+The tab and its notes stay within the existing intro modal's inert background.
+
+The widget's optional privacy link stays on this website at
+`links.html#fine-print`. The Abacus source credit is confined to the understated
+Credits & privacy section at the bottom of the Links page, after its counter.
+Moving the display does not change the production namespace, key, stored
+total or counting rules below.
+
+Fetching and recording a visit do not wait for scrolling. The decorative reel
+reveal waits until the counter first enters the viewport, then plays once.
+The ready count and accessible text already contain the true total while it
+is offscreen. Reduced-motion or paused-motion preferences show settled digits
+directly. Browsers without IntersectionObserver reveal immediately when the
+document is visible. None of these display changes issues another count
+request; a pending observer is disconnected when the page is hidden by
+navigation and reattached on a back/forward-cache return if still needed.
+
 ## Counting contract
 
 - Every fully loaded public page that includes the counter client contributes

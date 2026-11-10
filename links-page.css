@@ -43,6 +43,11 @@
 .links-page .research-links .simple-link{min-height:60px}
 .links-page .links-end{font-size:.8rem;line-height:1.7;color:#aeb5c3;margin:22px 0 0}
 .links-page footer .wrap{font-size:.82rem;line-height:1.7}
+.links-page .links-fineprint{max-width:640px;margin:30px auto 0;padding-top:18px;border-top:1px solid #ffffff12;text-align:center;color:#a6a9b0}
+.links-page .links-fineprint h2{margin:0 0 10px;font:600 .66rem/1.4 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#b5ad9d}
+.links-page .links-fineprint p{margin:8px 0;font-size:.72rem;line-height:1.7;color:#a6a9b0}
+.links-page .links-fineprint a{color:#c2b599;text-decoration:underline;text-decoration-color:#c2b59966;text-underline-offset:3px}
+.links-page .links-fineprint a:hover{color:#e6cfa1;text-decoration-color:currentColor}
 .links-page .machine-index-links{display:none!important}
 @media(max-width:760px){
  .links-page .links-intro{padding:38px 0 28px}
