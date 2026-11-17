@@ -10,6 +10,8 @@ This **new count starts on November 16, 2026 using its own namespace**. The form
 ## Session marker and privacy
 This counter has **no cookies, account IDs, fingerprinting or persistent visitor IDs**. A single temporary string `1` in `sessionStorage`, keyed as `ubt.ca.site-visit-v2.counted`, suppresses repeated increments within the current tab. The marker is never transmitted. Other website functionality may independently use browser storage for visual preferences; this privacy claim applies specifically to the visitor counter.
 
+Once a tab is already counted, secondary pages make **no additional Abacus request**. Returning to the homepage makes one read-only lookup to display the latest total.
+
 The tab marker is set **before** the increment request. After a timeout or ambiguous response, the client may perform a read-only lookup but will never retry the hit. When sessionStorage is disabled, the counter falls back to **counting homepage openings**, including repeat loads, and intentionally does not count direct subpage visits.
 
 Requests use a fixed counter key, `credentials:'omit'`, `referrerPolicy:'no-referrer'`, `cache:'no-store'`, a bounded timeout and validation of a nonnegative safe-integer `{"value":123}` response. No page path, query, referrer or tab marker is transmitted. Abacus still receives ordinary network information, including connection IP and browser request headers. Automation, rate limits, script blockers or network failures can inflate or diminish totals. This counter is informational, not a scientific or billing measure.
