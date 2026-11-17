@@ -39,6 +39,7 @@ jobs:
         run: |
           node --check site.js
           node --check gateway-intro.js
+          node --test tests/gateway-lifecycle.test.cjs
           node --check gateway-warp-renderer.js
           node --check visitor-counter.js
           node --check trigon/trigon-page.js
