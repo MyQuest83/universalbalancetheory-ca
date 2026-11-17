@@ -3,7 +3,7 @@
 ## Current public behavior
 The brass rolling-number counter displays **approximate UBT.ca browser-tab visits**, not unique people. The instrument appears **only on the homepage** after the main action buttons, in normal scrolling page flow. It never appears in subpage footers.
 
-Each eligible tab registers at most one site visit across the public UBT pages that include `visitor-counter.js`. Browsing Home, Luna, Aria, Shadow, Trigon, Links, Michael or AI Index and refreshing within the same tab normally do not add another. New tabs can contribute new visits. Duplicated tabs and browser-restored sessions may inherit a marker, so some visits are missed. The Easter egg, counter details and number animations do not change a visit total.
+Each eligible tab registers at most one site visit across the public UBT pages that include `visitor-counter.js`. Browsing Home, Luna, Aria, Shadow, Trigon, Evidence, Links, Michael or AI Index and refreshing within the same tab normally do not add another. New tabs can contribute new visits. Duplicated tabs and browser-restored sessions may inherit a marker, so some visits are missed. The Easter egg, counter details and number animations do not change a visit total.
 
 This **new count starts on November 16, 2026 using its own namespace**. The former page-view counter introduced November 10, 2026 is preserved separately in read-only mode. These incomparable totals must never be added together or represented as unique humans.
 
