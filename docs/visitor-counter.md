@@ -1,39 +1,26 @@
-# UBT.ca Visitor Counter v2 · November 16, 2026
+# UBT.ca Privacy-first Visitor Counter | 17 November 2026
 
-## Current public behavior
-The brass rolling-number counter displays **approximate UBT.ca browser-tab visits**, not unique people. The instrument appears **only on the homepage** after the main action buttons, in normal scrolling page flow. It never appears in subpage footers.
+## Current public state: privacy pause
+The earlier Abacus external counter is disabled. The brass counter is preserved on the homepage, displaying dashes and "Privacy mode" until a first-party backend has been independently deployed and verified. **No live total is claimed during the pause.**
 
-Each eligible tab registers at most one site visit across the public UBT pages that include `visitor-counter.js`. Browsing Home, Luna, Aria, Shadow, Trigon, Evidence, Links, Michael or AI Index and refreshing within the same tab normally do not add another. New tabs can contribute new visits. Duplicated tabs and browser-restored sessions may inherit a marker, so some visits are missed. The Easter egg, counter details and number animations do not change a visit total.
+The new `visitor-counter.js` uses no cookies, sessionStorage, localStorage, tracking IDs, fingerprinting, or third-party counter network requests. It does not call any endpoint until the homepage script element has `data-first-party-counter="enabled"`, which is deliberately **absent** in the published code. Other pages do not load the counter script. The saved colour-preference code was also removed from `site.js`.
 
-This **new count starts on November 16, 2026 using its own namespace**. The former page-view counter introduced November 10, 2026 is preserved separately in read-only mode. These incomparable totals must never be added together or represented as unique humans.
+The main website is presently a static GitHub Pages site. Its ordinary host receives network connection information. External links can navigate to other providers that have their own policies. The source-based "zero counter requests" guarantee is distinct from a claim of "zero network data anywhere".
 
-## Session marker and privacy
-This counter has **no cookies, account IDs, fingerprinting or persistent visitor IDs**. A single temporary string `1` in `sessionStorage`, keyed as `ubt.ca.site-visit-v2.counted`, suppresses repeated increments within the current tab. The marker is never transmitted. Other website functionality may independently use browser storage for visual preferences; this privacy claim applies specifically to the visitor counter.
+## The later first-party counter contract
+After a verified same-origin backend exists, the counter will send one `POST /api/visits` per homepage opening (including reloads), and `GET /api/visits` for read-only fallback if a POST's response is lost. No ambiguous POST is retried. The response must be `{"series":"homepage-openings-v1","value":<nonnegative safe integer>}`. This measures **homepage openings, not unique people** and does not track visitors between pages. The frontend is deliberately fail-closed until activation.
 
-Once a tab is already counted, secondary pages make **no additional Abacus request**. Returning to the homepage makes one read-only lookup to display the latest total.
+A separate first-party backend implementation and tests are staged in `infra/ubt-counter/`. It needs an authorized hosting account, database and compatible DNS route before activation. **GitHub Pages cannot run this dynamic endpoint by itself.** No new DNS, services, billing, or third-party counter integration is activated by these source changes.
 
-The tab marker is set **before** the increment request. After a timeout or ambiguous response, the client may perform a read-only lookup but will never retry the hit. When sessionStorage is disabled, the counter falls back to **counting homepage openings**, including repeat loads, and intentionally does not count direct subpage visits.
+## Historical counting provenance
+- Nov 10-16: Abacus page views used `universalbalancetheory.ca/visits`.
+- Nov 16-17: Abacus approximate tab visits used `universalbalancetheory.ca/site-visits-v2`.
+- The old data lives outside our code with Abacus. The old counters were not reset or erased. No verified numerical snapshots were obtainable in this runtime; therefore no historical totals are guessed or added to the new series.
+- Code before mitigation is preserved in `backup/pre-privacy-first-counter-2026-11-17`. Rolling it back would **re-enable Abacus**, so it is for forensic comparison unless privacy policy is explicitly changed.
 
-Requests use a fixed counter key, `credentials:'omit'`, `referrerPolicy:'no-referrer'`, `cache:'no-store'`, a bounded timeout and validation of a nonnegative safe-integer `{"value":123}` response. No page path, query, referrer or tab marker is transmitted. Abacus still receives ordinary network information, including connection IP and browser request headers. Automation, rate limits, script blockers or network failures can inflate or diminish totals. This counter is informational, not a scientific or billing measure.
+## Source audit and operating limits
+The reviewed site-owned HTML/CSS/JS had only one automatic cross-origin counter request, to Abacus. Trigon's `trigon/trigon-page.js` fetches its own public `trigon/manifest.json`. Other visible outbound research, music and social links are navigational. The accent script's localStorage calls and the counter's sessionStorage calls were removed.
 
-## Public Abacus endpoints
-| Series | Increment | Read only |
-| --- | --- | --- |
-| **New UBT site visits** from 2026-11-16 | `https://abacus.jsn.cam/hit/universalbalancetheory.ca/site-visits-v2` | `https://abacus.jsn.cam/get/universalbalancetheory.ca/site-visits-v2` |
-| Retired page views from 2026-11-10 to 2026-11-16 | **Do not increment** | `https://abacus.jsn.cam/get/universalbalancetheory.ca/visits` |
+The first-party application will store an aggregate total only. Any hosting/CDN platform still processes visitors' IP addresses at the network layer; its log retention and request analytics must be reviewed and controlled separately. Public counters cannot cryptographically distinguish actual humans from scripted clients without additional identification or abuse controls. Do not claim unique users.
 
-The approved production hosts are `universalbalancetheory.ca` and `www.universalbalancetheory.ca` over HTTPS. Downloaded and local/test copies are read-only and cannot increment production. A read failure must show unavailable, never an invented zero.
-
-The November 10 provider tests verified CORS, no Set-Cookie on checked responses, a 30-requests/10-seconds/IP rate-limit header, and a stated 168-day inactivity expiry. The provider's future uptime, privacy terms and retention remain external dependencies.
-
-## Private project overview
-A separate self-contained HTML overview is stored in the user's **private Drive and ChatGPT Library**, not committed to public GitHub or published on the website. It fetches only the `/get` read endpoints for current site visits and the preserved historical page views. Independent future projects such as PulseGarden, UBT the Game and Luna Companion are marked **Not configured** until a real public URL and explicit approval exist. Trigon pages on UBT.ca belong to the one main-site count.
-
-The private HTML file is not an authenticated analytics service. Do not publish its project inventory. These aggregate endpoints cannot provide daily time series, per-page paths or unique-human counts.
-
-## Rollback and provenance
-- Previous production commit: `2f4c5154c08695573f7b077bc299d2aa1b03a01d`.
-- Preserved branch: `backup/pre-site-visits-v2-2026-11-16`.
-- Earlier provider verification, source links and full page-view counting specification remain preserved in that commit's `docs/visitor-counter.md` and prior Drive archives.
-- The counter data is stored by Abacus separately from Git history. A revert must not increment both namespaces or mislabel old page views as visits.
-- Provider source and terms: https://github.com/JasonLovesDoggo/abacus
+References: https://github.com/MyQuest83/universalbalancetheory-ca and https://github.com/JasonLovesDoggo/abacus

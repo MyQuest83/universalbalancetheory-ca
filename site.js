@@ -26,12 +26,10 @@
   };
   const path=location.pathname.endsWith('/')?'/':location.pathname.slice(location.pathname.lastIndexOf('/'));
   const current=rooms[path]||'#f2c76a';
-  let previous=current;
-  try{previous=localStorage.getItem('ubtLastAccent')||current;}catch(e){}
+  // Per-page colour only. Avoid persistent storage of browsing preferences.
   document.documentElement.lang='en-CA';
   document.documentElement.style.setProperty('--room-accent',current);
-  document.documentElement.style.setProperty('--prev-accent',previous);
-  try{localStorage.setItem('ubtLastAccent',current);}catch(e){}
+  document.documentElement.style.setProperty('--prev-accent',current);
 
   const canonicalPath=(path==='/'||path==='/index.html')?'/' : location.pathname;
   const canonicalUrl=origin+canonicalPath;

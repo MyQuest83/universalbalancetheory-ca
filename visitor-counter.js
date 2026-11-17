@@ -1,256 +1,196 @@
-/* One site visit per tab when sessionStorage works; no cookies or personal identifiers. */
+/* UBT.ca brass counter: no cookies, visitor identifiers or browser storage.
+ * A backend must be verified before activating data-first-party-counter="enabled".
+ * Until then, this component is decorative and sends ZERO network requests.
+ * No visitor IP addresses, paths, or identifiers are stored by this client.
+ */
 (function () {
   'use strict';
   if (window.__ubtVisitorCounter) return;
   window.__ubtVisitorCounter = true;
 
-  const API = 'https://abacus.jsn.cam';
-  const KEY = 'universalbalancetheory.ca/site-visits-v2';
-  const TAB_MARKER = 'ubt.ca.site-visit-v2.counted';
-  const isHome = location.pathname === '/' || location.pathname === '/index.html';
+  const home = location.pathname === '/' || location.pathname === '/index.html';
+  const target = document.querySelector('.home-title .btns');
+  if (!home || !target) return;
+
   const LIVE_HOSTS = new Set(['universalbalancetheory.ca', 'www.universalbalancetheory.ca']);
   const isLive = location.protocol === 'https:' && LIVE_HOSTS.has(location.hostname);
+  const ENABLED = isLive && document.currentScript &&
+    document.currentScript.dataset.firstPartyCounter === 'enabled';
+  const ENDPOINT = '/api/visits'; // same-origin, operator-owned API; no external counter
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const MIN_DIGITS = 6;
   let started = false;
-  let value = null;
   let animations = [];
-  let animationTimer = 0;
-  let counterInView = true;
-  let revealPending = false;
-  let revealObserver = null;
+  let timer = 0;
+  let observer = null;
+  let value = null;
 
   function element(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = text;
-    return node;
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
   }
-
-  const counter = element('details', 'visitor-counter');
+  const counter = element('details', 'visitor-counter visitor-counter--hero');
   counter.id = 'visitorCounter';
-  counter.dataset.state = 'loading';
+  counter.dataset.state = 'paused';
   const summary = element('summary', 'counter-tab');
   const head = element('span', 'counter-heading');
   const gear = element('span', 'counter-gear', '⚙');
   gear.setAttribute('aria-hidden', 'true');
-  head.append(gear, element('span', 'counter-title', 'Visitor Counter'));
+  const title = element('span', 'counter-title', 'Visitor Counter');
   const chevron = element('span', 'counter-chevron', '+');
   chevron.setAttribute('aria-hidden', 'true');
-  head.append(chevron);
+  head.append(gear, title, chevron);
   const reels = element('span', 'counter-reels');
   reels.setAttribute('aria-hidden', 'true');
-  const accessibleCount = element('span', 'counter-a11y', 'Loading visit count.');
-  accessibleCount.setAttribute('aria-live', 'polite');
-  accessibleCount.setAttribute('aria-atomic', 'true');
+  const accessible = element('span', 'counter-a11y', 'Counter paused during privacy upgrade.');
+  accessible.setAttribute('aria-live', 'polite');
+  accessible.setAttribute('aria-atomic', 'true');
   const foot = element('span', 'counter-foot');
   const lamp = element('span', 'counter-lamp');
   lamp.setAttribute('aria-hidden', 'true');
-  const status = element('span', 'counter-status', 'Connecting');
+  const status = element('span', 'counter-status', 'Privacy mode');
   foot.append(lamp, status, element('span', 'counter-cookie-note', 'No cookies'));
-  summary.append(head, reels, accessibleCount, foot);
+  summary.append(head, reels, accessible, foot);
 
   const notes = element('div', 'counter-notes');
   notes.append(element('strong', '', 'Every visit leaves a little spark.'));
-  notes.append(element('p', '', 'Site visits since November 16, 2026. Browsing UBT.ca in the same tab normally counts once. A new tab may count as another visit.'));
-  notes.append(element('p', '', 'No cookies or visitor identifiers. One temporary tab-only flag prevents repeat counts and is never sent to the counter service. If tab storage is unavailable, homepage loads are counted instead. Abacus receives ordinary network information.'));
-  const privacy = element('a', 'counter-privacy', 'Credits & privacy');
-  privacy.href = 'links.html#fine-print';
-  notes.append(privacy);
+  notes.append(element('p', '', 'Live counting is paused while the first-party counter is prepared and verified. The brass instrument stays here, but it does not currently record or transmit visits.'));
+  notes.append(element('p', '', 'The replacement counts homepage openings, including reloads. It does not use cookies, browser storage, visitor identifiers or fingerprinting. Ordinary network information is still processed by whichever host serves the site.'));
+  const link = element('a', 'counter-privacy', 'Credits & privacy');
+  link.href = 'links.html#fine-print';
+  notes.append(link);
   counter.append(summary, notes);
+  target.insertAdjacentElement('afterend', counter);
 
-  // The public counter is shown on Home only; other public pages may record
-  // the first tab visit without rendering the instrument.
-  const heroActions = document.querySelector('.home-title .btns');
-  if (isHome && heroActions) {
-    counter.classList.add('visitor-counter--hero');
-    heroActions.insertAdjacentElement('afterend', counter);
+  function setPaused(message, state) {
+    stop();
+    value = null;
+    counter.dataset.state = state || 'paused';
+    reels.replaceChildren(element('span', 'counter-unavailable', '— — — — — —'));
+    status.textContent = message;
+    accessible.textContent = message + '. No visit data is being displayed.';
   }
 
-  function prefersStill() {
-    return motion.matches || document.documentElement.classList.contains('motion-paused') || document.body.classList.contains('motion-paused');
-  }
-
-  function paused() {
-    return prefersStill() || document.hidden;
-  }
-
-  function releaseRevealObserver() {
-    if (revealObserver) revealObserver.disconnect();
-    revealObserver = null;
-  }
-
-  function revealWhenVisible() {
-    if (!revealPending || value === null) return;
-    if (prefersStill()) {
-      revealPending = false;
-      releaseRevealObserver();
-      renderCount(value, false);
-    } else if (counterInView && !document.hidden) {
-      revealPending = false;
-      releaseRevealObserver();
-      renderCount(value, true);
-    }
-  }
-
-  function watchCounter() {
-    if (!isHome || typeof IntersectionObserver !== 'function') return;
-    try {
-      counterInView = false;
-      revealObserver = new IntersectionObserver(entries => {
-        const entry = entries.find(item => item.target === counter);
-        if (!entry) return;
-        counterInView = entry.isIntersecting;
-        revealWhenVisible();
-      }, { threshold: 0.15 });
-      revealObserver.observe(counter);
-    } catch (_) {
-      // A browser without a usable observer gets the same bounded reveal at load.
-      releaseRevealObserver();
-      counterInView = true;
-    }
-  }
-
-  function stopReels() {
-    clearTimeout(animationTimer);
-    animations.forEach(animation => animation.cancel());
+  function stop() {
+    clearTimeout(timer);
+    animations.forEach(a => { try { a.cancel(); } catch (_) {} });
     animations = [];
     counter.classList.remove('is-winding');
   }
 
-  function renderCount(total, animate) {
-    stopReels();
-    const digits = String(total).padStart(MIN_DIGITS, '0');
-    reels.style.setProperty('--counter-digits', digits.length);
+  function prefersStill() {
+    return motion.matches ||
+      document.documentElement.classList.contains('motion-paused') ||
+      document.body.classList.contains('motion-paused');
+  }
+
+  function showNumber(number, animated) {
+    stop();
+    const digits = String(number).padStart(6, '0');
+    reels.style.setProperty('--counter-digits', String(digits.length));
     reels.replaceChildren();
     digits.split('').forEach((digit, index) => {
-      const window = element('span', 'counter-digit');
+      const cell = element('span', 'counter-digit');
       const track = element('span', 'counter-track');
-      const target = Number(digit);
-      // Each drum makes a bounded number of turns and comes to rest on the true digit.
-      const steps = animate ? 20 + target : target;
-      for (let n = 0; n <= steps; n++) track.append(element('span', 'counter-number', String(n % 10)));
-      window.append(track);
-      reels.append(window);
-      const finalPosition = `translateY(-${steps * 100 / (steps + 1)}%)`;
-      track.style.transform = finalPosition;
-      if (animate && typeof track.animate === 'function') {
+      const n = Number(digit);
+      const steps = animated ? 20 + n : n;
+      for (let k = 0; k <= steps; k++) track.append(element('span', 'counter-number', String(k % 10)));
+      cell.append(track);
+      reels.append(cell);
+      const end = 'translateY(-' + (100 * steps / (steps + 1)) + '%)';
+      track.style.transform = end;
+      if (animated && typeof track.animate === 'function') {
         animations.push(track.animate([
-          { transform: 'translateY(0)' },
-          { transform: finalPosition }
+          { transform: 'translateY(0)' }, { transform: end }
         ], {
-          duration: 1500 + index * 110,
+          duration: 1500 + 110 * index,
           delay: (digits.length - index - 1) * 65,
           easing: 'cubic-bezier(.12,.55,.18,1)',
           fill: 'backwards'
         }));
       }
     });
-    if (animate && animations.length) {
+    if (animations.length) {
       counter.classList.add('is-winding');
-      animationTimer = setTimeout(() => {
-        stopReels();
-        // Discard the spare drum rows once the reveal has finished.
-        renderCount(total, false);
-      }, 1750 + digits.length * 130);
+      timer = setTimeout(() => { stop(); showNumber(number, false); }, 1750 + digits.length * 130);
     }
   }
 
-  if (isHome) renderCount(0, false);
-
-  async function requestCount(action) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 6500);
+  async function request(method) {
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 6500);
     try {
-      const response = await fetch(`${API}/${action}/${KEY}`, {
-        method: 'GET', mode: 'cors', credentials: 'omit',
-        referrerPolicy: 'no-referrer', cache: 'no-store', signal: controller.signal
+      const res = await fetch(ENDPOINT, {
+        method, credentials: 'omit', mode: 'same-origin',
+        cache: 'no-store', referrerPolicy: 'no-referrer', signal: ctrl.signal
       });
-      if (!response.ok) throw new Error(`Counter unavailable (${response.status})`);
-      const data = await response.json();
-      if (!Number.isSafeInteger(data.value) || data.value < 0) throw new Error('Invalid visit total');
+      if (!res.ok) throw new Error('Counter unavailable');
+      const data = await res.json();
+      if (!Number.isSafeInteger(data.value) || data.value < 0) throw new Error('Invalid total');
+      if (data.series !== 'homepage-openings-v1') throw new Error('Unexpected counting series');
       return data.value;
     } finally {
-      clearTimeout(timer);
+      clearTimeout(timeout);
     }
   }
 
-  function visitAction() {
-    if (!isLive) return 'get'; // previews are strictly read-only
-    try {
-      if (sessionStorage.getItem(TAB_MARKER) === '1') return 'get';
-      // Mark first: the network request could succeed even if the reply is lost.
-      // Never automatically retry an ambiguous increment.
-      sessionStorage.setItem(TAB_MARKER, '1');
-      return 'hit';
-    } catch (_) {
-      // Storage blocked: count homepage openings only, not every subpage.
-      return isHome ? 'hit' : 'none';
-    }
+  function revealWhenVisible() {
+    if (value === null || document.hidden) return;
+    if (prefersStill()) { showNumber(value, false); return; }
+    if (typeof IntersectionObserver !== 'function') { showNumber(value, true); return; }
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.target === counter && entry.isIntersecting)) return;
+      observer.disconnect(); observer = null;
+      showNumber(value, true);
+    }, { threshold: .15 });
+    observer.observe(counter);
   }
 
-  async function load() {
+  async function start() {
     if (started || document.hidden) return;
     started = true;
-    const action = visitAction();
-    if (action === 'none' || (!isHome && action === 'get')) return; // avoid read requests on already-counted subpages
+    if (!ENABLED) {
+      setPaused('Privacy mode', 'paused');
+      return; // NO network requests whatsoever until the operator enables the backend
+    }
+    counter.dataset.state = 'loading';
+    status.textContent = 'Connecting';
     try {
-      let counted = false;
-      try {
-        value = await requestCount(action);
-        counted = action === 'hit';
-      } catch (error) {
-        if (action !== 'hit') throw error;
-        // A timed-out hit may have reached the server. Never retry an increment.
-        value = await requestCount('get');
-      }
-      if (!isHome) return; // no counter UI on secondary pages
+      // One homepage opening is a visit; no session marker, cookies or identifiers.
+      // If the POST times out, it may have succeeded. Never retry it.
+      try { value = await request('POST'); }
+      catch (_) { value = await request('GET'); }
       counter.dataset.state = 'ready';
       counter.dataset.total = String(value);
-      status.textContent = isLive ? 'Site visits' : 'Read-only preview';
-      if (isLive && !counted) status.textContent = 'Latest total';
-      accessibleCount.textContent = `${value.toLocaleString('en-CA')} UBT.ca site visits since November 16, 2026. No cookies.`;
-      // Fetch/count immediately; let the visitor actually see the single drum reveal.
-      // The settled digits and accessible text already contain the true total.
-      renderCount(value, false);
-      revealPending = true;
+      status.textContent = 'Homepage openings';
+      accessible.textContent = value.toLocaleString('en-CA') + ' homepage openings. No cookies or visitor tracking.';
+      notes.querySelectorAll('p')[0].textContent = 'This counter records homepage openings, including refreshes. It does not identify people. The total starts when our first-party backend is activated.';
       revealWhenVisible();
     } catch (_) {
-      stopReels();
-      revealPending = false;
-      releaseRevealObserver();
-      counter.dataset.state = 'unavailable';
-      reels.replaceChildren(element('span', 'counter-unavailable', '— — — — — —'));
-      status.textContent = isLive ? 'Temporarily offline' : 'Read-only preview';
-      accessibleCount.textContent = 'Visit count temporarily unavailable. No cookies.';
+      setPaused('Temporarily unavailable', 'unavailable');
     }
   }
 
-  function honorMotion() {
-    if (isHome && paused() && value !== null) renderCount(value, false);
-    if (prefersStill()) revealWhenVisible();
-  }
-  motion.addEventListener('change', honorMotion);
-  const observer = new MutationObserver(honorMotion);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) honorMotion();
-    else { load(); revealWhenVisible(); }
+  counter.addEventListener('toggle', () => {
+    chevron.textContent = counter.open ? '−' : '+';
   });
-  window.addEventListener('pagehide', () => {
-    stopReels();
-    if (revealObserver) { revealObserver.disconnect(); counterInView = false; }
-  });
-  window.addEventListener('pageshow', () => {
-    if (revealObserver) revealObserver.observe(counter);
-    else revealWhenVisible();
-  });
-  // Opening details never reloads the count or adds a visit.
-  counter.addEventListener('toggle', () => { chevron.textContent = counter.open ? '−' : '+'; });
   counter.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && counter.open) { counter.open = false; summary.focus(); }
+    if (event.key === 'Escape' && counter.open) {
+      counter.open = false;
+      summary.focus();
+    }
   });
-  watchCounter();
-  load();
+  motion.addEventListener('change', () => {
+    if (value !== null && prefersStill()) showNumber(value, false);
+  });
+  window.addEventListener('pagehide', () => { stop(); if (observer) observer.disconnect(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else if (!started) start();
+    else if (value !== null && counter.dataset.state === 'ready' && observer) observer.observe(counter);
+  });
+  setPaused('Privacy mode', 'paused');
+  start();
 })();
