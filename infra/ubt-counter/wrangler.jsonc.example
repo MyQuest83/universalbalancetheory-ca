@@ -1,0 +1,23 @@
+{
+  // DO NOT deploy this example without verified Cloudflare-zone ownership,
+  // a D1 database ID and explicit approval of hostname/DNS changes.
+  // Rename to wrangler.jsonc only after the infrastructure gate passes.
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "ubt-first-party-counter",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-17",
+  "workers_dev": false,
+  "observability": { "enabled": false },
+  "routes": [
+    { "pattern": "universalbalancetheory.ca/api/*", "zone_name": "universalbalancetheory.ca" },
+    { "pattern": "www.universalbalancetheory.ca/api/*", "zone_name": "universalbalancetheory.ca" }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ubt-homepage-visits",
+      "database_id": "REPLACE_WITH_VERIFIED_D1_DATABASE_UUID",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
