@@ -1,11 +1,13 @@
-/* A shared page-visit total. No cookies, visitor identifiers, or browser storage. */
+/* One site visit per tab when sessionStorage works; no cookies or personal identifiers. */
 (function () {
   'use strict';
   if (window.__ubtVisitorCounter) return;
   window.__ubtVisitorCounter = true;
 
   const API = 'https://abacus.jsn.cam';
-  const KEY = 'universalbalancetheory.ca/visits';
+  const KEY = 'universalbalancetheory.ca/site-visits-v2';
+  const TAB_MARKER = 'ubt.ca.site-visit-v2.counted';
+  const isHome = location.pathname === '/' || location.pathname === '/index.html';
   const LIVE_HOSTS = new Set(['universalbalancetheory.ca', 'www.universalbalancetheory.ca']);
   const isLive = location.protocol === 'https:' && LIVE_HOSTS.has(location.hostname);
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -50,25 +52,19 @@
 
   const notes = element('div', 'counter-notes');
   notes.append(element('strong', '', 'Every visit leaves a little spark.'));
-  notes.append(element('p', '', 'Total page visits since November 10, 2026. Reloads and visits to another page count again.'));
-  notes.append(element('p', '', 'This counter uses no cookies or browser identifiers. A count request goes to Abacus, which receives ordinary network information.'));
+  notes.append(element('p', '', 'Site visits since November 16, 2026. Browsing UBT.ca in the same tab normally counts once. A new tab may count as another visit.'));
+  notes.append(element('p', '', 'No cookies or visitor identifiers. One temporary tab-only flag prevents repeat counts and is never sent to the counter service. If tab storage is unavailable, homepage loads are counted instead. Abacus receives ordinary network information.'));
   const privacy = element('a', 'counter-privacy', 'Credits & privacy');
   privacy.href = 'links.html#fine-print';
   notes.append(privacy);
   counter.append(summary, notes);
 
-  // The instrument belongs to the page: hero on the home page, footer elsewhere.
-  // Both its closed tab and expanded notes stay inside the modal's inert boundary.
+  // The public counter is shown on Home only; other public pages may record
+  // the first tab visit without rendering the instrument.
   const heroActions = document.querySelector('.home-title .btns');
-  if (heroActions) {
+  if (isHome && heroActions) {
     counter.classList.add('visitor-counter--hero');
     heroActions.insertAdjacentElement('afterend', counter);
-  } else {
-    counter.classList.add('visitor-counter--footer');
-    const parent = document.querySelector('footer .wrap') || document.querySelector('footer') || document.querySelector('main') || document.body;
-    const finePrint = parent.querySelector('#fine-print');
-    if (finePrint) finePrint.before(counter);
-    else parent.append(counter);
   }
 
   function prefersStill() {
@@ -98,7 +94,7 @@
   }
 
   function watchCounter() {
-    if (typeof IntersectionObserver !== 'function') return;
+    if (!isHome || typeof IntersectionObserver !== 'function') return;
     try {
       counterInView = false;
       revealObserver = new IntersectionObserver(entries => {
@@ -160,7 +156,7 @@
     }
   }
 
-  renderCount(0, false);
+  if (isHome) renderCount(0, false);
 
   async function requestCount(action) {
     const controller = new AbortController();
@@ -179,25 +175,41 @@
     }
   }
 
+  function visitAction() {
+    if (!isLive) return 'get'; // previews are strictly read-only
+    try {
+      if (sessionStorage.getItem(TAB_MARKER) === '1') return 'get';
+      // Mark first: the network request could succeed even if the reply is lost.
+      // Never automatically retry an ambiguous increment.
+      sessionStorage.setItem(TAB_MARKER, '1');
+      return 'hit';
+    } catch (_) {
+      // Storage blocked: count homepage openings only, not every subpage.
+      return isHome ? 'hit' : 'none';
+    }
+  }
+
   async function load() {
     if (started || document.hidden) return;
     started = true;
+    const action = visitAction();
+    if (action === 'none') return;
     try {
       let counted = false;
-      if (isLive) {
-        try { value = await requestCount('hit'); counted = true; }
-        catch (_) {
-          // A timed-out hit may have reached the server. Never retry an increment.
-          value = await requestCount('get');
-        }
-      } else {
+      try {
+        value = await requestCount(action);
+        counted = action === 'hit';
+      } catch (error) {
+        if (action !== 'hit') throw error;
+        // A timed-out hit may have reached the server. Never retry an increment.
         value = await requestCount('get');
       }
+      if (!isHome) return; // no counter UI on secondary pages
       counter.dataset.state = 'ready';
       counter.dataset.total = String(value);
-      status.textContent = isLive ? 'Page visits' : 'Read-only preview';
+      status.textContent = isLive ? 'Site visits' : 'Read-only preview';
       if (isLive && !counted) status.textContent = 'Latest total';
-      accessibleCount.textContent = `${value.toLocaleString('en-CA')} total page visits. No cookies.`;
+      accessibleCount.textContent = `${value.toLocaleString('en-CA')} UBT.ca site visits since November 16, 2026. No cookies.`;
       // Fetch/count immediately; let the visitor actually see the single drum reveal.
       // The settled digits and accessible text already contain the true total.
       renderCount(value, false);
@@ -215,7 +227,7 @@
   }
 
   function honorMotion() {
-    if (paused() && value !== null) renderCount(value, false);
+    if (isHome && paused() && value !== null) renderCount(value, false);
     if (prefersStill()) revealWhenVisible();
   }
   motion.addEventListener('change', honorMotion);
