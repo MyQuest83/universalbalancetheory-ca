@@ -10,6 +10,7 @@
   const INTRO_MS = 6200;
   const ALIGN_MS = 1250;
   const RETURN_MS = 780;
+  const QUIET_WARP_MS = 240; // Reduced-motion users should not wait through a motionless seven-second warp.
   const TAU = Math.PI * 2;
   const gate = document.getElementById('introGate');
   const canvas = document.getElementById('gatewayWarp');
@@ -39,6 +40,7 @@
   let anchor = { x: 0, y: 0, radius: 0 };
   let returningFromHidden = false;
   let postIntroFrame = 0;
+  let resumeArrivalWhenVisible = false;
 
   function motionIsPaused() {
     return motionQuery.matches || document.documentElement.classList.contains('motion-paused') || document.body.classList.contains('motion-paused');
@@ -430,6 +432,14 @@
     });
   }
 
+  function restoreAfterInterruption() {
+    if (resumeArrivalWhenVisible) {
+      resumeArrivalWhenVisible = false;
+      const field = homeFields.get(lastTrigger);
+      if (field) schedulePostIntroArrival(field);
+    } else homeFields.forEach(field => field.resume(performance.now()));
+  }
+
   function finish(restoreFocus = true) {
     clearWork();
     releaseRenderer();
@@ -445,7 +455,10 @@
     if (restoreFocus && !document.hidden) focus(lastTrigger);
     const field = homeFields.get(lastTrigger);
     if (field) {
-      if (document.hidden || motionIsPaused()) field.park();
+      if (!restoreFocus || document.hidden) {
+        resumeArrivalWhenVisible = true;
+        field.park();
+      } else if (motionIsPaused()) field.park();
       else schedulePostIntroArrival(field);
     }
     returningFromHidden = false;
@@ -520,7 +533,7 @@
     gate.classList.remove('aligning');
     updateAnchor();
     startedAt = performance.now();
-    phaseTimer = setTimeout(beginNormalIntro, WARP_MS);
+    phaseTimer = setTimeout(beginNormalIntro, quiet ? QUIET_WARP_MS : WARP_MS);
     if (quiet) return;
     try {
       renderer = window.createUBTWarp && window.createUBTWarp(canvas);
@@ -543,12 +556,14 @@
     gate.classList.toggle('quiet-intro', quiet);
     if (quiet) cancelAnimationFrame(frame);
     if (quiet && phase === 'aligning') beginWarp();
+    else if (quiet && phase === 'warp') beginNormalIntro();
   }
 
   function playIntro(event) {
     event.preventDefault();
     if (phase !== 'idle') return;
     cancelPostIntroArrival();
+    resumeArrivalWhenVisible = false;
     lastTrigger = event.currentTarget;
     returningFromHidden = false;
     updateAnchor();
@@ -596,20 +611,24 @@
   motionQuery.addEventListener('change', honorMotionPreference);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
+      // A backgrounded tab can interrupt either the overlay or the paint-gap
+      // between closing the overlay and starting the home arrival.
+      if (postIntroFrame) resumeArrivalWhenVisible = true;
       cancelPostIntroArrival();
       cancelAnimationFrame(orbFrame); orbFrame = 0;
       if (phase !== 'idle') finish(false);
       homeFields.forEach(field => field.park());
-    } else homeFields.forEach(field => field.resume(performance.now()));
+    } else restoreAfterInterruption();
   });
   window.addEventListener('pagehide', () => {
+    if (postIntroFrame) resumeArrivalWhenVisible = true;
     cancelPostIntroArrival();
     if (phase !== 'idle') finish(false);
     cancelAnimationFrame(orbFrame); orbFrame = 0;
     homeFields.forEach(field => field.park());
   });
   window.addEventListener('pageshow', event => {
-    if (event.persisted) homeFields.forEach(field => field.resume(performance.now()));
+    if (event.persisted) restoreAfterInterruption();
   });
   setPhase('idle');
   honorMotionPreference();
