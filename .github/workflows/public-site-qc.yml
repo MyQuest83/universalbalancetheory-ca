@@ -42,6 +42,7 @@ jobs:
           node --test tests/gateway-lifecycle.test.cjs
           node --check gateway-warp-renderer.js
           node --check visitor-counter.js
+          node --test tests/privacy-boundary.test.cjs
           node --check trigon/trigon-page.js
           node --check trigon/validate-records.mjs
           node trigon/validate-records.mjs
