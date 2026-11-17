@@ -43,6 +43,22 @@ jobs:
           node --check gateway-warp-renderer.js
           node --check visitor-counter.js
           node --test tests/privacy-boundary.test.cjs
+          node --check infra/ubt-counter/src/index.mjs
+          node --test infra/ubt-counter/tests/worker.test.mjs
+          python - <<'PY'
+          import sqlite3
+          from pathlib import Path
+          db = sqlite3.connect(':memory:')
+          db.executescript(Path('infra/ubt-counter/migrations/0001_homepage_visits.sql').read_text())
+          assert db.execute("SELECT COUNT(*) FROM visits").fetchone()[0] == 1
+          assert db.execute("SELECT value FROM visits WHERE name='homepage'").fetchone()[0] == 0
+          for expected in (1, 2, 3):
+              value = db.execute("UPDATE visits SET value = value + 1 WHERE name='homepage' RETURNING value").fetchone()[0]
+              assert value == expected
+          columns = [row[1] for row in db.execute('PRAGMA table_info(visits)')]
+          assert columns == ['name','value'], columns
+          print('Private aggregate-only SQLite schema and atomic increments: PASS')
+          PY
           node --check trigon/trigon-page.js
           node --check trigon/validate-records.mjs
           node trigon/validate-records.mjs
