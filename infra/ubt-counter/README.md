@@ -1,5 +1,18 @@
 # UBT.ca First-party Aggregate Counter (STAGED, NOT DEPLOYED)
 
+## Domain history and current activation decision (MASTER•ORB recovery, Nov 17, 2026)
+
+**Historical evidence, not verified live nameservers:** the website owner reported configuring `universalbalancetheory.ca` in Namecheap Advanced DNS on June 27, 2026, with four GitHub Pages A records (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`), `www` CNAME `MyQuest83.github.io`, GitHub's verification TXT, and an SPF TXT. A past registration receipt and conversations identify Namecheap as the original account-side domain manager; the underlying Canadian-accredited registrar can be a different entity. Current nameservers, DNS zone ownership, active hosting-plan entitlements and account permissions **were not verified** by the historical records or the available current DNS/account tools. Never assume the June records are still current.
+
+**Verified source/deployment role:** the live code is versioned in `MyQuest83/universalbalancetheory-ca`, with successful GitHub Pages build/deployment checks. The `CNAME` file contains `universalbalancetheory.ca`. This proves the deployed static-site path, but does not establish who controls today's authoritative nameservers.
+
+**Decision gate:** do not activate or deploy the Cloudflare Worker just because this reference implementation exists. Cloudflare's Workers Route requires an active Cloudflare zone and an orange-clouded/proxied DNS record; it would put Cloudflare in the request path for the routed hostname. There is no verified user approval to move UBT.ca DNS to Cloudflare, proxy the GitHub Pages hostname, purchase hosting, or change nameservers. Those remain **BLOCKED**. Adding a new network intermediary merely to count homepage openings could be a privacy regression.
+
+**Next legal action:** read the current nameservers, A/AAAA and CNAME records in the **existing registrar/DNS control panel** and cross-check with CIRA WHOIS / independent public DNS. Establish whether an already-paid, user-controlled first-party backend is available without migrating or proxying the website. If there is none, leave the static site and the brass Privacy mode intact. A live numeric counter is not worth unapproved DNS or visitor-transport exposure.
+
+This is a **source-governance update only**. It does not change any public scripts, provider accounts, credentials, DNS records, routes, billing or running counters. Source-history provenance: user statements in June 27, 2026 past chats; current GitHub `main` and the official Namecheap/Cloudflare documentation as verified November 17, 2026.
+
+
 ## Current operating boundary
 This is **source code only**, with **no running backend, no DNS changes, no secrets, no billed service and no activated counter**. The GitHub Pages frontend remains fail-closed in "Privacy mode". An authenticated Cloudflare account/zone/database and explicit approval are required before deployment.
 
