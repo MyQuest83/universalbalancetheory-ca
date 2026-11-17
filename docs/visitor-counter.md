@@ -1,133 +1,37 @@
-# Visitor counter
+# UBT.ca Visitor Counter v2 · November 16, 2026
 
-The brass rolling-number tab displays one shared **page-visit total** for the
-public UBT website. It counts full page loads, including reloads and repeat
-visits. It does not identify or count unique people.
+## Current public behavior
+The brass rolling-number counter displays **approximate UBT.ca browser-tab visits**, not unique people. The instrument appears **only on the homepage** after the main action buttons, in normal scrolling page flow. It never appears in subpage footers.
 
-## Page placement
+Each eligible tab registers at most one site visit across the public UBT pages that include `visitor-counter.js`. Browsing Home, Luna, Aria, Shadow, Trigon, Links, Michael or AI Index and refreshing within the same tab normally do not add another. New tabs can contribute new visits. Duplicated tabs and browser-restored sessions may inherit a marker, so some visits are missed. The Easter egg, counter details and number animations do not change a visit total.
 
-The counter is centered in the normal document flow. On the homepage it sits
-immediately below the hero's primary buttons; on other pages it sits in the
-footer. Expanding its notes increases the document height and moves later
-content down, without covering buttons or reserving fixed-screen padding.
-The tab and its notes stay within the existing intro modal's inert background.
+This **new count starts on November 16, 2026 using its own namespace**. The former page-view counter introduced November 10, 2026 is preserved separately in read-only mode. These incomparable totals must never be added together or represented as unique humans.
 
-The widget's optional privacy link stays on this website at
-`links.html#fine-print`. The Abacus source credit is confined to the understated
-Credits & privacy section at the bottom of the Links page, after its counter.
-Moving the display does not change the production namespace, key, stored
-total or counting rules below.
+## Session marker and privacy
+This counter has **no cookies, account IDs, fingerprinting or persistent visitor IDs**. A single temporary string `1` in `sessionStorage`, keyed as `ubt.ca.site-visit-v2.counted`, suppresses repeated increments within the current tab. The marker is never transmitted. Other website functionality may independently use browser storage for visual preferences; this privacy claim applies specifically to the visitor counter.
 
-Fetching and recording a visit do not wait for scrolling. The decorative reel
-reveal waits until the counter first enters the viewport, then plays once.
-The ready count and accessible text already contain the true total while it
-is offscreen. Reduced-motion or paused-motion preferences show settled digits
-directly. Browsers without IntersectionObserver reveal immediately when the
-document is visible. None of these display changes issues another count
-request; a pending observer is disconnected when the page is hidden by
-navigation and reattached on a back/forward-cache return if still needed.
+The tab marker is set **before** the increment request. After a timeout or ambiguous response, the client may perform a read-only lookup but will never retry the hit. When sessionStorage is disabled, the counter falls back to **counting homepage openings**, including repeat loads, and intentionally does not count direct subpage visits.
 
-## Counting contract
+Requests use a fixed counter key, `credentials:'omit'`, `referrerPolicy:'no-referrer'`, `cache:'no-store'`, a bounded timeout and validation of a nonnegative safe-integer `{"value":123}` response. No page path, query, referrer or tab marker is transmitted. Abacus still receives ordinary network information, including connection IP and browser request headers. Automation, rate limits, script blockers or network failures can inflate or diminish totals. This counter is informational, not a scientific or billing measure.
 
-- Every fully loaded public page that includes the counter client contributes
-  at most one increment for that document. Internal navigation that loads a
-  new document contributes another visit.
-- The production hosts are `universalbalancetheory.ca` and
-  `www.universalbalancetheory.ca`. Local previews, downloaded copies and test
-  environments must not increment the production counter.
-- Replaying the Easter egg, opening or closing the counter tab, and replaying
-  the number animation do not contribute visits. A page restored from the
-  browser's back/forward cache does not create another document load.
-- The number animation starts at zero and settles on the validated shared
-  total. Reduced-motion preferences suppress the rolling animation.
-- Counting begins when this implementation is activated. A read before
-  activation returned `404` / `Key not found`; no earlier website traffic is
-  reconstructed, estimated or added to the total.
-- The displayed total is the number of successfully recorded requests. Script
-  blockers, disabled JavaScript and network failures can prevent a count;
-  automated clients can contribute counts. This is an informal visit display.
+## Public Abacus endpoints
+| Series | Increment | Read only |
+| --- | --- | --- |
+| **New UBT site visits** from 2026-11-16 | `https://abacus.jsn.cam/hit/universalbalancetheory.ca/site-visits-v2` | `https://abacus.jsn.cam/get/universalbalancetheory.ca/site-visits-v2` |
+| Retired page views from 2026-11-10 to 2026-11-16 | **Do not increment** | `https://abacus.jsn.cam/get/universalbalancetheory.ca/visits` |
 
-## Provider and endpoints
+The approved production hosts are `universalbalancetheory.ca` and `www.universalbalancetheory.ca` over HTTPS. Downloaded and local/test copies are read-only and cannot increment production. A read failure must show unavailable, never an invented zero.
 
-The first provider is the public, open-source Abacus counter service. The
-namespace and key are fixed across the website:
+The November 10 provider tests verified CORS, no Set-Cookie on checked responses, a 30-requests/10-seconds/IP rate-limit header, and a stated 168-day inactivity expiry. The provider's future uptime, privacy terms and retention remain external dependencies.
 
-| Purpose | Endpoint |
-| --- | --- |
-| Increment once and return the resulting total | `https://abacus.jsn.cam/hit/universalbalancetheory.ca/visits` |
-| Read the total without incrementing it | `https://abacus.jsn.cam/get/universalbalancetheory.ca/visits` |
+## Private project overview
+A separate self-contained HTML overview is stored in the user's **private Drive and ChatGPT Library**, not committed to public GitHub or published on the website. It fetches only the `/get` read endpoints for current site visits and the preserved historical page views. Independent future projects such as PulseGarden, UBT the Game and Luna Companion are marked **Not configured** until a real public URL and explicit approval exist. Trigon pages on UBT.ca belong to the one main-site count.
 
-Both return JSON in the form `{"value": 123}` when successful. The client must
-accept only a nonnegative safe integer. These are public endpoints, not secret
-credentials. Do not visit the increment endpoint merely to inspect the total.
+The private HTML file is not an authenticated analytics service. Do not publish its project inventory. These aggregate endpoints cannot provide daily time series, per-page paths or unique-human counts.
 
-Use one in-memory request guard per document so repeated initialization cannot
-double-count. Make requests with `credentials: "omit"`,
-`referrerPolicy: "no-referrer"` and `cache: "no-store"`, with a bounded timeout.
-No third-party JavaScript SDK is required.
-
-If an increment response is lost, the server may already have counted it.
-Recover with a read-only `/get` request; **do not retry `/hit`**. If the read
-also fails, show an unavailable state instead of inventing a number. Reading
-the total does not prove whether that particular failed request was counted.
-
-## Privacy and limits
-
-The counter client uses no cookies, persistent browser storage, visitor IDs or
-fingerprinting. It sends only the fixed counter request, not the page path,
-query string, referrer, account details or form contents. Ordinary network
-information still reaches the service, including the connection IP address
-and browser request headers. Abacus has server access logging and an IP-based
-rate limiter; this implementation makes no claim that the provider receives
-or retains zero transport data.
-
-The provider's current documented rate limit is **30 requests per 10 seconds
-per IP address**. Current source sets a **168-day inactivity expiry**, refreshed
-by reads and hits. It is a third-party service without a service guarantee
-established for this website. Anyone who knows the endpoint can increment the
-public total. It is not a verified count of distinct humans or suitable for
-billing, scientific measurements or security decisions.
-
-## Verification performed on November 10, 2026
-
-Network checks used the separate disposable namespace
-`ubt-counter-qa-20261110.example` and key `isolated`, never production increments.
-
-| Check | Observed result |
-| --- | --- |
-| First isolated increment | HTTP 200, value `1` |
-| Second isolated increment | HTTP 200, value `2` |
-| Read-only isolated lookup | HTTP 200, value `2` unchanged |
-| Browser cross-origin permission | `Access-Control-Allow-Origin: *` |
-| Cookie response header | No `Set-Cookie` on the checked responses |
-| Rate-limit response header | `RateLimit-Policy: 30;w=10` |
-| Production lookup before activation | HTTP 404, `Key not found` |
-
-Source review confirmed atomic Redis `INCR` for increments, a separate read
-handler, and protected administrative reset/set/delete routes. These checks
-establish the integration behavior observed on that date, not future uptime.
-
-## Preservation, rollback and a future provider change
-
-The counter's data lives with Abacus, separately from the website's Git
-history and source archives. Rolling back the website preserves its former
-appearance and stops these counter requests; it does not erase the remote
-total. Restoring this release with the same namespace and key resumes that
-total while it remains available. A source backup alone is not a counter-data
-backup. Record a timestamped read-only total alongside future release backups.
-
-A future move to a site-owned durable endpoint should preserve the same
-page-load semantics, atomic increments, separate read access and zero-cookie
-client. Capture and verify the old aggregate at the cutover, initialize the new
-store with that verified value, and direct clients to one active provider.
-Do not run two increment paths or add an assumed historical offset. This is an
-optional maintenance path, not a requirement for the current tab to work.
-
-## Primary references
-
-- [Abacus repository and current API host](https://github.com/JasonLovesDoggo/abacus)
-- [Endpoint documentation](https://github.com/JasonLovesDoggo/abacus/blob/main/docs/index.html)
-- [CORS, routes and logging setup](https://github.com/JasonLovesDoggo/abacus/blob/main/main.go)
-- [Atomic increment and read handlers](https://github.com/JasonLovesDoggo/abacus/blob/main/routes.go)
-- [Rate-limiting implementation](https://github.com/JasonLovesDoggo/abacus/blob/main/middleware/ratelimiting.go)
-- [Counter expiry constant](https://github.com/JasonLovesDoggo/abacus/blob/main/utils/constants.go)
+## Rollback and provenance
+- Previous production commit: `2f4c5154c08695573f7b077bc299d2aa1b03a01d`.
+- Preserved branch: `backup/pre-site-visits-v2-2026-11-16`.
+- Earlier provider verification, source links and full page-view counting specification remain preserved in that commit's `docs/visitor-counter.md` and prior Drive archives.
+- The counter data is stored by Abacus separately from Git history. A revert must not increment both namespaces or mislabel old page views as visits.
+- Provider source and terms: https://github.com/JasonLovesDoggo/abacus
