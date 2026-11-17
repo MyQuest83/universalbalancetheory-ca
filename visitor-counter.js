@@ -193,7 +193,7 @@
     if (started || document.hidden) return;
     started = true;
     const action = visitAction();
-    if (action === 'none') return;
+    if (action === 'none' || (!isHome && action === 'get')) return; // avoid read requests on already-counted subpages
     try {
       let counted = false;
       try {
