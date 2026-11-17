@@ -38,6 +38,7 @@
   let quiet = false;
   let anchor = { x: 0, y: 0, radius: 0 };
   let returningFromHidden = false;
+  let postIntroFrame = 0;
 
   function motionIsPaused() {
     return motionQuery.matches || document.documentElement.classList.contains('motion-paused') || document.body.classList.contains('motion-paused');
@@ -409,6 +410,26 @@
     renderer = null;
   }
 
+  // The overlay must disappear before any new home orb enters its flight.
+  // A double animation frame gives the restored homepage a paint opportunity.
+  function cancelPostIntroArrival() {
+    if (postIntroFrame) cancelAnimationFrame(postIntroFrame);
+    postIntroFrame = 0;
+  }
+
+  function schedulePostIntroArrival(field) {
+    cancelPostIntroArrival();
+    field.hide();
+    postIntroFrame = requestAnimationFrame(() => {
+      postIntroFrame = requestAnimationFrame(() => {
+        postIntroFrame = 0;
+        if (phase !== 'idle' || document.hidden || !field.root.isConnected) return;
+        if (motionIsPaused()) field.park();
+        else field.arrive(performance.now());
+      });
+    });
+  }
+
   function finish(restoreFocus = true) {
     clearWork();
     releaseRenderer();
@@ -425,13 +446,7 @@
     const field = homeFields.get(lastTrigger);
     if (field) {
       if (document.hidden || motionIsPaused()) field.park();
-      else if (quiet) { field.park(); field.resume(performance.now()); }
-      else if (returningFromHidden) field.arrive(performance.now());
-      else {
-        // An early skip keeps the visible pose; docking finishes before easing up.
-        field.align(performance.now(), 600);
-        field.resumeAfterAlign = true;
-      }
+      else schedulePostIntroArrival(field);
     }
     returningFromHidden = false;
   }
@@ -446,7 +461,7 @@
         copy.style.setProperty('--exit-opacity', style.opacity);
         copy.style.setProperty('--exit-clip', style.clipPath === 'none' ? 'inset(0)' : style.clipPath);
       }
-      if (introField) introField.align(performance.now(), 540);
+      // The intro stays orb-free. Only the restored homepage forms the orbs.
     }
     clearWork();
     setPhase('closing');
@@ -468,11 +483,7 @@
     gate.setAttribute('aria-labelledby', 'introTitle');
     gate.setAttribute('aria-describedby', 'introSubtitle');
     focus(skipIntro);
-    if (introField) {
-      introField.measure();
-      if (quiet) introField.park();
-      else introField.arrive(performance.now(), true);
-    }
+    if (introField) introField.hide(); // intro text and logo outline only
     phaseTimer = setTimeout(closeIntro, INTRO_MS);
   }
 
@@ -537,6 +548,7 @@
   function playIntro(event) {
     event.preventDefault();
     if (phase !== 'idle') return;
+    cancelPostIntroArrival();
     lastTrigger = event.currentTarget;
     returningFromHidden = false;
     updateAnchor();
@@ -584,12 +596,14 @@
   motionQuery.addEventListener('change', honorMotionPreference);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
+      cancelPostIntroArrival();
       cancelAnimationFrame(orbFrame); orbFrame = 0;
       if (phase !== 'idle') finish(false);
       homeFields.forEach(field => field.park());
     } else homeFields.forEach(field => field.resume(performance.now()));
   });
   window.addEventListener('pagehide', () => {
+    cancelPostIntroArrival();
     if (phase !== 'idle') finish(false);
     cancelAnimationFrame(orbFrame); orbFrame = 0;
     homeFields.forEach(field => field.park());
