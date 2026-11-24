@@ -2,9 +2,13 @@ import concurrent.futures
 import contextlib
 import http.client
 import json
+import socket
 import sqlite3
+import subprocess
+import sys
 import tempfile
 import threading
+import time
 import unittest
 from pathlib import Path
 
@@ -88,5 +92,55 @@ class CounterTest(unittest.TestCase):
         self.assertEqual(self.call()[1]["value"], LIMIT)
 
 
+class ProcessRestartTest(unittest.TestCase):
+    def test_cli_process_restart_keeps_aggregate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db = Path(tmp) / "aggregate.sqlite3"
+            with socket.socket() as sock:
+                sock.bind(("127.0.0.1", 0))
+                port = sock.getsockname()[1]
+            origin = f"http://127.0.0.1:{port}"
+
+            def start():
+                proc = subprocess.Popen(
+                    [sys.executable, str(Path(__file__).with_name("server.py")),
+                     "--db", str(db), "--port", str(port)],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                )
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    if proc.poll() is not None:
+                        self.fail(f"Server process exited with {proc.returncode}")
+                    try:
+                        with socket.create_connection(("127.0.0.1", port), timeout=0.2):
+                            return proc
+                    except OSError:
+                        time.sleep(0.05)
+                proc.terminate()
+                proc.wait(timeout=5)
+                self.fail("Server process did not start")
+
+            def call(method):
+                with contextlib.closing(http.client.HTTPConnection("127.0.0.1", port, timeout=5)) as conn:
+                    conn.request(method, "/api/visits", headers={"Origin": origin} if method == "POST" else {})
+                    with conn.getresponse() as response:
+                        return response.status, json.loads(response.read())
+
+            proc = start()
+            try:
+                self.assertEqual(call("POST"), (200, {"series": SERIES, "value": 1}))
+            finally:
+                proc.terminate()
+                proc.wait(timeout=5)
+            proc = start()
+            try:
+                self.assertEqual(call("GET"), (200, {"series": SERIES, "value": 1}))
+                self.assertEqual(call("POST"), (200, {"series": SERIES, "value": 2}))
+            finally:
+                proc.terminate()
+                proc.wait(timeout=5)
+
+
 if __name__ == "__main__":
     unittest.main()
+
