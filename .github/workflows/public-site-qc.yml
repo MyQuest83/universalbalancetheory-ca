@@ -45,6 +45,7 @@ jobs:
           node --test tests/privacy-boundary.test.cjs
           node --check infra/ubt-counter/src/index.mjs
           node --test infra/ubt-counter/tests/worker.test.mjs
+          python -m unittest discover -s infra/ubt-counter/portable -p 'test_*.py' -v
           python - <<'PY'
           import sqlite3
           from pathlib import Path

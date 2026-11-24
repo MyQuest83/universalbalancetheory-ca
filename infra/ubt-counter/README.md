@@ -54,3 +54,7 @@ In an emergency, remove the activation attribute in a site PR; the first-party c
 - Cloudflare Workers routes: https://developers.cloudflare.com/workers/configuration/routing/routes/
 - Cloudflare D1 local dev and migrations: https://developers.cloudflare.com/d1/best-practices/local-development/
 - Cloudflare Workers pricing: https://developers.cloudflare.com/workers/platform/pricing/
+
+
+## Unpublished gateway prototype
+See [Gateway prototype](GATEWAY_PROTOTYPE.md) for the automatic entry and portable loopback implementation. Its existence does not authorize production activation.
