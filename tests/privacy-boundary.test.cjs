@@ -13,7 +13,7 @@ test('Only homepage may load the counter; no public page authorizes Abacus', () 
     const source = read(p);
     assert.doesNotMatch(source, /abacus\.jsn\.cam/i, p + ' third-party endpoint');
     if (p === 'index.html') {
-      assert.match(source, /visitor-counter\.js\?v=20261117-privacy-first/);
+      assert.match(source, /visitor-counter\.js\?v=20261124-gateway-entry/);
       assert.doesNotMatch(source, /data-first-party-counter=["']enabled/);
     } else assert.doesNotMatch(source, /src=["']visitor-counter\.js/i, p);
   }

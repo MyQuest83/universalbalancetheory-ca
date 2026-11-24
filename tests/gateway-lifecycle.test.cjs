@@ -100,8 +100,11 @@ function scene(options = {}) {
   const documentElement = el(['html']);
   const background = el(['background']);
   const events = {};
+  const dispatched = [];
   const document = {
-    hidden: false, body, documentElement,
+    hidden: !!options.hidden, prerendering: !!options.prerendering, body, documentElement,
+    currentScript: { dataset: options.auto ? {autoGateway:'enabled'} : {} },
+    dispatchEvent(event) { dispatched.push(event.type); (events[event.type] || []).forEach(fn => fn(event)); },
     getElementById(id) {
       return ({ introGate: gate, gatewayWarp: el(['canvas']), skipWarp, skipIntro })[id] || null;
     },
@@ -148,7 +151,7 @@ function scene(options = {}) {
     cancelAnimationFrame: id => cancelled.add(id),
     setTimeout: (cb, ms) => schedule(cb, ms),
     clearTimeout: id => cancelled.add(id),
-    Uint32Array, Math, Number
+    Uint32Array, Math, Number, Event: class { constructor(type) { this.type=type; } }
   };
   vm.runInNewContext(source, context, { filename: 'gateway-intro.js' });
   function untilPhase(want, limit = 16000) {
@@ -160,7 +163,7 @@ function scene(options = {}) {
   }
   return {
     home, intro, gate, body, document, window, trigger, skipWarp, skipIntro,
-    advance, untilPhase, invalid,
+    advance, untilPhase, invalid, dispatched,
     setReduced(val) { media.matches = val; mediaListeners.forEach(fn => fn()); },
     now() { return clock; }
   };
@@ -279,4 +282,49 @@ test('Enabling reduced motion mid-warp advances directly to readable intro', () 
   s.setReduced(true);
   assert.equal(s.gate.dataset.phase, 'intro');
   assert.equal(s.intro.dataset.orbState, 'hidden');
+});
+
+test('Automatic entry begins before orb formation, returns to orbits, and emits once', () => {
+  const s=scene({auto:true});
+  assert.equal(s.gate.dataset.phase,'warp');
+  assert.equal(s.home.dataset.orbState,'hidden');
+  assert.equal(s.intro.dataset.orbState,'hidden');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+  assert.equal(s.document.documentElement.dataset.gatewayEntry,'started');
+  s.untilPhase('intro',3500);
+  s.untilPhase('idle',3500);
+  s.advance(40);
+  assert.equal(s.home.dataset.orbState,'capturing');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-return').length,1);
+  s.trigger.emit('click'); // replay
+  s.skipWarp.emit('click');
+  s.untilPhase('idle',2000);
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+});
+test('Background/prerender startup waits for a visible new document', () => {
+  const s=scene({auto:true,hidden:true,prerendering:true});
+  assert.equal(s.gate.dataset.phase,'idle');
+  assert.equal(s.dispatched.length,0);
+  s.document.hidden=false; s.document.emit('visibilitychange');
+  assert.equal(s.dispatched.length,0);
+  s.document.prerendering=false; s.document.emit('prerenderingchange');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+  s.document.hidden=true; s.document.emit('visibilitychange');
+  s.document.hidden=false; s.document.emit('visibilitychange');
+  s.window.emit('pageshow',{persisted:true});
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+});
+test('Automatic reduced motion presents a short static card and counts once', () => {
+  const s=scene({auto:true,reduced:true});
+  assert.equal(s.gate.dataset.phase,'intro');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+  s.untilPhase('idle',2000);
+  assert.equal(s.home.dataset.orbState,'parked');
+});
+test('Manual mode does not emit an automatic entry', () => {
+  const s=scene();
+  s.trigger.emit('click');
+  s.skipWarp.emit('click');
+  s.untilPhase('idle',2000);
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,0);
 });

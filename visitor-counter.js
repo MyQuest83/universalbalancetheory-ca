@@ -23,6 +23,7 @@
   let timer = 0;
   let observer = null;
   let value = null;
+  let revealPending = false;
 
   function element(tag, className, text) {
     const el = document.createElement(tag);
@@ -37,7 +38,7 @@
   const head = element('span', 'counter-heading');
   const gear = element('span', 'counter-gear', '⚙');
   gear.setAttribute('aria-hidden', 'true');
-  const title = element('span', 'counter-title', 'Visitor Counter');
+  const title = element('span', 'counter-title', 'Gateway Counter');
   const chevron = element('span', 'counter-chevron', '+');
   chevron.setAttribute('aria-hidden', 'true');
   head.append(gear, title, chevron);
@@ -56,7 +57,7 @@
   const notes = element('div', 'counter-notes');
   notes.append(element('strong', '', 'Every visit leaves a little spark.'));
   notes.append(element('p', '', 'Live counting is paused while the first-party counter is prepared and verified. The brass instrument stays here, but it does not currently record or transmit visits.'));
-  notes.append(element('p', '', 'The replacement counts homepage openings, including reloads. It does not use cookies, browser storage, visitor identifiers or fingerprinting. Ordinary network information is still processed by whichever host serves the site.'));
+  notes.append(element('p', '', 'The replacement counts automatic gateway entries on fresh visible homepage loads, including reloads, not manual intro replays. It does not use cookies, browser storage, visitor identifiers or fingerprinting. Ordinary network information is still processed by whichever host serves the site.'));
   const link = element('a', 'counter-privacy', 'Credits & privacy');
   link.href = 'links.html#fine-print';
   notes.append(link);
@@ -136,20 +137,25 @@
   }
 
   function revealWhenVisible() {
-    if (value === null || document.hidden) return;
-    if (prefersStill()) { showNumber(value, false); return; }
-    if (typeof IntersectionObserver !== 'function') { showNumber(value, true); return; }
+    if (!revealPending || value === null || document.hidden || document.body.classList.contains('intro-open')) return;
+    if (prefersStill() || typeof IntersectionObserver !== 'function') {
+      revealPending = false;
+      showNumber(value, !prefersStill());
+      return;
+    }
     if (observer) observer.disconnect();
     observer = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.target === counter && entry.isIntersecting)) return;
+      if (document.hidden || document.body.classList.contains('intro-open') ||
+          !entries.some(entry => entry.target === counter && entry.isIntersecting)) return;
       observer.disconnect(); observer = null;
-      showNumber(value, true);
+      revealPending = false;
+      showNumber(value, !prefersStill());
     }, { threshold: .15 });
     observer.observe(counter);
   }
 
   async function start() {
-    if (started || document.hidden) return;
+    if (started || document.hidden || document.documentElement.dataset.gatewayEntry !== 'started') return;
     started = true;
     if (!ENABLED) {
       setPaused('Privacy mode', 'paused');
@@ -158,15 +164,17 @@
     counter.dataset.state = 'loading';
     status.textContent = 'Connecting';
     try {
-      // One homepage opening is a visit; no session marker, cookies or identifiers.
+      // A fresh document's automatic entry is the event; no stored visitor ID.
       // If the POST times out, it may have succeeded. Never retry it.
       try { value = await request('POST'); }
       catch (_) { value = await request('GET'); }
       counter.dataset.state = 'ready';
       counter.dataset.total = String(value);
-      status.textContent = 'Homepage openings';
-      accessible.textContent = value.toLocaleString('en-CA') + ' homepage openings. No cookies or visitor tracking.';
-      notes.querySelectorAll('p')[0].textContent = 'This counter records homepage openings, including refreshes. It does not identify people. The total starts when our first-party backend is activated.';
+      status.textContent = 'Gateway entries';
+      accessible.textContent = value.toLocaleString('en-CA') + ' automatic gateway entries. No cookies or visitor IDs.';
+      notes.querySelectorAll('p')[0].textContent = 'One automatic entry per fresh visible homepage document, including refreshes. Manual intro replays do not count. This is not a unique-person total.';
+      revealPending = true;
+      showNumber(value, false);
       revealWhenVisible();
     } catch (_) {
       setPaused('Temporarily unavailable', 'unavailable');
@@ -183,14 +191,16 @@
     }
   });
   motion.addEventListener('change', () => {
-    if (value !== null && prefersStill()) showNumber(value, false);
+    if (value !== null && prefersStill()) { revealPending = false; showNumber(value, false); }
   });
   window.addEventListener('pagehide', () => { stop(); if (observer) observer.disconnect(); });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stop();
     else if (!started) start();
-    else if (value !== null && counter.dataset.state === 'ready' && observer) observer.observe(counter);
+    else revealWhenVisible();
   });
+  document.addEventListener('ubt:gateway-entry', start);
+  document.addEventListener('ubt:gateway-return', revealWhenVisible);
   setPaused('Privacy mode', 'paused');
   start();
 })();
