@@ -263,6 +263,37 @@ test('Back-forward cache return after interrupted intro restarts formation', () 
   assert.equal(s.home.dataset.orbState, 'capturing');
 });
 
+for (const order of ['pageshow-first', 'visibility-first']) {
+  test(`Restoration event pair ${order} keeps orbs hidden until their arrival`, () => {
+    const s = scene({ auto: true });
+    s.document.hidden = true;
+    s.document.emit('visibilitychange');
+    s.window.emit('pagehide');
+    assert.equal(s.gate.dataset.phase, 'idle');
+    s.document.hidden = false;
+    const show = () => s.window.emit('pageshow', { persisted: true });
+    const visible = () => s.document.emit('visibilitychange');
+    if (order === 'pageshow-first') { show(); visible(); }
+    else { visible(); show(); }
+
+    // Both events belong to the same restoration. The homepage gets one
+    // paint with hidden orbs, not an opaque parked frame before the launch.
+    s.advance(16);
+    assert.equal(s.home.dataset.orbState, 'hidden');
+    assert.ok(s.home.lanes.every(l => Number(l.dot.style.opacity) === 0));
+    s.advance(16);
+    assert.equal(s.home.dataset.orbState, 'capturing');
+    assert.equal(s.home.dataset.arrival, '1');
+    assert.equal(s.dispatched.filter(x => x === 'ubt:gateway-entry').length, 1);
+    s.advance(400);
+    assert.equal(s.home.dataset.arrival, '1', 'only one arrival was scheduled');
+    show(); visible();
+    assert.equal(s.home.dataset.orbState, 'capturing', 'late duplicate restoration preserves the incoming flight');
+    s.advance(16);
+    assert.equal(s.home.dataset.arrival, '1');
+  });
+}
+
 test('Reduced-motion intro does not wait through a motionless seven-second warp', () => {
   const s = scene({ reduced: true });
   assert.equal(s.home.dataset.orbState, 'parked');

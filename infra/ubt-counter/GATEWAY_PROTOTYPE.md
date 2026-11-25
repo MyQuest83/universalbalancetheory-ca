@@ -56,9 +56,13 @@ this draft. Do not expose the private PulseGarden environment.
 Test: existing gateway and privacy tests, new automatic-entry cases, portable
 HTTP integration tests including simultaneous writes, restart persistence,
 minimal schema and rejection of invalid requests. Existing Worker tests remain.
-Actual iPhone/browser playback, hosted endpoint uptime, TLS, proxy retention,
-cost, bot abuse controls and production integration remain separate acceptance
-checks. The aggregate is not a verified human count.
+Local Chromium integration is recorded in PR #58 (November 24) and the
+[November 25 lifecycle verification](../../docs/gateway-counter-lifecycle-qa-2026-11-25.md).
+The latter closes the initially hidden-document check and verifies a pending
+number reveal after an actual cached return. Physical iPhone playback, hosted
+endpoint uptime, TLS, proxy retention, cost, bot abuse controls and production
+integration remain separate acceptance checks. The aggregate is not a verified
+human count.
 
 Rollback: leave the draft unmerged; if later approved for release, remove the
 auto-entry flag to recover manual-only behavior and remove the counter

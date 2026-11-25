@@ -440,11 +440,16 @@
   }
 
   function restoreAfterInterruption() {
+    // pageshow and visibilitychange may describe the same restoration. Keep
+    // the paint gap, and never restart an arrival another event already began.
+    if (document.hidden || phase !== 'idle' || postIntroFrame) return;
     if (resumeArrivalWhenVisible) {
       resumeArrivalWhenVisible = false;
       const field = homeFields.get(lastTrigger);
       if (field) schedulePostIntroArrival(field);
-    } else homeFields.forEach(field => field.resume(performance.now()));
+    } else homeFields.forEach(field => {
+      if (field.mode === 'parked') field.resume(performance.now());
+    });
   }
 
   function finish(restoreFocus = true) {

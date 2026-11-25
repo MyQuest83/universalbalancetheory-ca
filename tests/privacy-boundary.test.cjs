@@ -13,7 +13,7 @@ test('Only homepage may load the counter; no public page authorizes Abacus', () 
     const source = read(p);
     assert.doesNotMatch(source, /abacus\.jsn\.cam/i, p + ' third-party endpoint');
     if (p === 'index.html') {
-      assert.match(source, /visitor-counter\.js\?v=20261124-gateway-entry/);
+      assert.match(source, /visitor-counter\.js\?v=20261125-lifecycle/);
       assert.doesNotMatch(source, /data-first-party-counter=["']enabled/);
     } else assert.doesNotMatch(source, /src=["']visitor-counter\.js/i, p);
   }
@@ -77,8 +77,9 @@ test('Counter never mounts on a secondary page', () => {
   assert.equal(count,1);
 });
 
-function counterScene({enabled = false, failPost = false, failGet = false} = {}) {
+function counterScene({enabled = false, failPost = false, failGet = false, observe = false} = {}) {
   const calls = [], docListeners = {}, winListeners = {};
+  const observers = [];
   let mounted = null, revealCount = 0;
   function element(tag) {
     const names = new Set();
@@ -109,6 +110,13 @@ function counterScene({enabled = false, failPost = false, failGet = false} = {})
     addEventListener(name,fn){(winListeners[name]||=[]).push(fn)},
     emit(name){for(const fn of winListeners[name]||[])fn({type:name,persisted:true})}
   };
+  class Observer {
+    constructor(callback) { this.callback=callback; this.disconnected=false; observers.push(this); }
+    observe(target) { this.target=target; this.disconnected=false; }
+    disconnect() { this.disconnected=true; }
+    // Disconnecting does not discard already queued IntersectionObserver entries.
+    deliver() { this.callback([{target:this.target,isIntersecting:true}],this); }
+  }
   vm.runInNewContext(read('visitor-counter.js'),{
     window:win,document:doc,location:{pathname:'/',hostname:'universalbalancetheory.ca',protocol:'https:'},
     async fetch(url,options){
@@ -116,10 +124,10 @@ function counterScene({enabled = false, failPost = false, failGet = false} = {})
       if ((options.method==='POST'&&failPost)||(options.method==='GET'&&failGet)) throw new Error('synthetic outage');
       return {ok:true,json:async()=>({series:'homepage-openings-v1',value:12})};
     },
-    setTimeout:()=>1,clearTimeout(){},AbortController,IntersectionObserver:undefined
+    setTimeout:()=>1,clearTimeout(){},AbortController,IntersectionObserver:observe?Observer:undefined
   });
   return {
-    doc,win,calls,mounted,
+    doc,win,calls,mounted,observers,
     entry(){
       doc.body.classList.add('intro-open');
       doc.documentElement.dataset.gatewayEntry='started';
@@ -175,4 +183,43 @@ test('Both unavailable responses display no invented number',async()=>{
   assert.deepEqual(s.calls.map(x=>x.method),['POST','GET']);
   assert.equal(s.mounted.dataset.state,'unavailable');
   assert.equal(s.mounted.dataset.total,undefined);
+});
+
+test('Queued entries from a replaced observer cannot interrupt the current reveal',async()=>{
+  const s=counterScene({enabled:true,observe:true});
+  s.entry();await s.flush();s.returned();
+  const stale=s.observers.at(-1);
+  assert.ok(stale,'returned homepage waits for the counter to enter the viewport');
+  s.doc.hidden=true;s.doc.emit('visibilitychange');
+  s.doc.hidden=false;s.doc.emit('visibilitychange');
+  const current=s.observers.at(-1);
+  assert.notEqual(current,stale,'visible return creates a fresh observation');
+  assert.equal(stale.disconnected,true);
+  assert.doesNotThrow(()=>stale.deliver());
+  assert.equal(s.reveals(),0,'stale queued entry does not consume the pending reveal');
+  assert.equal(current.disconnected,false,'stale callback does not disconnect its replacement');
+  assert.doesNotThrow(()=>current.deliver());
+  assert.ok(s.reveals()>0,'current observer reveals the digits');
+  const count=s.reveals();
+  assert.doesNotThrow(()=>current.deliver());
+  assert.doesNotThrow(()=>stale.deliver());
+  assert.equal(s.reveals(),count,'queued callbacks do not replay the reels');
+  assert.equal(s.calls.length,1,'observation lifecycle never increments again');
+});
+
+test('BFCache restoration reconnects a reveal that has not reached the viewport',async()=>{
+  const s=counterScene({enabled:true,observe:true});
+  s.entry();await s.flush();s.returned();
+  const stale=s.observers.at(-1);
+  s.win.emit('pagehide');
+  assert.equal(stale.disconnected,true);
+  s.win.emit('pageshow');
+  const current=s.observers.at(-1);
+  assert.notEqual(current,stale,'pageshow alone reconnects the pending viewport observation');
+  assert.doesNotThrow(()=>stale.deliver());
+  assert.equal(s.reveals(),0);
+  assert.equal(current.disconnected,false);
+  assert.doesNotThrow(()=>current.deliver());
+  assert.ok(s.reveals()>0);
+  assert.equal(s.calls.length,1,'cached document does not create another entry');
 });

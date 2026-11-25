@@ -66,6 +66,8 @@
 
   function setPaused(message, state) {
     stop();
+    disconnectObserver();
+    revealPending = false;
     value = null;
     counter.dataset.state = state || 'paused';
     reels.replaceChildren(element('span', 'counter-unavailable', '— — — — — —'));
@@ -78,6 +80,11 @@
     animations.forEach(a => { try { a.cancel(); } catch (_) {} });
     animations = [];
     counter.classList.remove('is-winding');
+  }
+
+  function disconnectObserver() {
+    if (observer) observer.disconnect();
+    observer = null;
   }
 
   function prefersStill() {
@@ -138,16 +145,18 @@
 
   function revealWhenVisible() {
     if (!revealPending || value === null || document.hidden || document.body.classList.contains('intro-open')) return;
+    disconnectObserver();
     if (prefersStill() || typeof IntersectionObserver !== 'function') {
       revealPending = false;
       showNumber(value, !prefersStill());
       return;
     }
-    if (observer) observer.disconnect();
-    observer = new IntersectionObserver(entries => {
-      if (document.hidden || document.body.classList.contains('intro-open') ||
+    observer = new IntersectionObserver((entries, source) => {
+      // Disconnect does not cancel callbacks already queued by an older observer.
+      if (source !== observer || !revealPending || value === null ||
+          document.hidden || document.body.classList.contains('intro-open') ||
           !entries.some(entry => entry.target === counter && entry.isIntersecting)) return;
-      observer.disconnect(); observer = null;
+      disconnectObserver();
       revealPending = false;
       showNumber(value, !prefersStill());
     }, { threshold: .15 });
@@ -191,11 +200,18 @@
     }
   });
   motion.addEventListener('change', () => {
-    if (value !== null && prefersStill()) { revealPending = false; showNumber(value, false); }
+    if (value !== null && prefersStill()) {
+      disconnectObserver(); revealPending = false; showNumber(value, false);
+    }
   });
-  window.addEventListener('pagehide', () => { stop(); if (observer) observer.disconnect(); });
+  window.addEventListener('pagehide', () => { stop(); disconnectObserver(); });
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    if (!started) start();
+    else revealWhenVisible();
+  });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
+    if (document.hidden) { stop(); disconnectObserver(); }
     else if (!started) start();
     else revealWhenVisible();
   });
