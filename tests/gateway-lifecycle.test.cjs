@@ -178,7 +178,10 @@ test('Intro shows no forming orbs, then begins formation on returned page', () =
   s.untilPhase('intro');
   assert.equal(s.intro.dataset.orbState, 'hidden');
   assert.ok(s.intro.lanes.every(l => Number(l.dot.style.opacity) === 0));
+  const introShownAt = s.now();
   s.untilPhase('closing');
+  assert.ok(s.now() - introShownAt >= 2700 && s.now() - introShownAt <= 2900,
+    'manual title-only card holds for about 2.8 seconds');
   s.advance(730);
   assert.notEqual(s.gate.dataset.phase, 'idle');
   s.untilPhase('idle');
@@ -213,16 +216,38 @@ test('Exact triangle-tip locking and staggered release survive random trajectori
   }
 });
 
-test('Early skip closes before new home orbs begin forming', () => {
-  const s = scene();
-  s.trigger.emit('click');
-  s.skipWarp.emit('click');
-  s.untilPhase('idle', 1600);
-  assert.equal(s.home.dataset.orbState, 'hidden');
-  s.advance(38);
-  assert.equal(s.home.dataset.orbState, 'capturing');
-  assert.equal(s.intro.dataset.orbState, 'hidden');
-});
+for (const cancelAt of ['alignment', 'translucent warp']) {
+  test(`Early manual skip during ${cancelAt} keeps visible orbs and resumes without a new arrival`, () => {
+    const s = scene();
+    s.advance(9000); // A visible, steady orbit before the manual replay.
+    const arrival = s.home.dataset.arrival;
+    s.trigger.emit('click');
+    if (cancelAt === 'alignment') s.advance(320);
+    else { s.untilPhase('warp'); s.advance(100); }
+    const before = s.home.lanes.map(l => l.dot.style.transform);
+    s.skipWarp.emit('click');
+    assert.deepEqual(s.home.lanes.map(l => l.dot.style.transform), before,
+      'cancelling preserves the currently rendered pose');
+    for (let i = 0; i < 55 && s.gate.dataset.phase !== 'idle'; i++) {
+      s.advance(16);
+      assert.ok(s.home.lanes.every(l => Number(l.dot.style.opacity) === 1),
+        'the clear return overlay never hides an already visible orb');
+      assert.notEqual(s.home.dataset.orbState, 'hidden');
+      assert.notEqual(s.home.dataset.orbState, 'capturing');
+      assert.equal(s.home.dataset.arrival, arrival, 'no fresh randomized shot');
+    }
+    assert.equal(s.gate.dataset.phase, 'idle');
+    s.advance(4300);
+    assert.equal(s.home.dataset.orbState, 'orbiting');
+    assert.equal(s.home.dataset.arrival, arrival);
+    assert.ok(s.home.lanes.every(l => l.dot.dataset.orbStage === 'orbit'));
+    assert.equal(s.intro.dataset.orbState, 'hidden');
+    assert.ok(s.trigger.focusCount >= 1, 'focus returns to the replay trigger');
+    assert.equal(s.dispatched.filter(x => x === 'ubt:gateway-entry').length, 0);
+    assert.equal(s.dispatched.filter(x => x === 'ubt:gateway-return').length, 1);
+    assert.equal(s.invalid.length, 0);
+  });
+}
 
 test('A hidden tab during intro waits until visible to launch new orbs', () => {
   const s = scene();
@@ -242,7 +267,8 @@ test('A hidden tab during intro waits until visible to launch new orbs', () => {
 test('A hidden tab during the post-intro paint gap still launches on return', () => {
   const s = scene();
   s.trigger.emit('click');
-  s.skipWarp.emit('click');
+  s.untilPhase('intro'); // The completed opaque overlay requires a fresh arrival.
+  s.skipIntro.emit('click');
   s.untilPhase('idle', 1600);
   s.document.hidden = true;
   s.document.emit('visibilitychange');

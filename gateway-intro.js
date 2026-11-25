@@ -7,7 +7,7 @@
 (function () {
   'use strict';
   const WARP_MS = 7000;
-  const INTRO_MS = 6200;
+  const INTRO_MS = 2800;
   const AUTO_WARP_MS = 2800;
   const AUTO_INTRO_MS = 1800;
   const AUTO_QUIET_MS = 1500;
@@ -471,7 +471,15 @@
         resumeArrivalWhenVisible = true;
         field.park();
       } else if (motionIsPaused()) field.park();
-      else schedulePostIntroArrival(field);
+      else if (!automaticRun && !returningFromHidden && field.mode !== 'hidden') {
+        // An early manual skip has not concealed these orbs. Keep their exact
+        // visible trajectory, finish the existing dock, then ease back to orbit.
+        // Hiding or rerandomizing here would pop them away through a clear overlay.
+        if (field.mode === 'aligning') {
+          field.resumeAfterAlign = true;
+          requestOrbFrame();
+        } else if (field.mode === 'parked') field.resume(performance.now());
+      } else schedulePostIntroArrival(field);
     }
     returningFromHidden = false;
     automaticRun = false;

@@ -38,26 +38,26 @@
   const head = element('span', 'counter-heading');
   const gear = element('span', 'counter-gear', '⚙');
   gear.setAttribute('aria-hidden', 'true');
-  const title = element('span', 'counter-title', 'Gateway Counter');
+  const title = element('span', 'counter-title', 'Visitor Counter');
   const chevron = element('span', 'counter-chevron', '+');
   chevron.setAttribute('aria-hidden', 'true');
   head.append(gear, title, chevron);
   const reels = element('span', 'counter-reels');
   reels.setAttribute('aria-hidden', 'true');
-  const accessible = element('span', 'counter-a11y', 'Counter paused during privacy upgrade.');
+  const accessible = element('span', 'counter-a11y', 'Live visit counting is paused.');
   accessible.setAttribute('aria-live', 'polite');
   accessible.setAttribute('aria-atomic', 'true');
   const foot = element('span', 'counter-foot');
   const lamp = element('span', 'counter-lamp');
   lamp.setAttribute('aria-hidden', 'true');
-  const status = element('span', 'counter-status', 'Privacy mode');
+  const status = element('span', 'counter-status', 'Counting paused');
   foot.append(lamp, status, element('span', 'counter-cookie-note', 'No cookies'));
   summary.append(head, reels, accessible, foot);
 
   const notes = element('div', 'counter-notes');
   notes.append(element('strong', '', 'Every visit leaves a little spark.'));
-  notes.append(element('p', '', 'Live counting is paused while the first-party counter is prepared and verified. The brass instrument stays here, but it does not currently record or transmit visits.'));
-  notes.append(element('p', '', 'The replacement counts automatic gateway entries on fresh visible homepage loads, including reloads, not manual intro replays. It does not use cookies, browser storage, visitor identifiers or fingerprinting. Ordinary network information is still processed by whichever host serves the site.'));
+  notes.append(element('p', '', 'Live counting is not connected yet. No visits are currently recorded or transmitted by this counter.'));
+  notes.append(element('p', '', 'This counter uses no cookies, browser storage, visitor identifiers or fingerprinting. The website’s hosting provider still processes ordinary network information.'));
   const link = element('a', 'counter-privacy', 'Credits & privacy');
   link.href = 'links.html#fine-print';
   notes.append(link);
@@ -167,7 +167,7 @@
     if (started || document.hidden || document.documentElement.dataset.gatewayEntry !== 'started') return;
     started = true;
     if (!ENABLED) {
-      setPaused('Privacy mode', 'paused');
+      setPaused('Counting paused', 'paused');
       return; // NO network requests whatsoever until the operator enables the backend
     }
     counter.dataset.state = 'loading';
@@ -179,7 +179,7 @@
       catch (_) { value = await request('GET'); }
       counter.dataset.state = 'ready';
       counter.dataset.total = String(value);
-      status.textContent = 'Gateway entries';
+      status.textContent = 'Homepage visits';
       accessible.textContent = value.toLocaleString('en-CA') + ' automatic gateway entries. No cookies or visitor IDs.';
       notes.querySelectorAll('p')[0].textContent = 'One automatic entry per fresh visible homepage document, including refreshes. Manual intro replays do not count. This is not a unique-person total.';
       revealPending = true;
@@ -217,6 +217,6 @@
   });
   document.addEventListener('ubt:gateway-entry', start);
   document.addEventListener('ubt:gateway-return', revealWhenVisible);
-  setPaused('Privacy mode', 'paused');
+  setPaused('Counting paused', 'paused');
   start();
 })();

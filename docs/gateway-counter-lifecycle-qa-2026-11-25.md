@@ -80,3 +80,11 @@ the draft unmerged until the concrete release scope is approved. To recover this
 pre-fix draft, use `b053640c6d64e87a6a281b1afcc8ff8b47aa027c`; the public site
 remains at the separate unchanged main baseline above. Do not restore retired
 third-party counting as an implicit rollback.
+
+## Later presentation release
+
+The draft/unmerged descriptions above record the earlier lifecycle checkpoint.
+The user subsequently selected the presentation review and requested completion.
+See [the November 25 visual release](gateway-visual-release-2026-11-25.md) for the
+final presentation changes, preserved rollback point, and separate live-counter
+activation boundary.
