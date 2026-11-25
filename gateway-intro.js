@@ -7,7 +7,10 @@
 (function () {
   'use strict';
   const WARP_MS = 7000;
-  const INTRO_MS = 6200;
+  const INTRO_MS = 2800;
+  const AUTO_WARP_MS = 2800;
+  const AUTO_INTRO_MS = 1800;
+  const AUTO_QUIET_MS = 1500;
   const ALIGN_MS = 1250;
   const RETURN_MS = 780;
   const QUIET_WARP_MS = 240; // Reduced-motion users should not wait through a motionless seven-second warp.
@@ -18,6 +21,10 @@
   const skipIntro = document.getElementById('skipIntro');
   const triggers = [...document.querySelectorAll('[data-intro-trigger]')];
   if (!gate || !skipWarp || !skipIntro || !triggers.length) return;
+
+  const autoEnabled = document.currentScript?.dataset.autoGateway === 'enabled';
+  let autoStarted = false;
+  let automaticRun = false;
 
   const backgroundSelector = 'header.top, .site-header, main, footer, .skip-link, .visitor-counter';
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -433,11 +440,16 @@
   }
 
   function restoreAfterInterruption() {
+    // pageshow and visibilitychange may describe the same restoration. Keep
+    // the paint gap, and never restart an arrival another event already began.
+    if (document.hidden || phase !== 'idle' || postIntroFrame) return;
     if (resumeArrivalWhenVisible) {
       resumeArrivalWhenVisible = false;
       const field = homeFields.get(lastTrigger);
       if (field) schedulePostIntroArrival(field);
-    } else homeFields.forEach(field => field.resume(performance.now()));
+    } else homeFields.forEach(field => {
+      if (field.mode === 'parked') field.resume(performance.now());
+    });
   }
 
   function finish(restoreFocus = true) {
@@ -459,9 +471,19 @@
         resumeArrivalWhenVisible = true;
         field.park();
       } else if (motionIsPaused()) field.park();
-      else schedulePostIntroArrival(field);
+      else if (!automaticRun && !returningFromHidden && field.mode !== 'hidden') {
+        // An early manual skip has not concealed these orbs. Keep their exact
+        // visible trajectory, finish the existing dock, then ease back to orbit.
+        // Hiding or rerandomizing here would pop them away through a clear overlay.
+        if (field.mode === 'aligning') {
+          field.resumeAfterAlign = true;
+          requestOrbFrame();
+        } else if (field.mode === 'parked') field.resume(performance.now());
+      } else schedulePostIntroArrival(field);
     }
     returningFromHidden = false;
+    automaticRun = false;
+    document.dispatchEvent(new Event('ubt:gateway-return'));
   }
 
   function closeIntro() {
@@ -497,7 +519,7 @@
     gate.setAttribute('aria-describedby', 'introSubtitle');
     focus(skipIntro);
     if (introField) introField.hide(); // intro text and logo outline only
-    phaseTimer = setTimeout(closeIntro, INTRO_MS);
+    phaseTimer = setTimeout(closeIntro, automaticRun ? (quiet ? AUTO_QUIET_MS : AUTO_INTRO_MS) : INTRO_MS);
   }
 
   function updateAnchor() {
@@ -511,7 +533,7 @@
 
   function draw(now) {
     if (phase !== 'warp' || quiet || !renderer) return;
-    const progress = Math.min(1, (now - startedAt) / WARP_MS);
+    const progress = Math.min(1, (now - startedAt) / (automaticRun ? AUTO_WARP_MS : WARP_MS));
     // Reset the home orbs only after the canvas fully covers them.
     if (progress >= .18 && !returningFromHidden) {
       const field = homeFields.get(lastTrigger);
@@ -528,12 +550,16 @@
     if (phase !== 'aligning') return;
     clearWork();
     const field = homeFields.get(lastTrigger);
-    if (field) field.park();
+    if (field) {
+      if (automaticRun) { field.hide(); returningFromHidden = true; }
+      else field.park();
+    }
     setPhase('warp');
     gate.classList.remove('aligning');
     updateAnchor();
     startedAt = performance.now();
-    phaseTimer = setTimeout(beginNormalIntro, quiet ? QUIET_WARP_MS : WARP_MS);
+    if (automaticRun && quiet) { beginNormalIntro(); return; }
+    phaseTimer = setTimeout(beginNormalIntro, quiet ? QUIET_WARP_MS : (automaticRun ? AUTO_WARP_MS : WARP_MS));
     if (quiet) return;
     try {
       renderer = window.createUBTWarp && window.createUBTWarp(canvas);
@@ -559,12 +585,12 @@
     else if (quiet && phase === 'warp') beginNormalIntro();
   }
 
-  function playIntro(event) {
-    event.preventDefault();
-    if (phase !== 'idle') return;
+  function openIntro(trigger, automatic = false) {
+    if (phase !== 'idle' || document.hidden) return false;
+    automaticRun = automatic;
     cancelPostIntroArrival();
     resumeArrivalWhenVisible = false;
-    lastTrigger = event.currentTarget;
+    lastTrigger = trigger;
     returningFromHidden = false;
     updateAnchor();
     quiet = motionIsPaused();
@@ -580,9 +606,30 @@
     document.body.classList.add('intro-open');
     focus(skipWarp);
     const field = homeFields.get(lastTrigger);
-    if (field) field.align(performance.now());
-    if (quiet) beginWarp();
-    else phaseTimer = setTimeout(beginWarp, ALIGN_MS + 40);
+    if (automaticRun) {
+      beginWarp();
+    } else {
+      if (field) field.align(performance.now());
+      if (quiet) beginWarp();
+      else phaseTimer = setTimeout(beginWarp, ALIGN_MS + 40);
+    }
+    return true;
+  }
+
+  function playIntro(event) {
+    event.preventDefault();
+    openIntro(event.currentTarget);
+  }
+
+  // Memory belongs to this document only: no browser storage or visitor ID.
+  // One visible automatic entry counts; a manual replay is never an entry.
+  function startAutomaticEntry() {
+    if (!autoEnabled || autoStarted || document.hidden || document.prerendering || phase !== 'idle') return false;
+    if (!openIntro(triggers[0], true)) return false;
+    autoStarted = true;
+    document.documentElement.dataset.gatewayEntry = 'started';
+    document.dispatchEvent(new Event('ubt:gateway-entry'));
+    return true;
   }
 
   triggers.forEach(trigger => trigger.addEventListener('click', playIntro));
@@ -618,7 +665,7 @@
       cancelAnimationFrame(orbFrame); orbFrame = 0;
       if (phase !== 'idle') finish(false);
       homeFields.forEach(field => field.park());
-    } else restoreAfterInterruption();
+    } else if (!startAutomaticEntry()) restoreAfterInterruption();
   });
   window.addEventListener('pagehide', () => {
     if (postIntroFrame) resumeArrivalWhenVisible = true;
@@ -628,9 +675,13 @@
     homeFields.forEach(field => field.park());
   });
   window.addEventListener('pageshow', event => {
-    if (event.persisted) restoreAfterInterruption();
+    if (event.persisted && !startAutomaticEntry()) restoreAfterInterruption();
   });
+  document.addEventListener('prerenderingchange', startAutomaticEntry);
   setPhase('idle');
   honorMotionPreference();
-  homeFields.forEach(field => field.arrive(performance.now()));
+  if (autoEnabled) {
+    homeFields.forEach(field => field.hide());
+    startAutomaticEntry();
+  } else homeFields.forEach(field => field.arrive(performance.now()));
 })();

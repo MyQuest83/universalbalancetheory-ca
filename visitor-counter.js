@@ -23,6 +23,7 @@
   let timer = 0;
   let observer = null;
   let value = null;
+  let revealPending = false;
 
   function element(tag, className, text) {
     const el = document.createElement(tag);
@@ -43,20 +44,20 @@
   head.append(gear, title, chevron);
   const reels = element('span', 'counter-reels');
   reels.setAttribute('aria-hidden', 'true');
-  const accessible = element('span', 'counter-a11y', 'Counter paused during privacy upgrade.');
+  const accessible = element('span', 'counter-a11y', 'Live visit counting is paused.');
   accessible.setAttribute('aria-live', 'polite');
   accessible.setAttribute('aria-atomic', 'true');
   const foot = element('span', 'counter-foot');
   const lamp = element('span', 'counter-lamp');
   lamp.setAttribute('aria-hidden', 'true');
-  const status = element('span', 'counter-status', 'Privacy mode');
+  const status = element('span', 'counter-status', 'Counting paused');
   foot.append(lamp, status, element('span', 'counter-cookie-note', 'No cookies'));
   summary.append(head, reels, accessible, foot);
 
   const notes = element('div', 'counter-notes');
   notes.append(element('strong', '', 'Every visit leaves a little spark.'));
-  notes.append(element('p', '', 'Live counting is paused while the first-party counter is prepared and verified. The brass instrument stays here, but it does not currently record or transmit visits.'));
-  notes.append(element('p', '', 'The replacement counts homepage openings, including reloads. It does not use cookies, browser storage, visitor identifiers or fingerprinting. Ordinary network information is still processed by whichever host serves the site.'));
+  notes.append(element('p', '', 'Live counting is not connected yet. No visits are currently recorded or transmitted by this counter.'));
+  notes.append(element('p', '', 'This counter uses no cookies, browser storage, visitor identifiers or fingerprinting. The website’s hosting provider still processes ordinary network information.'));
   const link = element('a', 'counter-privacy', 'Credits & privacy');
   link.href = 'links.html#fine-print';
   notes.append(link);
@@ -65,6 +66,8 @@
 
   function setPaused(message, state) {
     stop();
+    disconnectObserver();
+    revealPending = false;
     value = null;
     counter.dataset.state = state || 'paused';
     reels.replaceChildren(element('span', 'counter-unavailable', '— — — — — —'));
@@ -77,6 +80,11 @@
     animations.forEach(a => { try { a.cancel(); } catch (_) {} });
     animations = [];
     counter.classList.remove('is-winding');
+  }
+
+  function disconnectObserver() {
+    if (observer) observer.disconnect();
+    observer = null;
   }
 
   function prefersStill() {
@@ -136,37 +144,46 @@
   }
 
   function revealWhenVisible() {
-    if (value === null || document.hidden) return;
-    if (prefersStill()) { showNumber(value, false); return; }
-    if (typeof IntersectionObserver !== 'function') { showNumber(value, true); return; }
-    if (observer) observer.disconnect();
-    observer = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.target === counter && entry.isIntersecting)) return;
-      observer.disconnect(); observer = null;
-      showNumber(value, true);
+    if (!revealPending || value === null || document.hidden || document.body.classList.contains('intro-open')) return;
+    disconnectObserver();
+    if (prefersStill() || typeof IntersectionObserver !== 'function') {
+      revealPending = false;
+      showNumber(value, !prefersStill());
+      return;
+    }
+    observer = new IntersectionObserver((entries, source) => {
+      // Disconnect does not cancel callbacks already queued by an older observer.
+      if (source !== observer || !revealPending || value === null ||
+          document.hidden || document.body.classList.contains('intro-open') ||
+          !entries.some(entry => entry.target === counter && entry.isIntersecting)) return;
+      disconnectObserver();
+      revealPending = false;
+      showNumber(value, !prefersStill());
     }, { threshold: .15 });
     observer.observe(counter);
   }
 
   async function start() {
-    if (started || document.hidden) return;
+    if (started || document.hidden || document.documentElement.dataset.gatewayEntry !== 'started') return;
     started = true;
     if (!ENABLED) {
-      setPaused('Privacy mode', 'paused');
+      setPaused('Counting paused', 'paused');
       return; // NO network requests whatsoever until the operator enables the backend
     }
     counter.dataset.state = 'loading';
     status.textContent = 'Connecting';
     try {
-      // One homepage opening is a visit; no session marker, cookies or identifiers.
+      // A fresh document's automatic entry is the event; no stored visitor ID.
       // If the POST times out, it may have succeeded. Never retry it.
       try { value = await request('POST'); }
       catch (_) { value = await request('GET'); }
       counter.dataset.state = 'ready';
       counter.dataset.total = String(value);
-      status.textContent = 'Homepage openings';
-      accessible.textContent = value.toLocaleString('en-CA') + ' homepage openings. No cookies or visitor tracking.';
-      notes.querySelectorAll('p')[0].textContent = 'This counter records homepage openings, including refreshes. It does not identify people. The total starts when our first-party backend is activated.';
+      status.textContent = 'Homepage visits';
+      accessible.textContent = value.toLocaleString('en-CA') + ' automatic gateway entries. No cookies or visitor IDs.';
+      notes.querySelectorAll('p')[0].textContent = 'One automatic entry per fresh visible homepage document, including refreshes. Manual intro replays do not count. This is not a unique-person total.';
+      revealPending = true;
+      showNumber(value, false);
       revealWhenVisible();
     } catch (_) {
       setPaused('Temporarily unavailable', 'unavailable');
@@ -183,14 +200,23 @@
     }
   });
   motion.addEventListener('change', () => {
-    if (value !== null && prefersStill()) showNumber(value, false);
+    if (value !== null && prefersStill()) {
+      disconnectObserver(); revealPending = false; showNumber(value, false);
+    }
   });
-  window.addEventListener('pagehide', () => { stop(); if (observer) observer.disconnect(); });
+  window.addEventListener('pagehide', () => { stop(); disconnectObserver(); });
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    if (!started) start();
+    else revealWhenVisible();
+  });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
+    if (document.hidden) { stop(); disconnectObserver(); }
     else if (!started) start();
-    else if (value !== null && counter.dataset.state === 'ready' && observer) observer.observe(counter);
+    else revealWhenVisible();
   });
-  setPaused('Privacy mode', 'paused');
+  document.addEventListener('ubt:gateway-entry', start);
+  document.addEventListener('ubt:gateway-return', revealWhenVisible);
+  setPaused('Counting paused', 'paused');
   start();
 })();

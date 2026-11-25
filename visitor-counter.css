@@ -1,37 +1,37 @@
 /* A little brass instrument in the page's natural flow. All artwork is local CSS. */
-.visitor-counter{--brass:#ceac70;--brass-light:#f5d99a;--counter-row:34px;position:relative;width:min(100%,320px);margin:26px auto 0;color:#f1d9ac;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;text-align:left;filter:drop-shadow(0 8px 22px rgba(0,0,0,.32));isolation:isolate}
-.counter-tab{display:block;position:relative;width:216px;max-width:100%;margin:0 auto;padding:12px 15px 10px;list-style:none;cursor:pointer;user-select:none;border:1px solid #a38452;border-radius:13px 13px 5px 5px;background:linear-gradient(120deg,rgba(255,222,163,.1),transparent 32%),repeating-linear-gradient(0deg,rgba(239,205,143,.025) 0 1px,transparent 1px 3px),linear-gradient(145deg,#51412c 0%,#211e19 39%,#332b20 74%,#53432c 100%);box-shadow:inset 0 1px 0 #e1bf83,inset 0 0 0 3px #231e17,inset 0 0 0 4px #6d5737,0 3px 0 #17130e,0 4px 0 #90713f;outline-offset:5px}
+.visitor-counter{--brass:#ceac70;--brass-light:#f5d99a;--counter-row:42px;position:relative;width:min(100%,320px);margin:26px auto 0;color:#f1d9ac;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;text-align:left;filter:drop-shadow(0 8px 22px rgba(0,0,0,.32));isolation:isolate}
+.counter-tab{display:block;position:relative;box-sizing:border-box;width:min(100%,296px);margin:0 auto;padding:16px 16px 13px;list-style:none;cursor:pointer;user-select:none;border:1px solid #a38452;border-radius:13px 13px 5px 5px;background:linear-gradient(120deg,rgba(255,222,163,.1),transparent 32%),repeating-linear-gradient(0deg,rgba(239,205,143,.025) 0 1px,transparent 1px 3px),linear-gradient(145deg,#51412c 0%,#211e19 39%,#332b20 74%,#53432c 100%);box-shadow:inset 0 1px 0 #e1bf83,inset 0 0 0 3px #231e17,inset 0 0 0 4px #6d5737,0 3px 0 #17130e,0 4px 0 #90713f;outline-offset:5px}
 .counter-tab::-webkit-details-marker{display:none}
 .counter-tab:before,.counter-tab:after{content:"";position:absolute;top:8px;width:4px;height:4px;border:1px solid #c8a368;border-radius:50%;background:linear-gradient(135deg,#d1af73 0 42%,#33291b 43% 59%,#aa8750 60%);box-shadow:0 1px 2px #000}
 .counter-tab:before{left:7px}.counter-tab:after{right:7px}
 .counter-tab:hover{border-color:#e4bd7c}
 .counter-tab:focus-visible{outline:2px solid #f5d99a}
-.counter-heading{display:flex;align-items:center;justify-content:center;gap:7px;margin:0 0 8px;line-height:1;color:#ecd09b;text-shadow:0 1px 2px #0b0906}
-.counter-title{font-size:9px;letter-spacing:.145em;text-transform:uppercase;font-weight:650}
-.counter-gear{display:inline-block;font-size:15px;line-height:14px;color:#b8955c}
-.counter-chevron{margin-left:auto;font-size:15px;font-weight:400;color:#bfa477}
+.counter-heading{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 11px;line-height:1.3;color:#ecd09b;text-shadow:0 1px 2px #0b0906}
+.counter-title{font-size:.875rem;letter-spacing:.085em;text-transform:uppercase;font-weight:650}
+.counter-gear{display:inline-block;font-size:1.125rem;line-height:1;color:#cfad75}
+.counter-chevron{margin-left:auto;font-size:1.125rem;font-weight:400;color:#d6bc8e}
 .counter-reels{display:flex;gap:3px;position:relative;padding:3px;background:#080b0b;border-radius:4px;border:1px solid #090b0a;box-shadow:0 1px 0 rgba(249,215,150,.45),inset 0 1px 4px #000;overflow:hidden;font-variant-numeric:tabular-nums;--counter-digits:6}
 .counter-reels:after{content:"";position:absolute;inset:3px;pointer-events:none;background:linear-gradient(#0009,transparent 36%,transparent 61%,#0008);border-radius:2px}
 .counter-digit{display:block;min-width:0;flex:1;height:var(--counter-row);overflow:hidden;border-radius:2px;background:linear-gradient(90deg,#191d1b,#272a22 46%,#151916);box-shadow:inset 1px 0 0 #ffffff09,inset -1px 0 0 #0009}
 .counter-track{display:block}
-.counter-number{display:block;height:var(--counter-row);line-height:var(--counter-row);text-align:center;color:#f4dfac;font-size:clamp(9px,calc(144px / var(--counter-digits)),24px);font-weight:600;text-shadow:0 0 7px #f5c67c30}
-.counter-foot{display:flex;align-items:center;gap:5px;margin-top:8px;line-height:1.2;font-size:7.5px;letter-spacing:.015em;color:#c2aa82;white-space:nowrap}
-.counter-cookie-note{margin-left:auto;color:#d5bd91}
-.counter-lamp{flex:0 0 4px;width:4px;height:4px;border-radius:50%;background:#c29d59;box-shadow:0 0 5px #c29d5966}
+.counter-number{display:block;height:var(--counter-row);line-height:var(--counter-row);text-align:center;color:#f4dfac;font-size:clamp(.75rem,calc(192px / var(--counter-digits)),2rem);font-weight:600;text-shadow:0 0 7px #f5c67c30}
+.counter-foot{display:grid;grid-template-columns:5px minmax(0,1fr) auto;align-items:center;gap:6px;margin-top:10px;line-height:1.35;font-size:.8125rem;letter-spacing:0;color:#d1bc96}
+.counter-cookie-note{color:#e2cda4;white-space:nowrap}
+.counter-lamp{width:5px;height:5px;border-radius:50%;background:#c29d59;box-shadow:0 0 5px #c29d5966}
 [data-state=ready] .counter-lamp{background:#a3c28d;box-shadow:0 0 6px #a3c28d77}
 [data-state=paused] .counter-lamp{background:#cfab63;box-shadow:0 0 5px #cfab6388}
 [data-state=unavailable] .counter-lamp{background:#9c8c75;box-shadow:none}
-.counter-unavailable{display:block;width:100%;height:var(--counter-row);line-height:var(--counter-row);text-align:center;letter-spacing:.025em;color:#c0a988;font-size:13px}
-.counter-notes{position:relative;width:100%;margin:14px 0 0;padding:20px;border:1px solid #9e7d45;border-radius:12px;color:#dfd3bc;background:linear-gradient(145deg,#29251dfc,#111712fc);box-shadow:0 10px 26px #0005;font-family:system-ui,sans-serif;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.counter-unavailable{display:block;width:100%;height:var(--counter-row);line-height:var(--counter-row);text-align:center;letter-spacing:.16em;color:#d1bc96;font-size:1rem}
+.counter-notes{position:relative;box-sizing:border-box;width:100%;margin:14px 0 0;padding:20px;border:1px solid #9e7d45;border-radius:12px;color:#dfd3bc;background:linear-gradient(145deg,#29251dfc,#111712fc);box-shadow:0 10px 26px #0005;font-family:system-ui,sans-serif;font-size:1rem;line-height:1.55;overflow-wrap:anywhere}
 .counter-notes:before{content:"";position:absolute;left:calc(50% - 5px);top:-6px;width:10px;height:10px;transform:rotate(45deg);border-left:1px solid #9e7d45;border-top:1px solid #9e7d45;background:#29251d}
-.counter-notes strong{font-family:Georgia,serif;font-size:17px;font-weight:400;color:#f3d9a3}
-.counter-notes p{font-size:12px!important;line-height:1.6!important;margin:10px 0!important;color:#d6cbb8!important}
-.counter-notes a{color:#e5c68c;text-underline-offset:3px;font-size:11px;display:inline-flex;align-items:center;min-height:32px}
+.counter-notes strong{font-family:Georgia,serif;font-size:1.125rem;font-weight:400;color:#f3d9a3}
+.counter-notes p{font-size:1rem!important;line-height:1.55!important;margin:12px 0!important;color:#d6cbb8!important}
+.counter-notes a{color:#e5c68c;text-underline-offset:3px;font-size:.875rem;display:inline-flex;align-items:center;min-height:44px}
 .counter-notes a:focus-visible{outline:2px solid #f5d99a;outline-offset:4px}
 .counter-a11y{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 .is-winding .counter-gear{animation:counterWind 2.5s cubic-bezier(.12,.55,.18,1)}
 @keyframes counterWind{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .intro-open .visitor-counter{visibility:hidden;pointer-events:none}
-@media(max-width:600px){.visitor-counter{width:min(100%,300px);margin-top:22px;--counter-row:31px}.counter-tab{width:206px;padding:11px 12px 9px}.counter-title{font-size:8.5px;letter-spacing:.105em}.counter-heading{gap:5px;margin-bottom:7px}.counter-foot{font-size:7.5px;gap:4px;margin-top:7px}.counter-number{font-size:clamp(9px,calc(132px / var(--counter-digits)),22px)}.counter-notes{padding:18px}}
+@media(max-width:600px){.visitor-counter{margin-top:22px;--counter-row:40px}.counter-notes{padding:18px}}
 @media(prefers-reduced-motion:reduce){.visitor-counter *, .visitor-counter *:before,.visitor-counter *:after{animation:none!important;transition:none!important}}
 .motion-paused .visitor-counter *{animation:none!important;transition:none!important}

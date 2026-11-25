@@ -100,8 +100,11 @@ function scene(options = {}) {
   const documentElement = el(['html']);
   const background = el(['background']);
   const events = {};
+  const dispatched = [];
   const document = {
-    hidden: false, body, documentElement,
+    hidden: !!options.hidden, prerendering: !!options.prerendering, body, documentElement,
+    currentScript: { dataset: options.auto ? {autoGateway:'enabled'} : {} },
+    dispatchEvent(event) { dispatched.push(event.type); (events[event.type] || []).forEach(fn => fn(event)); },
     getElementById(id) {
       return ({ introGate: gate, gatewayWarp: el(['canvas']), skipWarp, skipIntro })[id] || null;
     },
@@ -148,7 +151,7 @@ function scene(options = {}) {
     cancelAnimationFrame: id => cancelled.add(id),
     setTimeout: (cb, ms) => schedule(cb, ms),
     clearTimeout: id => cancelled.add(id),
-    Uint32Array, Math, Number
+    Uint32Array, Math, Number, Event: class { constructor(type) { this.type=type; } }
   };
   vm.runInNewContext(source, context, { filename: 'gateway-intro.js' });
   function untilPhase(want, limit = 16000) {
@@ -160,7 +163,7 @@ function scene(options = {}) {
   }
   return {
     home, intro, gate, body, document, window, trigger, skipWarp, skipIntro,
-    advance, untilPhase, invalid,
+    advance, untilPhase, invalid, dispatched,
     setReduced(val) { media.matches = val; mediaListeners.forEach(fn => fn()); },
     now() { return clock; }
   };
@@ -175,7 +178,10 @@ test('Intro shows no forming orbs, then begins formation on returned page', () =
   s.untilPhase('intro');
   assert.equal(s.intro.dataset.orbState, 'hidden');
   assert.ok(s.intro.lanes.every(l => Number(l.dot.style.opacity) === 0));
+  const introShownAt = s.now();
   s.untilPhase('closing');
+  assert.ok(s.now() - introShownAt >= 2700 && s.now() - introShownAt <= 2900,
+    'manual title-only card holds for about 2.8 seconds');
   s.advance(730);
   assert.notEqual(s.gate.dataset.phase, 'idle');
   s.untilPhase('idle');
@@ -210,16 +216,38 @@ test('Exact triangle-tip locking and staggered release survive random trajectori
   }
 });
 
-test('Early skip closes before new home orbs begin forming', () => {
-  const s = scene();
-  s.trigger.emit('click');
-  s.skipWarp.emit('click');
-  s.untilPhase('idle', 1600);
-  assert.equal(s.home.dataset.orbState, 'hidden');
-  s.advance(38);
-  assert.equal(s.home.dataset.orbState, 'capturing');
-  assert.equal(s.intro.dataset.orbState, 'hidden');
-});
+for (const cancelAt of ['alignment', 'translucent warp']) {
+  test(`Early manual skip during ${cancelAt} keeps visible orbs and resumes without a new arrival`, () => {
+    const s = scene();
+    s.advance(9000); // A visible, steady orbit before the manual replay.
+    const arrival = s.home.dataset.arrival;
+    s.trigger.emit('click');
+    if (cancelAt === 'alignment') s.advance(320);
+    else { s.untilPhase('warp'); s.advance(100); }
+    const before = s.home.lanes.map(l => l.dot.style.transform);
+    s.skipWarp.emit('click');
+    assert.deepEqual(s.home.lanes.map(l => l.dot.style.transform), before,
+      'cancelling preserves the currently rendered pose');
+    for (let i = 0; i < 55 && s.gate.dataset.phase !== 'idle'; i++) {
+      s.advance(16);
+      assert.ok(s.home.lanes.every(l => Number(l.dot.style.opacity) === 1),
+        'the clear return overlay never hides an already visible orb');
+      assert.notEqual(s.home.dataset.orbState, 'hidden');
+      assert.notEqual(s.home.dataset.orbState, 'capturing');
+      assert.equal(s.home.dataset.arrival, arrival, 'no fresh randomized shot');
+    }
+    assert.equal(s.gate.dataset.phase, 'idle');
+    s.advance(4300);
+    assert.equal(s.home.dataset.orbState, 'orbiting');
+    assert.equal(s.home.dataset.arrival, arrival);
+    assert.ok(s.home.lanes.every(l => l.dot.dataset.orbStage === 'orbit'));
+    assert.equal(s.intro.dataset.orbState, 'hidden');
+    assert.ok(s.trigger.focusCount >= 1, 'focus returns to the replay trigger');
+    assert.equal(s.dispatched.filter(x => x === 'ubt:gateway-entry').length, 0);
+    assert.equal(s.dispatched.filter(x => x === 'ubt:gateway-return').length, 1);
+    assert.equal(s.invalid.length, 0);
+  });
+}
 
 test('A hidden tab during intro waits until visible to launch new orbs', () => {
   const s = scene();
@@ -239,7 +267,8 @@ test('A hidden tab during intro waits until visible to launch new orbs', () => {
 test('A hidden tab during the post-intro paint gap still launches on return', () => {
   const s = scene();
   s.trigger.emit('click');
-  s.skipWarp.emit('click');
+  s.untilPhase('intro'); // The completed opaque overlay requires a fresh arrival.
+  s.skipIntro.emit('click');
   s.untilPhase('idle', 1600);
   s.document.hidden = true;
   s.document.emit('visibilitychange');
@@ -260,6 +289,37 @@ test('Back-forward cache return after interrupted intro restarts formation', () 
   assert.equal(s.home.dataset.orbState, 'capturing');
 });
 
+for (const order of ['pageshow-first', 'visibility-first']) {
+  test(`Restoration event pair ${order} keeps orbs hidden until their arrival`, () => {
+    const s = scene({ auto: true });
+    s.document.hidden = true;
+    s.document.emit('visibilitychange');
+    s.window.emit('pagehide');
+    assert.equal(s.gate.dataset.phase, 'idle');
+    s.document.hidden = false;
+    const show = () => s.window.emit('pageshow', { persisted: true });
+    const visible = () => s.document.emit('visibilitychange');
+    if (order === 'pageshow-first') { show(); visible(); }
+    else { visible(); show(); }
+
+    // Both events belong to the same restoration. The homepage gets one
+    // paint with hidden orbs, not an opaque parked frame before the launch.
+    s.advance(16);
+    assert.equal(s.home.dataset.orbState, 'hidden');
+    assert.ok(s.home.lanes.every(l => Number(l.dot.style.opacity) === 0));
+    s.advance(16);
+    assert.equal(s.home.dataset.orbState, 'capturing');
+    assert.equal(s.home.dataset.arrival, '1');
+    assert.equal(s.dispatched.filter(x => x === 'ubt:gateway-entry').length, 1);
+    s.advance(400);
+    assert.equal(s.home.dataset.arrival, '1', 'only one arrival was scheduled');
+    show(); visible();
+    assert.equal(s.home.dataset.orbState, 'capturing', 'late duplicate restoration preserves the incoming flight');
+    s.advance(16);
+    assert.equal(s.home.dataset.arrival, '1');
+  });
+}
+
 test('Reduced-motion intro does not wait through a motionless seven-second warp', () => {
   const s = scene({ reduced: true });
   assert.equal(s.home.dataset.orbState, 'parked');
@@ -279,4 +339,49 @@ test('Enabling reduced motion mid-warp advances directly to readable intro', () 
   s.setReduced(true);
   assert.equal(s.gate.dataset.phase, 'intro');
   assert.equal(s.intro.dataset.orbState, 'hidden');
+});
+
+test('Automatic entry begins before orb formation, returns to orbits, and emits once', () => {
+  const s=scene({auto:true});
+  assert.equal(s.gate.dataset.phase,'warp');
+  assert.equal(s.home.dataset.orbState,'hidden');
+  assert.equal(s.intro.dataset.orbState,'hidden');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+  assert.equal(s.document.documentElement.dataset.gatewayEntry,'started');
+  s.untilPhase('intro',3500);
+  s.untilPhase('idle',3500);
+  s.advance(40);
+  assert.equal(s.home.dataset.orbState,'capturing');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-return').length,1);
+  s.trigger.emit('click'); // replay
+  s.skipWarp.emit('click');
+  s.untilPhase('idle',2000);
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+});
+test('Background/prerender startup waits for a visible new document', () => {
+  const s=scene({auto:true,hidden:true,prerendering:true});
+  assert.equal(s.gate.dataset.phase,'idle');
+  assert.equal(s.dispatched.length,0);
+  s.document.hidden=false; s.document.emit('visibilitychange');
+  assert.equal(s.dispatched.length,0);
+  s.document.prerendering=false; s.document.emit('prerenderingchange');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+  s.document.hidden=true; s.document.emit('visibilitychange');
+  s.document.hidden=false; s.document.emit('visibilitychange');
+  s.window.emit('pageshow',{persisted:true});
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+});
+test('Automatic reduced motion presents a short static card and counts once', () => {
+  const s=scene({auto:true,reduced:true});
+  assert.equal(s.gate.dataset.phase,'intro');
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,1);
+  s.untilPhase('idle',2000);
+  assert.equal(s.home.dataset.orbState,'parked');
+});
+test('Manual mode does not emit an automatic entry', () => {
+  const s=scene();
+  s.trigger.emit('click');
+  s.skipWarp.emit('click');
+  s.untilPhase('idle',2000);
+  assert.equal(s.dispatched.filter(x=>x==='ubt:gateway-entry').length,0);
 });

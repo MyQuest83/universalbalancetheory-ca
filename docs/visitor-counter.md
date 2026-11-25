@@ -1,7 +1,7 @@
-# UBT.ca Privacy-first Visitor Counter | 17 November 2026
+# UBT.ca Privacy-first Visitor Counter | Updated 25 November 2026
 
 ## Current public state: privacy pause
-The earlier Abacus external counter is disabled. The brass counter is preserved on the homepage, displaying dashes and "Privacy mode" until a first-party backend has been independently deployed and verified. **No live total is claimed during the pause.**
+The earlier Abacus external counter is disabled. The brass counter is preserved on the homepage, displaying dashes and "Counting paused" until a first-party backend has been independently deployed and verified. **No live total is claimed during the pause.** The November 25 visual release enlarges the phone typography and number reels, keeps the instrument centered below the main buttons in normal page flow, and links its disclosure to the Links page fine print. The historical November 17 wording was "Privacy mode".
 
 The new `visitor-counter.js` uses no cookies, sessionStorage, localStorage, tracking IDs, fingerprinting, or third-party counter network requests. It does not call any endpoint until the homepage script element has `data-first-party-counter="enabled"`, which is deliberately **absent** in the published code. Other pages do not load the counter script. The saved colour-preference code was also removed from `site.js`.
 
