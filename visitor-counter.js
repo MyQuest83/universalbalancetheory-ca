@@ -14,9 +14,16 @@
 
   const LIVE_HOSTS = new Set(['universalbalancetheory.ca', 'www.universalbalancetheory.ca']);
   const isLive = location.protocol === 'https:' && LIVE_HOSTS.has(location.hostname);
+  const configuredEndpoint = document.currentScript?.dataset.counterEndpoint;
+  // Exact deployed hostname must also be approved by the page's CSP.
+  // No general-purpose fetch/proxy and no automatic endpoint discovery.
+  const isolated = typeof configuredEndpoint === 'string' &&
+    /^https:\/\/ubt-first-party-counter\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.workers\.dev\/api\/visits$/.test(configuredEndpoint);
   const ENABLED = isLive && document.currentScript &&
-    document.currentScript.dataset.firstPartyCounter === 'enabled';
-  const ENDPOINT = '/api/visits'; // same-origin, operator-owned API; no external counter
+    document.currentScript.dataset.firstPartyCounter === 'enabled' &&
+    (configuredEndpoint === undefined || isolated);
+  const ENDPOINT = '/api/visits';
+  const requestEndpoint = isolated ? configuredEndpoint : ENDPOINT;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let started = false;
   let animations = [];
@@ -129,9 +136,10 @@
     const ctrl = new AbortController();
     const timeout = setTimeout(() => ctrl.abort(), 6500);
     try {
-      const res = await fetch(ENDPOINT, {
-        method, credentials: 'omit', mode: 'same-origin',
-        cache: 'no-store', referrerPolicy: 'no-referrer', signal: ctrl.signal
+      const res = await fetch(requestEndpoint, {
+        method, credentials: 'omit', mode: isolated ? 'cors' : 'same-origin',
+        ...(isolated && method === 'POST' ? {headers:{'X-UBT-Gateway':'1'}} : {}),
+        redirect: 'error', cache: 'no-store', referrerPolicy: 'no-referrer', signal: ctrl.signal
       });
       if (!res.ok) throw new Error('Counter unavailable');
       const data = await res.json();
@@ -182,6 +190,8 @@
       status.textContent = 'Homepage visits';
       accessible.textContent = value.toLocaleString('en-CA') + ' automatic gateway entries. No cookies or visitor IDs.';
       notes.querySelectorAll('p')[0].textContent = 'One automatic entry per fresh visible homepage document, including refreshes. Manual intro replays do not count. This is not a unique-person total.';
+      if (isolated) notes.querySelectorAll('p')[1].textContent =
+        'This counter stores no cookies, browser identifiers or individual visitor records. Cloudflare hosts our aggregate API and processes ordinary network metadata, including IP addresses, when the counter is contacted. GitHub hosts this website.';
       revealPending = true;
       showNumber(value, false);
       revealWhenVisible();

@@ -1,5 +1,8 @@
 # UBT.ca First-party Aggregate Counter (STAGED, NOT DEPLOYED)
 
+## November 26 follow-up: isolated counter candidate
+The November 25 Namecheap account review confirmed BasicDNS, GitHub Pages destinations and no web-hosting subscription in that account. The November 25 visual release is published. The no-migration and no-activation gates still apply. See [isolated activation proposal](ISOLATED_ACTIVATION.md) for an alternative that preserves the existing site/DNS. Earlier same-origin-only sections describe the historical adapter; the proposed isolated mode is opt-in and remains undeployed.
+
 ## Domain history and current activation decision (MASTER•ORB recovery, Nov 17, 2026)
 
 **Historical evidence, not verified live nameservers:** the website owner reported configuring `universalbalancetheory.ca` in Namecheap Advanced DNS on June 27, 2026, with four GitHub Pages A records (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`), `www` CNAME `MyQuest83.github.io`, GitHub's verification TXT, and an SPF TXT. A past registration receipt and conversations identify Namecheap as the original account-side domain manager; the underlying Canadian-accredited registrar can be a different entity. Current nameservers, DNS zone ownership, active hosting-plan entitlements and account permissions **were not verified** by the historical records or the available current DNS/account tools. Never assume the June records are still current.

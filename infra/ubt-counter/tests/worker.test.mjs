@@ -13,6 +13,7 @@ function db(value = 0, throwError = false) {
         async first() {
           if (throwError) throw new Error('sensitive database error that must not leak');
           if (/^UPDATE visits/.test(sql)) {
+            if (!Number.isSafeInteger(store.value) || store.value < 0 || store.value >= Number.MAX_SAFE_INTEGER) return null;
             store.value++;
             store.writes++;
           } else if (!/^SELECT value FROM visits/.test(sql)) {
@@ -129,4 +130,83 @@ test('Reject malformed or non-integer database values', async () => {
    const x=await output(await worker.fetch(request(),{DB:d}));
    assert.equal(x.status,503);
  }
+});
+
+const isolatedOrigin='https://ubt-first-party-counter.example-account.workers.dev';
+const isolatedUrl=isolatedOrigin+'/api/visits';
+const siteOrigin='https://universalbalancetheory.ca';
+function isolatedPost(headers={},body) {
+  return new Request(isolatedUrl,{method:'POST',headers:{Origin:siteOrigin,'Sec-Fetch-Site':'cross-site','X-UBT-Gateway':'1',...headers},...(body===undefined?{}:{body})});
+}
+function isolatedEnv(d){return {DB:d,COUNTER_ORIGIN:isolatedOrigin};}
+test('Isolated configuration is opt-in and exact-host only',async()=>{
+  const d=db();
+  for(const env of [{DB:d},{DB:d,COUNTER_ORIGIN:''},{DB:d,COUNTER_ORIGIN:'https://evil.example'}])
+    assert.equal((await worker.fetch(request('GET',isolatedUrl),env)).status,404);
+  assert.equal((await worker.fetch(request('GET',endpoint),isolatedEnv(d))).status,404);
+  assert.equal(d.store.writes,0);
+});
+test('Isolated valid preflight is empty and read/write-free',async()=>{
+  const d=db();
+  const r=await worker.fetch(request('OPTIONS',isolatedUrl,{Origin:siteOrigin,'Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'x-ubt-gateway'}),isolatedEnv(d));
+  assert.equal(r.status,204);
+  assert.equal(await r.text(),'');
+  assert.equal(r.headers.get('Access-Control-Allow-Origin'),siteOrigin);
+  assert.equal(r.headers.get('Access-Control-Allow-Credentials'),null);
+  assert.equal(r.headers.get('Access-Control-Allow-Headers'),'X-UBT-Gateway');
+  assert.equal(d.store.statements.length,0);
+});
+test('Isolated writes require approved origin and constant gateway header',async()=>{
+  const d=db();
+  for(const headers of [{Origin:'https://evil.example'},{Origin:'null'},{'X-UBT-Gateway':'0'},{'Sec-Fetch-Site':'same-origin'}]){
+    const r=await worker.fetch(isolatedPost(headers),isolatedEnv(d));
+    assert.equal(r.status,403);
+  }
+  assert.equal((await worker.fetch(request('POST',isolatedUrl,{Origin:siteOrigin}),isolatedEnv(d))).status,403);
+  assert.equal((await worker.fetch(isolatedPost({},'unexpected body'),isolatedEnv(d))).status,400);
+  assert.equal(d.store.writes,0);
+});
+test('Isolated approved apex and www requests increment with exact CORS',async()=>{
+  const d=db(3);
+  for(const [origin,expected] of [[siteOrigin,4],['https://www.universalbalancetheory.ca',5]]){
+    const r=await output(await worker.fetch(isolatedPost({Origin:origin}),isolatedEnv(d)));
+    assert.equal(r.status,200);assert.equal(r.body.value,expected);
+    assert.equal(r.headers.get('Access-Control-Allow-Origin'),origin);
+    assert.equal(r.headers.get('Access-Control-Allow-Credentials'),null);
+    assert.equal(r.headers.get('Set-Cookie'),null);
+    assert.equal(r.headers.get('Vary'),'Origin');
+  }
+  assert.equal(d.store.writes,2);
+});
+test('Isolated read-only lookup never increments and never grants wildcard CORS',async()=>{
+  const d=db(7);
+  const r=await output(await worker.fetch(request('GET',isolatedUrl,{Origin:siteOrigin}),isolatedEnv(d)));
+  assert.equal(r.body.value,7);assert.equal(r.headers.get('Access-Control-Allow-Origin'),siteOrigin);
+  const own=await output(await worker.fetch(request('GET',isolatedUrl),isolatedEnv(d)));
+  assert.equal(own.body.value,7);assert.equal(own.headers.get('Access-Control-Allow-Origin'),null);
+  const other=await worker.fetch(request('GET',isolatedUrl,{Origin:'https://evil.example'}),isolatedEnv(d));
+  assert.equal(other.status,403);assert.equal(other.headers.get('Access-Control-Allow-Origin'),null);
+  assert.equal(d.store.writes,0);
+});
+test('Isolated preflight denies unexpected methods, headers and origins',async()=>{
+  const d=db();
+  for(const extra of [{Origin:'https://evil.example'},{'Access-Control-Request-Method':'DELETE'},{'Access-Control-Request-Headers':'x-ubt-gateway,authorization'}]){
+    const r=await worker.fetch(request('OPTIONS',isolatedUrl,{Origin:siteOrigin,'Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'x-ubt-gateway',...extra}),isolatedEnv(d));
+    assert.equal(r.status,403);
+  }
+  assert.equal(d.store.statements.length,0);
+});
+test('Safe-integer cap refuses an increment without mutating the aggregate',async()=>{
+  const d=db(Number.MAX_SAFE_INTEGER);
+  assert.equal((await worker.fetch(isolatedPost(),isolatedEnv(d))).status,503);
+  assert.equal(d.store.value,Number.MAX_SAFE_INTEGER);
+  assert.equal(d.store.writes,0);
+  assert.match(d.store.statements[0],/value < 9007199254740991/);
+});
+test('Isolated errors retain allowed CORS but never leak database details',async()=>{
+  const d=db(0,true);
+  const r=await output(await worker.fetch(isolatedPost(),isolatedEnv(d)));
+  assert.equal(r.status,503);
+  assert.deepEqual(r.body,{error:'Counter unavailable'});
+  assert.equal(r.headers.get('Access-Control-Allow-Origin'),siteOrigin);
 });

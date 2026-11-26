@@ -77,7 +77,7 @@ test('Counter never mounts on a secondary page', () => {
   assert.equal(count,1);
 });
 
-function counterScene({enabled = false, failPost = false, failGet = false, observe = false} = {}) {
+function counterScene({enabled = false, failPost = false, failGet = false, observe = false, endpoint} = {}) {
   const calls = [], docListeners = {}, winListeners = {};
   const observers = [];
   let mounted = null, revealCount = 0;
@@ -98,7 +98,7 @@ function counterScene({enabled = false, failPost = false, failGet = false, obser
   }
   const target=element('div');
   const doc={
-    hidden:false,currentScript:{dataset:enabled?{firstPartyCounter:'enabled'}:{}},
+    hidden:false,currentScript:{dataset:{...(enabled?{firstPartyCounter:'enabled'}:{}), ...(endpoint===undefined?{}:{counterEndpoint:endpoint})}},
     body:element('body'),documentElement:element('html'),
     querySelector(q){return q==='.home-title .btns'?target:null},
     createElement:element,
@@ -120,7 +120,7 @@ function counterScene({enabled = false, failPost = false, failGet = false, obser
   vm.runInNewContext(read('visitor-counter.js'),{
     window:win,document:doc,location:{pathname:'/',hostname:'universalbalancetheory.ca',protocol:'https:'},
     async fetch(url,options){
-      calls.push({url,method:options.method,credentials:options.credentials,mode:options.mode,referrerPolicy:options.referrerPolicy});
+      calls.push({url,method:options.method,credentials:options.credentials,mode:options.mode,referrerPolicy:options.referrerPolicy,...(endpoint===undefined?{}:{headers:options.headers,redirect:options.redirect})});
       if ((options.method==='POST'&&failPost)||(options.method==='GET'&&failGet)) throw new Error('synthetic outage');
       return {ok:true,json:async()=>({series:'homepage-openings-v1',value:12})};
     },
@@ -222,4 +222,40 @@ test('BFCache restoration reconnects a reveal that has not reached the viewport'
   assert.doesNotThrow(()=>current.deliver());
   assert.ok(s.reveals()>0);
   assert.equal(s.calls.length,1,'cached document does not create another entry');
+});
+
+const isolatedEndpoint='https://ubt-first-party-counter.example-account.workers.dev/api/visits';
+test('Isolated counter remains paused without the explicit activation flag',async()=>{
+  const s=counterScene({endpoint:isolatedEndpoint});
+  s.entry();s.returned();await s.flush();
+  assert.equal(s.calls.length,0);
+  assert.equal(s.mounted.dataset.state,'paused');
+});
+test('Approved isolated candidate sends one credential-free CORS POST, no redirects',async()=>{
+  const s=counterScene({enabled:true,endpoint:isolatedEndpoint});
+  s.entry();await s.flush();s.returned();s.entry();await s.flush();
+  assert.equal(s.calls.length,1);
+  const c=s.calls[0];
+  assert.equal(c.url,isolatedEndpoint);
+  assert.equal(c.method,'POST');
+  assert.equal(c.mode,'cors');
+  assert.equal(c.credentials,'omit');
+  assert.equal(c.referrerPolicy,'no-referrer');
+  assert.equal(c.redirect,'error');
+  assert.equal(c.headers['X-UBT-Gateway'],'1');
+  assert.equal(s.mounted.dataset.total,'12');
+});
+test('Isolated lost POST response never triggers another POST',async()=>{
+  const s=counterScene({enabled:true,endpoint:isolatedEndpoint,failPost:true});
+  s.entry();await s.flush();s.returned();
+  assert.deepEqual(s.calls.map(x=>x.method),['POST','GET']);
+  assert.equal(s.calls[1].headers,undefined);
+});
+test('An invalid isolated endpoint fails closed instead of falling back',async()=>{
+  for(const endpoint of ['', 'https://evil.example/api/visits',isolatedEndpoint+'?x=1',isolatedEndpoint.replace('https:','http:'),isolatedEndpoint.replace('/api/visits','/bad')]){
+    const s=counterScene({enabled:true,endpoint});
+    s.entry();s.returned();await s.flush();
+    assert.equal(s.calls.length,0);
+    assert.equal(s.mounted.dataset.state,'paused');
+  }
 });
