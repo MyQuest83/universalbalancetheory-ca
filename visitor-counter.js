@@ -14,9 +14,17 @@
 
   const LIVE_HOSTS = new Set(['universalbalancetheory.ca', 'www.universalbalancetheory.ca']);
   const isLive = location.protocol === 'https:' && LIVE_HOSTS.has(location.hostname);
-  const ENABLED = isLive && document.currentScript &&
-    document.currentScript.dataset.firstPartyCounter === 'enabled';
-  const ENDPOINT = '/api/visits'; // same-origin, operator-owned API; no external counter
+  const configuredEndpoint = document.currentScript?.dataset.counterEndpoint;
+  // Exact deployed hostname must also be approved by the page's CSP.
+  // No general-purpose fetch/proxy and no automatic endpoint discovery.
+  const workerHost = typeof configuredEndpoint === 'string' &&
+    /^https:\/\/ubt-first-party-counter(-staging)?\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.workers\.dev\/api\/visits$/.exec(configuredEndpoint);
+  const isolated = Boolean(workerHost) && (workerHost[1] ?
+    location.origin === 'http://127.0.0.1:8788' : isLive);
+  const ENABLED = document.currentScript?.dataset.firstPartyCounter === 'enabled' &&
+    (isolated || (isLive && configuredEndpoint === undefined));
+  const ENDPOINT = '/api/visits';
+  const requestEndpoint = isolated ? configuredEndpoint : ENDPOINT;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let started = false;
   let animations = [];
@@ -56,8 +64,12 @@
 
   const notes = element('div', 'counter-notes');
   notes.append(element('strong', '', 'Every visit leaves a little spark.'));
-  notes.append(element('p', '', 'Live counting is not connected yet. No visits are currently recorded or transmitted by this counter.'));
-  notes.append(element('p', '', 'This counter uses no cookies, browser storage, visitor identifiers or fingerprinting. The website’s hosting provider still processes ordinary network information.'));
+  notes.append(element('p', '', ENABLED ?
+    'The counter attempts one increment per fresh visible homepage opening, including refreshes. Manual intro replays do not count. The number measures openings rather than unique visitors.' :
+    'Live counting is not connected yet. No visits are currently recorded or transmitted by this counter.'));
+  notes.append(element('p', '', ENABLED && isolated ?
+    'This counter uses no cookies, browser storage, visitor identifiers or fingerprinting. Cloudflare hosts our aggregate API and processes ordinary network metadata, including IP addresses, when the counter is contacted. GitHub hosts this website.' :
+    'This counter uses no cookies, browser storage, visitor identifiers or fingerprinting. The website’s hosting provider still processes ordinary network information.'));
   const link = element('a', 'counter-privacy', 'Credits & privacy');
   link.href = 'links.html#fine-print';
   notes.append(link);
@@ -129,9 +141,10 @@
     const ctrl = new AbortController();
     const timeout = setTimeout(() => ctrl.abort(), 6500);
     try {
-      const res = await fetch(ENDPOINT, {
-        method, credentials: 'omit', mode: 'same-origin',
-        cache: 'no-store', referrerPolicy: 'no-referrer', signal: ctrl.signal
+      const res = await fetch(requestEndpoint, {
+        method, credentials: 'omit', mode: isolated ? 'cors' : 'same-origin',
+        ...(isolated && method === 'POST' ? {headers:{'X-UBT-Gateway':'1'}} : {}),
+        redirect: 'error', cache: 'no-store', referrerPolicy: 'no-referrer', signal: ctrl.signal
       });
       if (!res.ok) throw new Error('Counter unavailable');
       const data = await res.json();
@@ -181,7 +194,6 @@
       counter.dataset.total = String(value);
       status.textContent = 'Homepage visits';
       accessible.textContent = value.toLocaleString('en-CA') + ' automatic gateway entries. No cookies or visitor IDs.';
-      notes.querySelectorAll('p')[0].textContent = 'One automatic entry per fresh visible homepage document, including refreshes. Manual intro replays do not count. This is not a unique-person total.';
       revealPending = true;
       showNumber(value, false);
       revealWhenVisible();

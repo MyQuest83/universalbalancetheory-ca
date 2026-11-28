@@ -11,6 +11,11 @@
 credentials*.json
 client_secret*.json
 service-account*.json
+/infra/ubt-counter/wrangler.staging.jsonc
+/infra/ubt-counter/wrangler.production.jsonc
+.dev.vars
+.dev.vars.*
+.wrangler/
 
 # Local tooling and editor state
 .DS_Store

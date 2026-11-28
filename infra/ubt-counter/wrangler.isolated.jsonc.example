@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "ubt-first-party-counter",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-26",
+  "workers_dev": true,
+  "preview_urls": false,
+  "send_metrics": false,
+  "logpush": false,
+  "observability": {
+    "enabled": false,
+    "logs": {"enabled": false, "invocation_logs": false},
+    "traces": {"enabled": false}
+  },
+  "vars": {"COUNTER_ORIGIN":"REPLACE_WITH_EXACT_WORKER_HTTPS_ORIGIN"},
+  "d1_databases": [{
+    "binding":"DB",
+    "database_name":"ubt-homepage-visits",
+    "database_id":"REPLACE_WITH_VERIFIED_D1_DATABASE_UUID",
+    "migrations_dir":"migrations"
+  }]
+}

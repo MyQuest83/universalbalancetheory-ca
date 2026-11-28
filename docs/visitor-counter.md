@@ -7,10 +7,10 @@ The new `visitor-counter.js` uses no cookies, sessionStorage, localStorage, trac
 
 The main website is presently a static GitHub Pages site. Its ordinary host receives network connection information. External links can navigate to other providers that have their own policies. The source-based "zero counter requests" guarantee is distinct from a claim of "zero network data anywhere".
 
-## The later first-party counter contract
-After a verified same-origin backend exists, the counter will send one `POST /api/visits` per homepage opening (including reloads), and `GET /api/visits` for read-only fallback if a POST's response is lost. No ambiguous POST is retried. The response must be `{"series":"homepage-openings-v1","value":<nonnegative safe integer>}`. This measures **homepage openings, not unique people** and does not track visitors between pages. The frontend is deliberately fail-closed until activation.
+## The first-party counter contract
+After backend verification and activation, the counter will attempt one `POST /api/visits` per fresh visible homepage opening (including reloads), and use `GET /api/visits` for read-only fallback if a POST's response is lost. No ambiguous POST is retried. The response must be `{"series":"homepage-openings-v1","value":<nonnegative safe integer>}`. This measures **homepage openings, not unique people** and does not track visitors between pages. The frontend is deliberately fail-closed until activation.
 
-A separate first-party backend implementation and tests are staged in `infra/ubt-counter/`. It needs an authorized hosting account, database and compatible DNS route before activation. **GitHub Pages cannot run this dynamic endpoint by itself.** No new DNS, services, billing, or third-party counter integration is activated by these source changes.
+The [isolated release guide](../infra/ubt-counter/ISOLATED_ACTIVATION.md) uses the existing first-party Worker and separate D1 databases on an exact Cloudflare `workers.dev` endpoint. GitHub Pages continues serving the site and Namecheap continues serving DNS. The Cloudflare account and backend must be verified before the homepage is enabled.
 
 ## Historical counting provenance
 - Nov 10-16: Abacus page views used `universalbalancetheory.ca/visits`.
