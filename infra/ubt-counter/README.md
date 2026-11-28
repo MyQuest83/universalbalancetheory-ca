@@ -1,7 +1,10 @@
 # UBT.ca First-party Aggregate Counter (STAGED, NOT DEPLOYED)
 
-## November 26 follow-up: isolated counter candidate
-The November 25 Namecheap account review confirmed BasicDNS, GitHub Pages destinations and no web-hosting subscription in that account. The November 25 visual release is published. The no-migration and no-activation gates still apply. See [isolated activation proposal](ISOLATED_ACTIVATION.md) for an alternative that preserves the existing site/DNS. Earlier same-origin-only sections describe the historical adapter; the proposed isolated mode is opt-in and remains undeployed.
+## Current release path
+
+Follow the [isolated counter release guide](ISOLATED_ACTIVATION.md) to verify Cloudflare Workers Free, create separate staging and production resources, and prepare the exact public activation diff after verification and approval. The checked-in homepage remains paused. The isolated Workers use the existing aggregate code and leave GitHub Pages and Namecheap DNS in place.
+
+The November 25 Namecheap account review confirmed BasicDNS, GitHub Pages destinations and no web-hosting subscription in that account. The November 25 visual release is published. The sections below preserve the historical same-origin adapter and its separate DNS approval requirements.
 
 ## Domain history and current activation decision (MASTER•ORB recovery, Nov 17, 2026)
 
@@ -16,7 +19,7 @@ The November 25 Namecheap account review confirmed BasicDNS, GitHub Pages destin
 This is a **source-governance update only**. It does not change any public scripts, provider accounts, credentials, DNS records, routes, billing or running counters. Source-history provenance: user statements in June 27, 2026 past chats; current GitHub `main` and the official Namecheap/Cloudflare documentation as verified November 17, 2026.
 
 
-## Current operating boundary
+## Historical same-origin operating boundary
 This is **source code only**, with **no running backend, no DNS changes, no secrets, no billed service and no activated counter**. The GitHub Pages frontend remains fail-closed in "Privacy mode". An authenticated Cloudflare account/zone/database and explicit approval are required before deployment.
 
 The repository is publicly readable, so no private values, credentials, personal files, project archives, or secrets belong in this folder.

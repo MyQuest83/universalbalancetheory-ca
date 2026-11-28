@@ -146,6 +146,27 @@ test('Isolated configuration is opt-in and exact-host only',async()=>{
   assert.equal((await worker.fetch(request('GET',endpoint),isolatedEnv(d))).status,404);
   assert.equal(d.store.writes,0);
 });
+test('Staging writes are isolated from the production browser origins', async () => {
+  const d = db();
+  const stagingOrigin = isolatedOrigin.replace('counter.', 'counter-staging.');
+  const stagingSite = 'http://127.0.0.1:8788';
+  const stageEnv = {DB:d, COUNTER_ORIGIN:stagingOrigin};
+  const stageUrl = stagingOrigin + '/api/visits';
+  for (const origin of [siteOrigin, 'https://www.universalbalancetheory.ca', 'http://127.0.0.1:8789']) {
+    const r = await worker.fetch(request('POST', stageUrl, {Origin:origin, 'X-UBT-Gateway':'1'}), stageEnv);
+    assert.equal(r.status, 403);
+    assert.equal(r.headers.get('Access-Control-Allow-Origin'), null);
+  }
+  const prod = await worker.fetch(isolatedPost({Origin:stagingSite}), isolatedEnv(d));
+  assert.equal(prod.status, 403);
+  assert.equal(d.store.statements.length, 0);
+  const stage = await worker.fetch(request('POST', stageUrl, {
+    Origin:stagingSite, 'X-UBT-Gateway':'1', 'Sec-Fetch-Site':'cross-site'
+  }), stageEnv);
+  assert.equal(stage.status, 200);
+  assert.equal(stage.headers.get('Access-Control-Allow-Origin'), stagingSite);
+  assert.equal(d.store.writes, 1);
+});
 test('Isolated valid preflight is empty and read/write-free',async()=>{
   const d=db();
   const r=await worker.fetch(request('OPTIONS',isolatedUrl,{Origin:siteOrigin,'Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'x-ubt-gateway'}),isolatedEnv(d));

@@ -6,7 +6,8 @@
  */
 const SERIES = 'homepage-openings-v1';
 const PUBLIC_ORIGINS = new Set(['https://universalbalancetheory.ca','https://www.universalbalancetheory.ca']);
-const ISOLATED_ORIGIN = /^https:\/\/ubt-first-party-counter\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.workers\.dev$/;
+const ISOLATED_ORIGIN = /^https:\/\/ubt-first-party-counter(-staging)?\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.workers\.dev$/;
+const STAGING_SITE_ORIGIN = 'http://127.0.0.1:8788';
 const BASE_HEADERS = Object.freeze({
   'Content-Type':'application/json; charset=utf-8',
   'Cache-Control':'no-store, max-age=0',
@@ -27,15 +28,16 @@ export default {
     const url = new URL(request.url);
     const configured = env?.COUNTER_ORIGIN;
     const isolatedMode = configured !== undefined;
-    const isolated = isolatedMode && typeof configured === 'string' &&
-      ISOLATED_ORIGIN.test(configured) && url.origin === configured;
+    const workerHost = typeof configured === 'string' && ISOLATED_ORIGIN.exec(configured);
+    const isolated = Boolean(workerHost) && url.origin === configured;
     const isPublic = !isolatedMode && PUBLIC_ORIGINS.has(url.origin);
     const dev = !isolatedMode && env?.DEV === 'true' &&
       (url.hostname === 'localhost' || url.hostname === '127.0.0.1');
     if (!isPublic && !dev && !isolated) return response(404, {error:'Not found'});
     if (url.pathname !== '/api/visits') return response(404, {error:'Not found'});
     const origin = request.headers.get('Origin');
-    const allowedOrigin = isolated && PUBLIC_ORIGINS.has(origin);
+    const allowedOrigin = isolated && (workerHost[1] ?
+      origin === STAGING_SITE_ORIGIN : PUBLIC_ORIGINS.has(origin));
     const cors = isolated ? {
       'Vary':'Origin',
       ...(allowedOrigin ? {'Access-Control-Allow-Origin':origin} : {})

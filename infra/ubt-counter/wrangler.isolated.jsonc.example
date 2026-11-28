@@ -1,13 +1,17 @@
 {
-  // Proposal only. No account/database has been provisioned.
-  // Copy to a local untracked config only after approval; verify exact IDs.
   "$schema": "https://json.schemastore.org/wrangler.json",
   "name": "ubt-first-party-counter",
   "main": "src/index.mjs",
   "compatibility_date": "2026-11-26",
   "workers_dev": true,
   "preview_urls": false,
-  "observability": {"enabled": false},
+  "send_metrics": false,
+  "logpush": false,
+  "observability": {
+    "enabled": false,
+    "logs": {"enabled": false, "invocation_logs": false},
+    "traces": {"enabled": false}
+  },
   "vars": {"COUNTER_ORIGIN":"REPLACE_WITH_EXACT_WORKER_HTTPS_ORIGIN"},
   "d1_databases": [{
     "binding":"DB",

@@ -13,8 +13,17 @@ test('Only homepage may load the counter; no public page authorizes Abacus', () 
     const source = read(p);
     assert.doesNotMatch(source, /abacus\.jsn\.cam/i, p + ' third-party endpoint');
     if (p === 'index.html') {
-      assert.match(source, /visitor-counter\.js\?v=20261125-final-polish/);
-      assert.doesNotMatch(source, /data-first-party-counter=["']enabled/);
+      const scripts = source.match(/<script src="visitor-counter\.js\?[^"]+"[^>]*><\/script>/g);
+      assert.equal(scripts?.length, 1);
+      if (source.includes('data-first-party-counter="enabled"')) {
+        const [, origin] = scripts[0].match(/^<script src="visitor-counter\.js\?v=20261126-cloudflare-counter" data-first-party-counter="enabled" data-counter-endpoint="(https:\/\/ubt-first-party-counter\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.workers\.dev)\/api\/visits"><\/script>$/) || [];
+        assert.ok(origin, 'only the exact production Worker is valid on a public homepage');
+        assert.equal(source.match(/connect-src [^;]+/g)?.join(' '), "connect-src 'self' " + origin);
+        assert.match(read('links.html'), /Cloudflare hosts the counter API/);
+      } else {
+        assert.equal(scripts[0], '<script src="visitor-counter.js?v=20261125-final-polish"></script>');
+        assert.doesNotMatch(source, /data-first-party-counter|data-counter-endpoint|\.workers\.dev/);
+      }
     } else assert.doesNotMatch(source, /src=["']visitor-counter\.js/i, p);
   }
 });
@@ -77,7 +86,7 @@ test('Counter never mounts on a secondary page', () => {
   assert.equal(count,1);
 });
 
-function counterScene({enabled = false, failPost = false, failGet = false, observe = false, endpoint} = {}) {
+function counterScene({enabled = false, failPost = false, failGet = false, observe = false, endpoint, siteOrigin = 'https://universalbalancetheory.ca'} = {}) {
   const calls = [], docListeners = {}, winListeners = {};
   const observers = [];
   let mounted = null, revealCount = 0;
@@ -118,7 +127,7 @@ function counterScene({enabled = false, failPost = false, failGet = false, obser
     deliver() { this.callback([{target:this.target,isIntersecting:true}],this); }
   }
   vm.runInNewContext(read('visitor-counter.js'),{
-    window:win,document:doc,location:{pathname:'/',hostname:'universalbalancetheory.ca',protocol:'https:'},
+    window:win,document:doc,location:new URL(siteOrigin),
     async fetch(url,options){
       calls.push({url,method:options.method,credentials:options.credentials,mode:options.mode,referrerPolicy:options.referrerPolicy,...(endpoint===undefined?{}:{headers:options.headers,redirect:options.redirect})});
       if ((options.method==='POST'&&failPost)||(options.method==='GET'&&failGet)) throw new Error('synthetic outage');
@@ -257,5 +266,24 @@ test('An invalid isolated endpoint fails closed instead of falling back',async()
     s.entry();s.returned();await s.flush();
     assert.equal(s.calls.length,0);
     assert.equal(s.mounted.dataset.state,'paused');
+  }
+});
+test('Only the exact local preview can enable a staging counter, and it cannot use production', async () => {
+  const stagingSite = 'http://127.0.0.1:8788';
+  const stagingEndpoint = isolatedEndpoint.replace('counter.', 'counter-staging.');
+  const valid = counterScene({enabled:true, siteOrigin:stagingSite, endpoint:stagingEndpoint});
+  valid.entry();
+  await valid.flush();
+  assert.equal(valid.calls.length, 1);
+  assert.equal(valid.calls[0].url, stagingEndpoint);
+  for (const mismatch of [
+    {siteOrigin:stagingSite, endpoint:isolatedEndpoint},
+    {siteOrigin:'http://127.0.0.1:8789', endpoint:stagingEndpoint},
+    {siteOrigin:'https://universalbalancetheory.ca', endpoint:stagingEndpoint},
+  ]) {
+    const scene = counterScene({enabled:true, ...mismatch});
+    scene.entry();
+    await scene.flush();
+    assert.equal(scene.calls.length, 0, mismatch.siteOrigin);
   }
 });
